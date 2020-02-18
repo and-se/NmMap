@@ -25,3 +25,22 @@ hs_err_pid*
 bin/
 .project
 .classpath
+
+
+### Eclipse ###
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+/target/
+
+
+
+src/files/out.json
