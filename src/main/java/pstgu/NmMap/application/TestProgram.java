@@ -2,11 +2,11 @@ package pstgu.NmMap.application;
 
 public class TestProgram {
 	public static void main(String[] args) {
-		MtStorage db = new TestMtStorage();
+		var db = new TestMtStorage();
 
-		Human[] data = db.findHumansByFio("А", null, 0, 20);
+		var data = db.findHumansByFio("А", null, 0, 20);
 
-		for (Human human : data) {
+		for (var human : data) {
 			System.out.println(human.getFio());
 		}
 	}
