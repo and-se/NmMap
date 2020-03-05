@@ -1,5 +1,6 @@
 package pstgu.NmMap.testJSON;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -72,7 +73,7 @@ public class TestConverter {
 
 		}
 
-		String comment = Optional.of(data.get("Комментарий")).map(JsonNode::asText).orElse("") + "\n";
+		String comment = Optional.ofNullable(data.get("Комментарий")).map(JsonNode::asText).orElse("") + "\n";
 
 		String bibliography = "**Библиография:\n";
 		JsonNode list = data.withArray("Библиография");
@@ -83,9 +84,9 @@ public class TestConverter {
 					+ Optional.ofNullable(type).map(JsonNode::asText).orElse("документ") + ")\n";
 			bibliography += document;
 		}
-		
-		result.put("article", biographyFacts+comment+bibliography);
-		System.out.println(biographyFacts+comment+bibliography);
+
+		result.put("article", biographyFacts + comment + bibliography);
+//		System.out.println(biographyFacts+comment+bibliography);
 
 		return result;
 
@@ -96,14 +97,20 @@ public class TestConverter {
 		TestConverter converter = new TestConverter();
 		ObjectNode result;
 
-		// Открываем поток чтения жизнеописания 5638 и передаём конвертеру.
+		// Для каждого файла в каталоге открываем поток чтения жизнеописания и передаём
+		// конвертеру.
 		// Блок try автоматически закроет файл при окончании работы
-		try (var inp = new FileInputStream("resources/out/5638.json")) {
-			result = converter.convert(inp);
+		File inputFiles = new File("resources/input/");
+		for (File inputFile : inputFiles.listFiles()) {
+			try (FileInputStream inp = new FileInputStream(inputFile)) {
+				result = converter.convert(inp);
+
+				// Выводим на экран получившийся в результате конвертации JSON
+				System.out.println(result);
+			}
 		}
 
-		// Выводим на экран получившийся в результате конвертации JSON
-		System.out.println(result.toPrettyString());
+//		System.out.println(result.toPrettyString());
 	}
 
 }
