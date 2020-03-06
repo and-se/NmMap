@@ -20,14 +20,15 @@ import pstgu.NmMap.application.Location;
  */
 public class TestJackson {
   public static void main(String[] args) throws Exception {
-    final String path = "src/files/out.json";
+    final String path = "resources/output/5635.json";
     ObjectMapper mapper = new ObjectMapper();
 
     // вывод в json файл списка классов
-    List<Human> list = generateHumansList();
+    /*List<Human> list = generateHumansList();
     String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
     writeToFile(path, jsonString);
     System.out.println(jsonString);
+    */
 
     // зачитывание файла и
     String jsonDataString = readFile(path, Charset.forName("UTF-8"));
@@ -35,10 +36,9 @@ public class TestJackson {
       System.err.println("Failed to load file " + path);
       System.exit(-1);
     }
-    // создание массива
-    Human[] arrayOfHumans = mapper.readValue(jsonDataString, Human[].class);
-    System.out.println(arrayOfHumans[1].getFio());
-    System.out.println(arrayOfHumans[1].getCoordinates());
+    // создание Human
+    Human human = mapper.readValue(jsonDataString, Human.class);
+    System.out.println(human);
   }
 
   static List<Human> generateHumansList() {
@@ -82,6 +82,11 @@ public class TestJackson {
     return list;
   }
 
+  /**
+   * Записывает в файл строку <b>text</b> 
+   * @param path - путь относительно папки проекта, напр. "resources/output/out.txt"
+   * @param text - строка для записи в файл
+   */
   static void writeToFile(String path, String text) {
     try (FileWriter writer = new FileWriter(path, false)) {
       writer.write(text);

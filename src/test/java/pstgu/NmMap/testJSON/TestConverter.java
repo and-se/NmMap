@@ -66,7 +66,7 @@ public class TestConverter {
 
 			String eventStr = Optional.ofNullable(day).map(n -> month.asText()).map(n -> year.asText())
 					.map(n -> day.asText() + "." + month.asText() + "." + year.asText() + " — ")
-					.orElse(Optional.ofNullable(date).map(n -> n.asText() + " — ").orElse("? "))
+					.orElse(Optional.ofNullable(date).map(n -> n.asText() + " — ").orElse("? — "))
 					+ Optional.ofNullable(text).map(t -> t.asText()).orElse("") + "\n";
 
 			biographyFacts += eventStr;
@@ -107,6 +107,9 @@ public class TestConverter {
 
 				// Выводим на экран получившийся в результате конвертации JSON
 				System.out.println(result);
+
+				// Выводим результат конвертирования в файлы
+				TestJackson.writeToFile("resources/output/" + inputFile.getName(), result.toPrettyString());
 			}
 		}
 
