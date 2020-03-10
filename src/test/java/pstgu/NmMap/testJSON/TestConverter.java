@@ -50,7 +50,7 @@ public class TestConverter {
 		}
 
 		// result.set("fio", result.textNode(article_title));
-		result.put("fio", articleTitle);
+		result.put("fio", articleTitle.strip());
 
 		// TODO Написать код конвертации остальных полей
 
