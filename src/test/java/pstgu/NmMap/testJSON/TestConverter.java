@@ -57,20 +57,18 @@ public class TestConverter {
 		String biographyFacts = "";
 		JsonNode events = data.withArray("События");
 		for (JsonNode event : events) {
-
-			JsonNode day = event.get("День_начала");
-			var month = event.get("Месяц_начала");
-			var year = event.get("Год_начала");
 			var date = event.get("Датировка");
 			var text = event.get("Текст");
+			
+			var eventStr = Optional.ofNullable(date).map(t -> t.asText() + " — ").orElse("") 
+			    + text.asText() + "\n";
 
-			String eventStr = Optional.ofNullable(day).map(n -> month.asText()).map(n -> year.asText())
+			/*String eventStr = Optional.ofNullable(day).map(n -> month.asText()).map(n -> year.asText())
 					.map(n -> day.asText() + "." + month.asText() + "." + year.asText() + " — ")
 					.orElse(Optional.ofNullable(date).map(n -> n.asText() + " — ").orElse("? — "))
 					+ Optional.ofNullable(text).map(t -> t.asText()).orElse("") + "\n";
-
+            */
 			biographyFacts += eventStr;
-
 		}
 
 		String comment = Optional.ofNullable(data.get("Комментарий")).map(JsonNode::asText).orElse("") + "\n";

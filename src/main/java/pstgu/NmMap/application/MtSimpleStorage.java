@@ -2,6 +2,7 @@ package pstgu.NmMap.application;
 
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -19,7 +20,7 @@ public class MtSimpleStorage implements MtStorage {
 
   public MtSimpleStorage(String folderPath) {
     File inputFiles = new File(folderPath);
-    File[] inputFilesList = inputFiles.listFiles();
+    File[] inputFilesList = inputFiles.listFiles(f -> f.getName().endsWith(".json"));
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -29,6 +30,7 @@ public class MtSimpleStorage implements MtStorage {
         storage.put(currentHuman.getId(), currentHuman);
 
       } catch (IOException e) {
+        System.out.println(file.getName());
         e.printStackTrace();
       }
     }
@@ -67,11 +69,12 @@ public class MtSimpleStorage implements MtStorage {
     // Разбиваем на слова TODO игнорирование пунктуации
     var words = query.split("\\s");
     
-    var result = storage.values().stream().filter(human ->
-      // Отбираем жизнеописания, в которых содержатся все слова из запроса
-      Arrays.stream(words).allMatch(word -> human.getArticle().contains(word))
-      // Либо хотя бы одно слово из запроса в заголовке статьи
-      || Arrays.stream(words).anyMatch(word -> human.getFio().contains(word)))
+    var result = storage.values().stream().filter(human -> {
+      // Восстанавливаем полный текст статьи - ФИО + остальное
+      var all_text = human.getFio() + "\n" + human.getArticle();      
+      // Нужно, чтобы все слова из запроса содержались в полном тексте
+      return Arrays.stream(words).allMatch(word -> all_text.contains(word));
+    })
     .sorted(Comparator.comparing(human -> human.getFio()))
     .skip(skip).limit(take).toArray(Human[]::new);
     
