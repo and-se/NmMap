@@ -45,15 +45,17 @@ public class MtSimpleStorage implements MtStorage {
   @Override
   public Human[] findHumansByFio(String fioStarts, String fioContains, int skip, int take) {
     // Из storage берём только жизнеописания (значения values(), а не ключи).
-    // Далее просим дать нам объект stream(), который умеет фильтровать данные
-    // по заданным нами критериям.
-    var result = storage.values().stream()
-        // Отбираем записи
+    // Далее просим дать нам объект parallelStream(), который умеет фильтровать данные
+	// в нескольких потоках параллельно по заданным нами критериям.
+    var result = storage.values().parallelStream()
+        // Отбираем записи, игнорируя разницу между прописными и строчными буквами
         .filter(human ->
                 // fioStarts не задано, либо ФИО начинается с fioStarts
-               (fioStarts == null || human.getFio().startsWith(fioStarts))
-               // fioContains не задано, либо ФИО начинается с fioContains
-            && (fioContains == null || human.getFio().contains(fioContains)))
+               (fioStarts == null || human.getFio().toUpperCase().startsWith(fioStarts.toUpperCase()))
+               // fioContains не задано, либо ФИО содержит fioContains
+            && (fioContains == null || human.getFio().toUpperCase().contains(fioContains.toUpperCase())))
+        // Объединяем парелельные потоки в один
+        .sequential()
         // Сортируем по ФИО
         .sorted(Comparator.comparing(human -> human.getFio()))
         // Пропускаем skip записей, берём не более take записей
@@ -69,12 +71,13 @@ public class MtSimpleStorage implements MtStorage {
     // Разбиваем на слова TODO игнорирование пунктуации
     var words = query.split("\\s");
     
-    var result = storage.values().stream().filter(human -> {
+    var result = storage.values().parallelStream().filter(human -> {
       // Восстанавливаем полный текст статьи - ФИО + остальное
-      var all_text = human.getFio() + "\n" + human.getArticle();      
+      var all_text = human.getFio().toUpperCase() + "\n" + human.getArticle().toUpperCase();      
       // Нужно, чтобы все слова из запроса содержались в полном тексте
-      return Arrays.stream(words).allMatch(word -> all_text.contains(word));
+      return Arrays.stream(words).allMatch(word -> all_text.contains(word.toUpperCase()));
     })
+    .sequential()
     .sorted(Comparator.comparing(human -> human.getFio()))
     .skip(skip).limit(take).toArray(Human[]::new);
     
