@@ -2,7 +2,7 @@ package pstgu.NmMap.application;
 
 import java.util.Scanner;
 
-public class TestProgram {
+public class Main {
   /*public static void main2(String[] args) {
     var db = new TestMtStorage();
 

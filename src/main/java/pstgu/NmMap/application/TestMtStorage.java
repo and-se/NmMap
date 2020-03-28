@@ -2,6 +2,9 @@ package pstgu.NmMap.application;
 
 import java.util.ArrayList;
 
+import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.MtStorage;
+
 public class TestMtStorage implements MtStorage {
 
   Human[] data = new Human[] {new Human(1, "Иван Иванович", "из Москвы"),

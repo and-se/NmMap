@@ -11,6 +11,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.MtStorage;
+
 public class MtSimpleStorage implements MtStorage {
 
   /**

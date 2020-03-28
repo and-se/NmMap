@@ -1,8 +1,9 @@
-package pstgu.NmMap.testJSON;
+package pstgu.NmMap.converter;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Optional;
@@ -15,7 +16,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
  * Пример конвертации предоставленных JSON-данных в формат, эквивалентный классу
  * Human.
  */
-public class TestConverter {
+public class Converter {
 	/**
 	 * Выполняет конвертацию.
 	 * 
@@ -59,15 +60,16 @@ public class TestConverter {
 		for (JsonNode event : events) {
 			var date = event.get("Датировка");
 			var text = event.get("Текст");
-			
-			var eventStr = Optional.ofNullable(date).map(t -> t.asText() + " — ").orElse("") 
-			    + text.asText() + "\n";
 
-			/*String eventStr = Optional.ofNullable(day).map(n -> month.asText()).map(n -> year.asText())
-					.map(n -> day.asText() + "." + month.asText() + "." + year.asText() + " — ")
-					.orElse(Optional.ofNullable(date).map(n -> n.asText() + " — ").orElse("? — "))
-					+ Optional.ofNullable(text).map(t -> t.asText()).orElse("") + "\n";
-            */
+			var eventStr = Optional.ofNullable(date).map(t -> t.asText() + " — ").orElse("") + text.asText() + "\n";
+
+			/*
+			 * String eventStr = Optional.ofNullable(day).map(n -> month.asText()).map(n ->
+			 * year.asText()) .map(n -> day.asText() + "." + month.asText() + "." +
+			 * year.asText() + " — ") .orElse(Optional.ofNullable(date).map(n -> n.asText()
+			 * + " — ").orElse("? — ")) + Optional.ofNullable(text).map(t ->
+			 * t.asText()).orElse("") + "\n";
+			 */
 			biographyFacts += eventStr;
 		}
 
@@ -92,7 +94,7 @@ public class TestConverter {
 
 	public static void main(String[] args) throws FileNotFoundException, IOException {
 		// Создаём конвертер - по совместительству это наш текущий класс
-		TestConverter converter = new TestConverter();
+		Converter converter = new Converter();
 		ObjectNode result;
 
 		// Для каждого файла в каталоге открываем поток чтения жизнеописания и передаём
@@ -107,11 +109,26 @@ public class TestConverter {
 				System.out.println(result);
 
 				// Выводим результат конвертирования в файлы
-				TestJackson.writeToFile("resources/output/" + inputFile.getName(), result.toPrettyString());
+				writeToFile("resources/output/" + inputFile.getName(), result.toPrettyString());
 			}
 		}
 
 //		System.out.println(result.toPrettyString());
 	}
 
+	/**
+	 * Записывает в файл строку <b>text</b>
+	 * 
+	 * @param path - путь относительно папки проекта, напр.
+	 *             "resources/output/out.txt"
+	 * @param text - строка для записи в файл
+	 */
+	static void writeToFile(String path, String text) {
+		try (FileWriter writer = new FileWriter(path, false)) {
+			writer.write(text);
+			writer.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
