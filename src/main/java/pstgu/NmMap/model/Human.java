@@ -2,10 +2,18 @@ package pstgu.NmMap.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  * Модель жизнеописания.
  */
+@Entity
 public class Human {
+	
+	@Id
+    @GeneratedValue
 	private int id;
 	private String fio;
 	private String article;

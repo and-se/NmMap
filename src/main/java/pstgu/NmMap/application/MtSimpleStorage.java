@@ -39,6 +39,10 @@ public class MtSimpleStorage implements MtStorage {
     }
 
   }
+  
+  public Map<Integer, Human> getMap(){
+	  return storage;
+  }
 
   @Override
   public Human getHuman(int id) {
