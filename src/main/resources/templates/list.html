@@ -30,7 +30,7 @@ body {
 				<td th:text="${human.id}">1</td>
 				<td th:text="${human.fio}">John Doe</td>
 				<td>
-					<a th:href="@{/human(id=${human.id})}" href="haman.html">Просмотреть</a>
+					<a th:href="@{'/persons/' + ${human.id}}" href="human.html">Просмотреть</a>
 				</td>
 			</tr>
 		</tbody>
