@@ -1,39 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>List of all persons</title>
-    <style type="text/css">
-        body {
-            padding: 50px;
-        }
+<meta charset="UTF-8" />
+<title>List of all persons</title>
+<style type="text/css">
+body {
+	padding: 50px;
+}
 
-        .persons, .persons td {
-            border: 1px solid lightgray;
-            padding: 5px;
-        }
-    </style>
+.persons, .persons td {
+	border: 1px solid lightgray;
+	padding: 5px;
+}
+</style>
 </head>
 <body>
-<h1>Persons:</h1>
+	<h1>Persons:</h1>
 
-<table class="persons">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="human : ${persons}">
-        <td th:text="${human.id}">1</td>
-        <td th:text="${human.fio}">John Doe</td>
-       <!--  <td>
-            <a th:href="@{/human(id=${human.id})}" href="person.html">Просмотреть</a>
-        </td> -->
-    </tr>
-    </tbody>
-</table>
+	<table class="persons">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="human : ${persons}">
+				<td th:text="${human.id}">1</td>
+				<td th:text="${human.fio}">John Doe</td>
+				<td>
+					<a th:href="@{/human(id=${human.id})}" href="haman.html">Просмотреть</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
 </body>
 </html>

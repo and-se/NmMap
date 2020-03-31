@@ -15,33 +15,27 @@ import java.util.List;
 @Controller
 public class SimpleController {
 
-	private final PersonRepository repository;
 	MtSimpleStorage storage = new MtSimpleStorage("resources/output");
-
-	@Autowired
-	public SimpleController(PersonRepository repository) {
-		this.repository = repository;
-	}
 
 	@GetMapping("/list")
 	public String listPage(Model model) {
-//		List<Person> persons = repository.findAll();
-//		model.addAttribute("persons", persons);
 		List<Human> persons = new ArrayList<Human>(storage.getMap().values());
 		model.addAttribute("persons", persons);
-		
+
 		return "list";
 	}
 
-	@GetMapping("/person")
+	@GetMapping("/human")
 	public String personPage(@RequestParam("id") int id, Model model) {
-		Person person = repository.findById(id).orElseThrow(NotFoundException::new);
-		model.addAttribute("person", person);
-		return "person";
+		Human human = storage.getHuman(id);
+		model.addAttribute("human", human);
+
+		return "human";
 	}
-	
+
 	@GetMapping("/greeting")
-	public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+	public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
+			Model model) {
 		model.addAttribute("name", name);
 		return "greeting";
 	}
