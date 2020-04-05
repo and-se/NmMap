@@ -72,7 +72,11 @@ public class MtSimpleStorage implements MtStorage {
   @Override
   public Human[] findHumansFullText(String query, int skip, int take) {
     // Разбиваем на слова TODO игнорирование пунктуации
-    var words = query.split("\\s");
+    var words = query.split("\\s+");
+    
+	for (int i = 0; i < words.length; i++) {
+	    words[i] = words[i].replaceAll("[^\\w]", "");
+	}//Разбиваем на слова, потом ( как я поняла) заменяем знаки на ничто
     
     var result = storage.values().parallelStream().filter(human -> {
       // Восстанавливаем полный текст статьи - ФИО + остальное
