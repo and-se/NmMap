@@ -11,6 +11,8 @@ import pstgu.NmMap.application.MtSimpleStorage;
 import pstgu.NmMap.model.Human;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Controller
@@ -25,11 +27,14 @@ public class SimpleController {
 
 		return "list";
 	}
+	
 
 	@GetMapping("/persons/{id}")
 	public String personPage(@PathVariable("id") int id, Model model) {
 		Human human = storage.getHuman(id);
 		model.addAttribute("human", human);
+		String[] article = human.getArticle().split("\n");
+		model.addAttribute("article", article);
 
 		return "human";
 	}
