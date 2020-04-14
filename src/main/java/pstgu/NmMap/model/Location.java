@@ -1,4 +1,4 @@
-package pstgu.NmMap.application;
+package pstgu.NmMap.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

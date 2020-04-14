@@ -11,8 +11,8 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import pstgu.NmMap.application.Human;
-import pstgu.NmMap.application.Location;
+import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.Location;
 
 /**
  * 

@@ -1,6 +1,7 @@
-package pstgu.NmMap.application;
+package pstgu.NmMap.model;
 
 import java.util.List;
+
 
 /**
  * Модель жизнеописания.
