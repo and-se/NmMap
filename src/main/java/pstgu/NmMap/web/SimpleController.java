@@ -1,6 +1,8 @@
 package pstgu.NmMap.web;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,11 +11,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pstgu.NmMap.application.MtSimpleStorage;
 import pstgu.NmMap.model.Human;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 @Controller
 public class SimpleController {
@@ -27,7 +24,6 @@ public class SimpleController {
 
 		return "list";
 	}
-	
 
 	@GetMapping("/persons/{id}")
 	public String personPage(@PathVariable("id") int id, Model model) {
@@ -38,6 +34,19 @@ public class SimpleController {
 
 		return "human";
 	}
+
+	@GetMapping("/search")
+    public String fullSearch(@RequestParam(name="q", required=false, defaultValue="") 
+    String query, Model model) {
+		Human[] response = new Human[0];
+		
+		if(!query.isEmpty())
+			response = storage.findHumansFullText(query, 0, 30);
+		
+        model.addAttribute("persons", response);
+        model.addAttribute("q", query);
+        return "search";
+    }
 
 	@GetMapping("/greeting")
 	public String greeting(@RequestParam(name = "name", required = false, defaultValue = "World") String name,
