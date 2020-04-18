@@ -6,11 +6,15 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Optional;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+
+import pstgu.NmMap.model.Location;
 
 /**
  * Пример конвертации предоставленных JSON-данных в формат, эквивалентный классу
@@ -56,6 +60,7 @@ public class Converter {
 		// TODO Написать код конвертации остальных полей
 
 		String biographyFacts = "";
+		var locationList = new ArrayList<Location>();
 		JsonNode events = data.withArray("События");
 		for (JsonNode event : events) {
 			var date = event.get("Датировка");
@@ -71,6 +76,17 @@ public class Converter {
 			 * t.asText()).orElse("") + "\n";
 			 */
 			biographyFacts += eventStr;
+
+			var geography = event.withArray("География");
+			for (JsonNode g : geography) {
+				var gps = g.withArray("GPS");
+				for (JsonNode c : gps) {
+					var N = c.get("lat");
+					var E = c.get("long");
+					var location = new Location(N.asDouble(), E.asDouble(), text.asText());
+					locationList.add(location);
+				}
+			}
 		}
 
 		String comment = Optional.ofNullable(data.get("Комментарий")).map(JsonNode::asText).orElse("") + "\n";
@@ -87,6 +103,11 @@ public class Converter {
 
 		result.put("article", biographyFacts + comment + bibliography);
 //		System.out.println(biographyFacts+comment+bibliography);
+		
+		// Преобразуем список объектов Location в подходящий формат и записываем его в ObjectNode result
+		ArrayNode coordinates = wrtr.valueToTree(locationList);
+		result.putArray("coordinates").addAll(coordinates);
+
 
 		return result;
 
@@ -100,7 +121,7 @@ public class Converter {
 		// Для каждого файла в каталоге открываем поток чтения жизнеописания и передаём
 		// конвертеру.
 		// Блок try автоматически закроет файл при окончании работы
-		File inputFiles = new File("resources/input/");
+		File inputFiles = new File("resources/input/GPS_sample");
 		for (File inputFile : inputFiles.listFiles()) {
 			try (FileInputStream inp = new FileInputStream(inputFile)) {
 				result = converter.convert(inp);
