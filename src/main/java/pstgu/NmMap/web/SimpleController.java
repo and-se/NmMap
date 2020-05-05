@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pstgu.NmMap.application.MtSimpleStorage;
 import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.MtStorage;
 
 @Controller
 public class SimpleController {
 
-	MtSimpleStorage storage = new MtSimpleStorage("resources/output");
-	private MtSimpleStorage.HumanService humanService = storage.new HumanService();
+	MtStorage storage = new MtSimpleStorage("resources/output");
+	private HumanPagingService humanService = new HumanPagingService(storage);
 
 	@GetMapping("/persons/{id}")
 	public String personPage(@PathVariable("id") int id, Model model) {

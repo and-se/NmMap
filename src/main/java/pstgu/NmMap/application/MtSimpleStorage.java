@@ -2,18 +2,11 @@ package pstgu.NmMap.application;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -104,31 +97,8 @@ public class MtSimpleStorage implements MtStorage {
 		return result;
 	}
 
-	/**
-	 * Клас для организации паджинации списка
-	 * 
-	 */
-	@Service
-	public class HumanService {
-
-		private List<Human> persons = new ArrayList<Human>(getMap().values());
-
-		public Page<Human> findPaginated(Pageable pageable) {
-			int pageSize = pageable.getPageSize();
-			int currentPage = pageable.getPageNumber();
-			int startItem = currentPage * pageSize;
-			List<Human> list;
-
-			if (persons.size() < startItem) {
-				list = Collections.emptyList();
-			} else {
-				int toIndex = Math.min(startItem + pageSize, persons.size());
-				list = persons.subList(startItem, toIndex);
-			}
-
-			Page<Human> humanPage = new PageImpl<Human>(list, PageRequest.of(currentPage, pageSize), persons.size());
-
-			return humanPage;
-		}
+	@Override
+	public long countHumansByFio(String fioStarts, String fioContains) {
+		 return findHumansByFio(fioStarts, fioContains, 0, Integer.MAX_VALUE).length;
 	}
 }
