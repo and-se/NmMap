@@ -21,6 +21,15 @@ public interface MtStorage {
   Human[] findHumansByFio(String fioStarts, String fioContains, int skip, int take);
 
   /**
+   * Производит поиск по реквизиту ФИО и возвращает общее количество записей
+   *  
+   * @param fioStarts с каких букв должен начинаться реквизит ФИО
+   * @param fioContains какие буквы должен содержать реквизит ФИО
+   * @return количество записей
+   */
+  long countHumansByFio(String fioStarts, String fioContains);
+
+/**
    * Выполняет полнотекстовый поиск жизнеописаний.
    * 
    * @param query запрос

@@ -29,7 +29,7 @@ input:read-only {
 			<strong>Введите запрос для полнотекстового поиска.</strong>
 		</p>
 		<p>
-			<input name="q" maxlength="25" size="40" placeholder="Поиск" th:value=${q}>
+			<input name="q" size="40" placeholder="Поиск" th:attr="value=${q}">
 			<input type="submit" value="Поиск">
 		</p>
 	</form>
