@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import pstgu.NmMap.application.MtSimpleStorage;
 import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.HumanTextSearchResult;
 import pstgu.NmMap.model.MtStorage;
 
 @Controller
@@ -37,12 +38,12 @@ public class SimpleController {
 
 	@GetMapping("/search")
 	public String fullSearch(@RequestParam(name = "q", required = false, defaultValue = "") String query, Model model) {
-		Human[] response = new Human[0];
+		HumanTextSearchResult[] response = new HumanTextSearchResult[0];
 
 		if (!query.isEmpty())
 			response = storage.findHumansFullText(query, 0, 30);
 
-		model.addAttribute("persons", response);
+		model.addAttribute("results", response);
 		model.addAttribute("q", query);
 		return "search";
 	}

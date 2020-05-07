@@ -33,7 +33,7 @@ public class Main {
     var q3 = cin.nextLine();
     for (var h: storage.findHumansFullText(q3, 0, 10))
     {
-      System.out.println(h.getFio());
+      System.out.println(h.getHuman().getFio());
     }
     
     cin.close();

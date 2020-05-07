@@ -34,9 +34,12 @@ input:read-only {
 		</p>
 	</form>
 
-	<ul th:each="human : ${persons}">
-		<li><a th:text="${human.fio}"
-			th:href="@{'/persons/' + ${human.id}}" href="human.html">Посмотреть</a>
+	<ul th:each="res : ${results}">
+		<li><a th:text="${res.human.fio}"
+			th:href="@{'/persons/' + ${res.human.id}}" href="human.html">Посмотреть</a>
+			<br>
+			<p th:text="${res.textSnippet}">
+			</p>
 		</li>
 	</ul>
 

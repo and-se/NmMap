@@ -35,7 +35,9 @@ public interface MtStorage {
    * @param query запрос
    * @param skip сколько записей от начала списка результатов пропустить
    * @param take сколько записей вернуть
-   * @return массив записей размера take
+   * @return массив результатов поиска размера take, отсортированный по убыванию релевантности и по ФИО.
+   * (т.е. сортируем по убыванию релевантности, а если у нескольких записей она совпадает, то их между
+   * собой сортируем во возрастанию ФИО).
    */
-  Human[] findHumansFullText(String query, int skip, int take);
+  HumanTextSearchResult[] findHumansFullText(String query, int skip, int take);
 }
