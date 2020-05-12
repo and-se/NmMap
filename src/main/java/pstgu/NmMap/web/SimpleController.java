@@ -10,6 +10,8 @@ import java.util.stream.IntStream;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,7 @@ import pstgu.NmMap.model.MtStorage;
 public class SimpleController {
 
   MtStorage storage = new MtSimpleStorage("resources/output");
-  private HumanPagingService humanService = new HumanPagingService(storage);
+  private HumanPagingService humanService = new HumanPagingService();
 
   @GetMapping("/")
   public String homepage(Model m)
@@ -54,46 +56,49 @@ public class SimpleController {
   public String fullSearch(
       @RequestParam(name = "q", required = false, defaultValue = "") String query, Model model,
       @RequestParam("page") Optional<Integer> page,
-      @RequestParam("size") Optional<Integer> size) {
+      @RequestParam("size") Optional<Integer> size) {    
+    var page_info = PageRequest.of(page.orElse(1)-1, size.orElse(10));
     
-    int take = size.orElse(10);
-    int pageNum = page.orElse(1);    
-    int skip = (pageNum-1)*take;
-    
-    Human[] response = new Human[0];
-    long total = 0;
-    if (!query.isEmpty())
-    {
-      response = storage.findHumansFullText(query, skip, take);    
-      total = storage.countHumansFullText(query);
-    }
-
-    Page<Human> humanPage = new PageImpl<Human>(
-        Arrays.asList(response), PageRequest.of(pageNum-1, take), total);
-    
+    // Строим страницу, вторым параметром передаём функцию поиска, которая
+    // принимает skip и take, а возвращает 
+    // пару <жизнеописания для страницы, общее количество>
+    // Используем полнотекстовый поиск
+    var humanPage = humanService.buildPage(page_info, (skip, take) -> {
+      Human[] response = new Human[0];
+      int total = 0;
+      if (!query.isEmpty())
+      {
+        response = storage.findHumansFullText(query, skip, take);    
+        total = (int) storage.countHumansFullText(query);
+      }
+      
+      return Pair.of(response, total);
+    });
     
     model.addAttribute("humanPage", humanPage);
     model.addAttribute("q", query);
     
     addPageNumbersToModel(model, humanPage);
-    
     return "main :: html(view=search)";
   }
 
   @RequestMapping(value = "/persons", method = RequestMethod.GET)
   public String listPersons(@RequestParam(name="startletter", required=false) String letter, Model model, @RequestParam("page") Optional<Integer> page,
       @RequestParam("size") Optional<Integer> size) {
-    final int currentPage = page.orElse(1);
-    final int pageSize = size.orElse(10);
-    
-
-    Page<Human> humanPage = humanService.findPaginated(PageRequest.of(currentPage - 1, pageSize), letter);
+    var page_info = PageRequest.of(page.orElse(1)-1, size.orElse(10));
+    // Строим страницу - в передаваемой функции поиска используем поиск по ФИО
+    // А так всё то же, что в fullSearch
+    var humanPage = humanService.buildPage(page_info, (skip, take) -> {
+      Human[] data;
+      var count = (int)storage.countHumansByFio(letter, "");
+      var humans = storage.findHumansByFio(letter, "", skip, take);      
+      return Pair.of(humans, count);      
+    });
 
     model.addAttribute("humanPage", humanPage);
-
-    addPageNumbersToModel(model, humanPage);
-    
     model.addAttribute("startletter", letter);
+    
+    addPageNumbersToModel(model, humanPage);
     
     return "main :: html(view=list)";
   }
