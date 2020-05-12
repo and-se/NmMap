@@ -1,30 +1,34 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8" />
-<title>Person page</title>
+<th:block xmlns:th="http://www.thymeleaf.org">
 <style type="text/css">
 body {
 	padding: 50px;
 }
 
-label {
+.persons, .persons td {
+	border: 1px solid lightgray;
+	padding: 5px;
+}
+
+.pagination {
 	display: inline-block;
-	width: 100px;
 }
 
-input:read-only {
-	background: lightgray;
+.pagination a {
+	color: black;
+	float: left;
+	padding: 5px 5px;
+	text-decoration: none;
 }
 
-.row {
-	margin-top: 10px;
+.pagination a.active {
+	background-color: blue;
+	color: white;
+	border-radius: 2px;
 }
 </style>
-</head>
-<body>
 
-	<form action="/search">
+
+	<!-- <form action="/search">
 		<p>
 			<strong>Введите запрос для полнотекстового поиска.</strong>
 		</p>
@@ -33,13 +37,47 @@ input:read-only {
 			<input type="submit" value="Поиск">
 		</p>
 	</form>
-
-	<ul th:each="human : ${persons}">
-		<li><a th:text="${human.fio}"
-			th:href="@{'/persons/' + ${human.id}}" href="human.html">Посмотреть</a>
-		</li>
-	</ul>
+ -->
 
 
-</body>
-</html>
+	<h1>Persons:</h1>
+	<div th:fragment="pages" 
+	th:if="${humanPage.totalPages > 0}" class="pagination"
+		th:each="pageNumber : ${pageNumbers}">
+		<a th:href="@{/search(size=${humanPage.size}, page=${pageNumber}, q=${q})}"
+			th:text=${pageNumber}
+			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
+	</div>
+	
+	<table class="persons">
+		<thead>
+			<tr>
+				<!-- <th th:text="#{msg.id}" />
+				<th th:text="#{msg.name}" /> -->
+				<th>ID</th>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="human, iStat : ${humanPage.content}"
+				th:style="${iStat.odd}? 'font-weight: bold;'"
+				th:alt-title="${iStat.even}? 'even' : 'odd'">
+				<td th:text="${human.id}" />
+				<td th:text="${human.fio}" />
+				<td>
+					<a th:href="@{'/persons/' + ${human.id}}" href="human.html">Просмотреть</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div th:replace=":: pages"></div>
+
+	<div>
+		<p>
+			<a th:href="@{/}" th:text="home"></a>
+		</p>
+	</div>
+</th:block>
+
+

@@ -1,10 +1,6 @@
 package pstgu.NmMap.web;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -25,19 +21,19 @@ public class HumanPagingService {
 		this.storage = storage;
 	}
 
-	public Page<Human> findPaginated(Pageable pageable) {
+	public Page<Human> findPaginated(Pageable pageable, String letter) {
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();
 		int startItem = currentPage * pageSize;
 		Human[] data;
 
-		var count = storage.countHumansByFio("", "");
+		var count = storage.countHumansByFio(letter, "");
 		if (count < startItem) {
 			data = new Human[0];
 		} else {
-			long toIndex = Math.min(startItem + pageSize,count );
+			//long toIndex = Math.min(startItem + pageSize,count );
 //			list = persons.subList(startItem, toIndex);
-			data = storage.findHumansByFio("", "", startItem, pageSize);
+			data = storage.findHumansByFio(letter, "", startItem, pageSize);
 		}
 
 		Page<Human> humanPage = new PageImpl<Human>(Arrays.asList(data), PageRequest.of(currentPage, pageSize), count);

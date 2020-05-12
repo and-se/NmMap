@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8" />
-<title>List of all persons</title>
+<th:block xmlns:th="http://www.thymeleaf.org">
 <style type="text/css">
 body {
 	padding: 50px;
@@ -30,13 +26,11 @@ body {
 	border-radius: 2px;
 }
 </style>
-</head>
-<body>
+
 	<h1>Persons:</h1>
-	<a class="pagination" href="#" tabindex="-1" aria-disabled="true">Previous</a>
 	<div th:if="${humanPage.totalPages > 0}" class="pagination"
 		th:each="pageNumber : ${pageNumbers}">
-		<a th:href="@{/persons(size=${humanPage.size}, page=${pageNumber})}"
+		<a th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
 			th:text=${pageNumber}
 			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
 	</div>
@@ -65,7 +59,7 @@ body {
 	</table>
 	<div th:if="${humanPage.totalPages > 0}" class="pagination"
 		th:each="pageNumber : ${pageNumbers}">
-		<a th:href="@{/persons(size=${humanPage.size}, page=${pageNumber})}"
+		<a th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
 			th:text=${pageNumber}
 			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
 	</div>
@@ -75,5 +69,4 @@ body {
 			<a th:href="@{/}" th:text="home"></a>
 		</p>
 	</div>
-</body>
-</html>
+</th:block>

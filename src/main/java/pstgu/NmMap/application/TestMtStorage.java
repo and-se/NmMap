@@ -39,4 +39,10 @@ public class TestMtStorage implements MtStorage {
 //		return 0;
 	}
 
+  @Override
+  public long countHumansFullText(String query) {
+    // TODO Auto-generated method stub
+    return 0;
+  }
+
 }

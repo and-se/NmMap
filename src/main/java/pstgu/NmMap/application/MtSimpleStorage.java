@@ -101,4 +101,9 @@ public class MtSimpleStorage implements MtStorage {
 	public long countHumansByFio(String fioStarts, String fioContains) {
 		 return findHumansByFio(fioStarts, fioContains, 0, Integer.MAX_VALUE).length;
 	}
+
+  @Override
+  public long countHumansFullText(String query) {
+    return findHumansFullText(query, 0, Integer.MAX_VALUE).length;
+  }
 }

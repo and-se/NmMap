@@ -38,4 +38,12 @@ public interface MtStorage {
    * @return массив записей размера take
    */
   Human[] findHumansFullText(String query, int skip, int take);
+  
+  /**
+   * Производит полнотекстовый поиск и возвращает общее количество записей
+   *  
+   * @param query запрос
+   * @return количество записей
+   */
+  long countHumansFullText(String query);
 }
