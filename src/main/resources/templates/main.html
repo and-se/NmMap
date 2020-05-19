@@ -2,6 +2,10 @@
 <head>
 <title th:text="${title}"></title>
 <meta charset="utf8">
+<th:block th:if="${head!=null}">
+	<th:block th:replace="__${head}__">
+	</th:block>
+</th:block>
 </head>
 
 <body style="background:cornsilk" link="black">
@@ -12,7 +16,7 @@
 			<input name="q" placeholder="Поиск" th:attr="value=${q}">
 			<input type="submit" value="Поиск">			
 		</form></h2>
-	<div th:replace="${view}"></div>
+	<div th:replace="__${view}__"></div>
 </body>
 <!--
 Вот так можно реализовать параметр по умолчанию - text 

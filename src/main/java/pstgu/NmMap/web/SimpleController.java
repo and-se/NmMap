@@ -12,6 +12,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import pstgu.NmMap.application.MtSimpleStorage;
 import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.Location;
 import pstgu.NmMap.model.MtStorage;
 
 @Controller
@@ -35,6 +38,7 @@ public class SimpleController {
   {
     var azbuka = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ".toCharArray();
     m.addAttribute("azbuka", azbuka);
+    m.addAttribute("head", "fragments::mapScripts");
     
     // В main.html будет переменная $view = 'index'
     // Можно передавать и через model - model.addAttribute("view", "index")
@@ -92,7 +96,7 @@ public class SimpleController {
       Human[] data;
       var count = (int)storage.countHumansByFio(letter, "");
       var humans = storage.findHumansByFio(letter, "", skip, take);      
-      return Pair.of(humans, count);      
+      return Pair.of(humans, count);     
     });
 
     model.addAttribute("humanPage", humanPage);
@@ -124,5 +128,11 @@ public class SimpleController {
   public String map (Model model) {
 	  
 	  return "map";
+  }
+  
+  @GetMapping("/map/all_points")
+  @ResponseBody
+  public Location getAllPoints() {
+	  return new Location(55.75, 37.57, "HelloWorld!");
   }
 }

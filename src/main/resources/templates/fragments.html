@@ -1,0 +1,35 @@
+<html xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:fragment="mapScripts">
+	<script
+		src="https://api-maps.yandex.ru/2.1/?apikey=4a43e1d4-0256-499a-8e1d-b8c839931fd8&lang=ru_RU"
+		type="text/javascript">
+		
+	</script>
+	<script type="text/javascript">
+		ymaps.ready(init);
+		function init() {
+			var myMap = new ymaps.Map('map', {
+			    center: [55.75, 37.57],
+			    zoom: 9,
+			    controls: ['SearchControl']
+			}, {
+			    // Будет производиться поиск по топонимам и организациям.
+			    searchControlProvider: 'yandex#search'
+			});
+			// Создание геообъекта с типом точка (метка).
+			var myGeoObject = new ymaps.GeoObject({
+				geometry : {
+					type : "Point", // тип геометрии - точка
+					coordinates : [ 55.8, 37.8 ]
+				// координаты точки
+				}
+			});
+
+			// Размещение геообъекта на карте.
+			myMap.geoObjects.add(myGeoObject);
+		}
+	</script>
+</th:block>
+
+</html>
