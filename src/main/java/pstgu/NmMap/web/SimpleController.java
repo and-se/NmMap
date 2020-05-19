@@ -119,4 +119,10 @@ public class SimpleController {
     model.addAttribute("name", name);
     return "greeting";
   }
+  
+  @GetMapping("/map")
+  public String map (Model model) {
+	  
+	  return "map";
+  }
 }
