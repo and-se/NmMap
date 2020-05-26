@@ -111,7 +111,7 @@ public class MtSimpleStorage implements MtStorage {
         .filter(r -> r != null)
         .sorted((a, b) -> {
           // Сортируем по убыванию (-1) релевантности          
-          int r = -1 * Float.compare(a.getRelevance(), b.getRelevance());
+          int r = -1 * Double.compare(a.getRelevance(), b.getRelevance());
           // А если она совпадает - то по возрастанию ФИО
           if (r == 0)
           {

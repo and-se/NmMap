@@ -7,7 +7,7 @@ package pstgu.NmMap.model;
 public class HumanTextSearchResult {
   Human human;
   String textSnippet;
-  float relevance;
+  double relevance;
   
   /**
    * 
@@ -15,7 +15,7 @@ public class HumanTextSearchResult {
    * @param textSnippet часть текста жизнеописания, содержащая искомые слова
    * @param relevance степень полезности совпадения
    */
-  public HumanTextSearchResult(Human human, String textSnippet, float relevance) {
+  public HumanTextSearchResult(Human human, String textSnippet, double relevance) {
     this.human = human;
     this.textSnippet = textSnippet;
     this.relevance = relevance;
@@ -38,7 +38,7 @@ public class HumanTextSearchResult {
   /**
    * @return Возвращает степень полезности совпадения.
    */
-  public float getRelevance() {
+  public double getRelevance() {
     return relevance;
   }  
   
