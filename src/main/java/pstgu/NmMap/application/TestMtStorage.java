@@ -3,6 +3,7 @@ package pstgu.NmMap.application;
 import java.util.ArrayList;
 
 import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.Location;
 import pstgu.NmMap.model.MtStorage;
 
 public class TestMtStorage implements MtStorage {
@@ -39,10 +40,16 @@ public class TestMtStorage implements MtStorage {
 //		return 0;
 	}
 
-  @Override
-  public long countHumansFullText(String query) {
-    // TODO Auto-generated method stub
-    return 0;
-  }
+	@Override
+	public long countHumansFullText(String query) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public ArrayList<Location> getLocations(Object filter) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

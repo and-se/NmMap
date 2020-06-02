@@ -1,5 +1,7 @@
 package pstgu.NmMap.model;
 
+import java.util.ArrayList;
+
 public interface MtStorage {
   /**
    * Возвращает жизнеописание по ключу.
@@ -46,4 +48,11 @@ public interface MtStorage {
    * @return количество записей
    */
   long countHumansFullText(String query);
+  
+  /**
+   * Производит поиск местоположений по заданным условиям фильтрации 
+   * @param filter условия фильтрации TODO 
+   * @return список всех найденных местоположений 
+   */
+  ArrayList<Location> getLocations(Object filter);
 }

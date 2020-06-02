@@ -132,7 +132,8 @@ public class SimpleController {
   
   @GetMapping("/map/all_points")
   @ResponseBody
-  public Location getAllPoints() {
-	  return new Location(55.75, 37.57, "HelloWorld!");
+  public List<Location> getAllPoints() {
+	  return storage.getLocations(null);
+//	  return new Location [] {new Location(55.76, 37.64, "HelloWorld!"),new Location(55.86, 37.64, "Hello!")};
   }
 }

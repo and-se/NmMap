@@ -8,26 +8,27 @@
 	</script>
 	<script type="text/javascript">
 		ymaps.ready(init);
-		function init() {
-			var myMap = new ymaps.Map('map', {
-			    center: [55.75, 37.57],
-			    zoom: 9,
-			    controls: ['SearchControl']
-			}, {
-			    // Будет производиться поиск по топонимам и организациям.
-			    searchControlProvider: 'yandex#search'
-			});
-			// Создание геообъекта с типом точка (метка).
-			var myGeoObject = new ymaps.GeoObject({
-				geometry : {
-					type : "Point", // тип геометрии - точка
-					coordinates : [ 55.8, 37.8 ]
-				// координаты точки
-				}
-			});
 
-			// Размещение геообъекта на карте.
-			myMap.geoObjects.add(myGeoObject);
+        // let response = await fetch("/map/all_points");
+        let response = fetch("/map/all_points").then(result=>result.json());
+        
+		function init() {
+            var myMap = new ymaps.Map("map", {
+                center: [55.76, 37.64],
+                zoom: 10
+            });
+            response.then(points => drawPoints(myMap, points));
+        }
+		
+		function drawPoints(myMap, points){
+			//console.log(points);
+			for(point of points){
+				myMap.geoObjects.add(
+					new ymaps.Placemark([point.N,point.E],{
+						balloonContent: point.description
+					})		
+				);
+			}
 		}
 	</script>
 </th:block>
