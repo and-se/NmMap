@@ -13,14 +13,14 @@ import pstgu.NmMap.model.Human;
 import pstgu.NmMap.model.Location;
 import pstgu.NmMap.model.MtStorage;
 
-public class MtSimpleStorage implements MtStorage {
+public class MainMtStorage implements MtStorage {
 
   /**
    * storage хранит все загруженные жизнеописания
    */
   Map<Integer, Human> storage = new HashMap<Integer, Human>();
 
-  public MtSimpleStorage(String folderPath) {
+  public MainMtStorage(String folderPath) {
     File inputFiles = new File(folderPath);
     File[] inputFilesList = inputFiles.listFiles(f -> f.getName().endsWith(".json"));
 

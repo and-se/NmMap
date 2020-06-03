@@ -4,32 +4,9 @@
 	<script
 		src="https://api-maps.yandex.ru/2.1/?apikey=4a43e1d4-0256-499a-8e1d-b8c839931fd8&lang=ru_RU"
 		type="text/javascript">
-		
 	</script>
-	<script type="text/javascript">
-		ymaps.ready(init);
-
-        // let response = await fetch("/map/all_points");
-        let response = fetch("/map/all_points").then(result=>result.json());
-        
-		function init() {
-            var myMap = new ymaps.Map("map", {
-                center: [55.76, 37.64],
-                zoom: 10
-            });
-            response.then(points => drawPoints(myMap, points));
-        }
-		
-		function drawPoints(myMap, points){
-			//console.log(points);
-			for(point of points){
-				myMap.geoObjects.add(
-					new ymaps.Placemark([point.N,point.E],{
-						balloonContent: point.description
-					})		
-				);
-			}
-		}
+	<script th:src="@{/js/map.js}" type="text/javascript">
+	
 	</script>
 </th:block>
 

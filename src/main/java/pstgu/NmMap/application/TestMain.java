@@ -2,7 +2,7 @@ package pstgu.NmMap.application;
 
 import java.util.Scanner;
 
-public class Main {
+public class TestMain {
   /*public static void main2(String[] args) {
     var db = new TestMtStorage();
 
@@ -14,7 +14,7 @@ public class Main {
   }*/
   
   public static void main(String[] args) {
-    var storage = new MtSimpleStorage("resources/output");
+    var storage = new MainMtStorage("resources/output");
     
     var cin = new Scanner(System.in);
     
