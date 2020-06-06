@@ -2,22 +2,28 @@
 <head>
 <title th:text="${title}"></title>
 <meta charset="utf8">
+<link th:href="@{/styles/style.css}" rel="stylesheet"></link>
+</meta>
+
 <th:block th:if="${head!=null}">
 	<th:block th:replace="__${head}__">
 	</th:block>
 </th:block>
+
 </head>
 
 <body style="background: cornsilk" link="black">
-	<h1 align="center">
-		<em><strong> Новомученики </strong></em>
+	<h1>
+		<strong> Новомученики </strong>
 	</h1>
-	<a href="/"><img th:src="@{/img/N1.JPG}" alt="Новомученики"
-		align="center"> </a>
+	<div>
+		<a href="/"><img th:src="@{/img/N1.JPG}" alt="Новомученики" width="100%"></a>
+	</div>
+	
 	<h2 align="right">
 		<form action="/search">
-			<input name="q" placeholder="Поиск" th:attr="value=${q}">
-			<input type="submit" value="Поиск">
+			<input name="q" placeholder="Поиск" th:attr="value=${q}"> <input
+				type="submit" value="Поиск">
 		</form>
 	</h2>
 	<div th:replace="__${view}__"></div>
