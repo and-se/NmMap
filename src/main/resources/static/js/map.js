@@ -8,8 +8,13 @@ let response = fetch("/map/all_points").then(result=>result.json());
 function init() {
     var myMap = new ymaps.Map("map", {
         center: [55.76, 37.64],
-        zoom: 10
+        zoom: 10,
+        controls: ['zoomControl', 'searchControl', 'typeSelector',  'fullscreenControl',
+        	'routeButtonControl', 'rulerControl', 'geolocationControl', 'fullscreenControl']
+    }, {
+        searchControlProvider: 'yandex#search'
     });
+    
     response.then(points => drawPoints(myMap, points));
 }
 
