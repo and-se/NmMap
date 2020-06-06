@@ -7,67 +7,73 @@ import java.util.List;
  * Модель жизнеописания.
  */
 public class Human {
-	private int id;
-	private String fio;
-	private String article;
+  private int id;
+  private String fio;
+  private String article;
 
-	List<Location> coordinates;
+  List<Location> coordinates;
 
-	public Human() {
-	}
+  public Human() {}
 
-	/**
-	 * Создаёт новый объект жизнеописания.
-	 * 
-	 * @param id      ключ
-	 * @param fio     заголовок статьи
-	 * @param article текст статьи
-	 */
-	public Human(int id, String fio, String article) {
-		this.id = id;
-		this.fio = fio;
-		this.article = article;
-	}
+  /**
+   * Создаёт новый объект жизнеописания.
+   * 
+   * @param id ключ
+   * @param fio заголовок статьи
+   * @param article текст статьи
+   */
+  public Human(int id, String fio, String article) {
+    this.id = id;
+    this.fio = fio;
+    this.article = article;
+  }
 
-	public Human(int id, String fio, String article, List<Location> coordinates) {
-		this(id, fio, article);
-		this.coordinates = coordinates;
-	}
+  public Human(int id, String fio, String article, List<Location> coordinates) {
+    this(id, fio, article);
 
-	public int getId() {
-		return id;
-	}
+    for (Location location : coordinates) {
+      location.setHuman(this);
+    }
+    this.coordinates = coordinates;
+  }
 
-	public String getFio() {
-		return fio;
-	}
+  public int getId() {
+    return id;
+  }
 
-	public String getArticle() {
-		return article;
-	}
+  public String getFio() {
+    return fio;
+  }
 
-	public List<Location> getCoordinates() {
-		return coordinates;
-	}
+  public String getArticle() {
+    return article;
+  }
 
-	public void setId(int id) {
-		this.id = id;
-	}
+  public List<Location> getCoordinates() {
+    return coordinates;
+  }
 
-	public void setFio(String fio) {
-		this.fio = fio;
-	}
+  public void setId(int id) {
+    this.id = id;
+  }
 
-	public void setArticle(String article) {
-		this.article = article;
-	}
+  public void setFio(String fio) {
+    this.fio = fio;
+  }
 
-	public void setCoordinates(List<Location> coordinates) {
-		this.coordinates = coordinates;
-	}
+  public void setArticle(String article) {
+    this.article = article;
+  }
 
-	@Override
-	public String toString() {
-		return String.format("id %d\n%s\n\n%s", id, fio, article);
-	}
+  public void setCoordinates(List<Location> coordinates) {
+    for (Location location : coordinates) {
+      location.setHuman(this);
+    }
+    this.coordinates = coordinates;
+  }
+
+  @Override
+  public String toString() {
+    return String.format("id %d\n%s\n\n%s", id, fio, article);
+  }
 }

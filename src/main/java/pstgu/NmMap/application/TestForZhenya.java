@@ -7,7 +7,7 @@ import pstgu.NmMap.model.Human;
 public class TestForZhenya {
 
 	public static void main(String[] args) {
-		MtSimpleStorage storage = new MtSimpleStorage("resources/output");
+		MainMtStorage storage = new MainMtStorage("resources/output");
 		
 		Human human = storage.getHuman(1);
 		

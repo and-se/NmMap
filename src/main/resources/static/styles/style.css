@@ -1,0 +1,64 @@
+@font-face {
+	font-family: Gabriola; /* Гарнитура шрифта */
+	src: url(/fonts/Gabriola.ttf); /* Путь к файлу со шрифтом */
+}
+
+h1, h3, h4 {
+	text-align: center;
+}
+
+h4 {
+	font-family: Gabriola, Calibre, serif;
+	font-size: 40;
+}
+
+h1, h2 {
+	font-family: Gabriola, serif;
+}
+
+h3 {
+	font-weight: bold;
+}
+
+strong {
+	font-size: 60;
+}
+
+p {
+	font-family: Gabriola, sans-serif;
+}
+
+table {
+	border: 1px solid black;
+	width: 100%;
+}
+
+th {
+	height: 50px;
+}
+
+body {
+	padding: 5px;
+}
+
+.persons, .persons td {
+	border: 1px solid lightgray;
+	padding: 5px;
+}
+
+.pagination {
+	display: inline-block;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 5px 5px;
+	text-decoration: none;
+}
+
+.pagination a.active {
+	background-color: blue;
+	color: white;
+	border-radius: 2px;
+}

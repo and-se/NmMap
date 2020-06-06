@@ -1,40 +1,14 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
-<style type="text/css">
-body {
-	padding: 50px;
-}
 
-.persons, .persons td {
-	border: 1px solid lightgray;
-	padding: 5px;
-}
-
-.pagination {
-	display: inline-block;
-}
-
-.pagination a {
-	color: black;
-	float: left;
-	padding: 5px 5px;
-	text-decoration: none;
-}
-
-.pagination a.active {
-	background-color: blue;
-	color: white;
-	border-radius: 2px;
-}
-</style>
-
-	<h1>Persons:</h1>
+	<h4>Persons:</h4>
 	<div th:if="${humanPage.totalPages > 0}" class="pagination"
 		th:each="pageNumber : ${pageNumbers}">
-		<a th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
+		<a
+			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
 			th:text=${pageNumber}
 			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
 	</div>
-	
+
 	<table class="persons">
 		<thead>
 			<tr>
@@ -51,22 +25,17 @@ body {
 				th:alt-title="${iStat.even}? 'even' : 'odd'">
 				<td th:text="${human.id}" />
 				<td th:text="${human.fio}" />
-				<td>
-					<a th:href="@{'/persons/' + ${human.id}}" href="human.html">Просмотреть</a>
+				<td><a th:href="@{'/persons/' + ${human.id}}" href="human.html">Просмотреть</a>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	<div th:if="${humanPage.totalPages > 0}" class="pagination"
 		th:each="pageNumber : ${pageNumbers}">
-		<a th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
+		<a
+			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
 			th:text=${pageNumber}
 			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
 	</div>
 
-	<div>
-		<p>
-			<a th:href="@{/}" th:text="home"></a>
-		</p>
-	</div>
 </th:block>
