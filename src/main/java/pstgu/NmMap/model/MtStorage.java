@@ -24,14 +24,14 @@ public interface MtStorage {
 
   /**
    * Производит поиск по реквизиту ФИО и возвращает общее количество записей
-   *  
+   * 
    * @param fioStarts с каких букв должен начинаться реквизит ФИО
    * @param fioContains какие буквы должен содержать реквизит ФИО
    * @return количество записей
    */
   long countHumansByFio(String fioStarts, String fioContains);
 
-/**
+  /**
    * Выполняет полнотекстовый поиск жизнеописаний.
    * 
    * @param query запрос
@@ -40,19 +40,20 @@ public interface MtStorage {
    * @return массив записей размера take
    */
   Human[] findHumansFullText(String query, int skip, int take);
-  
+
   /**
    * Производит полнотекстовый поиск и возвращает общее количество записей
-   *  
+   * 
    * @param query запрос
    * @return количество записей
    */
   long countHumansFullText(String query);
-  
+
   /**
-   * Производит поиск местоположений по заданным условиям фильтрации 
-   * @param filter условия фильтрации TODO 
-   * @return список всех найденных местоположений 
+   * Производит поиск местоположений по заданным условиям фильтрации
+   * 
+   * @param filter условия фильтрации TODO
+   * @return список всех найденных местоположений
    */
   ArrayList<Location> getLocations(Object filter);
 }

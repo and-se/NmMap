@@ -1,4 +1,4 @@
-package pstgu.NmMap.web;
+package pstgu.NmMap.webapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

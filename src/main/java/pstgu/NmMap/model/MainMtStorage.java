@@ -1,4 +1,4 @@
-package pstgu.NmMap.application;
+package pstgu.NmMap.model;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,9 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pstgu.NmMap.model.Human;
-import pstgu.NmMap.model.Location;
-import pstgu.NmMap.model.MtStorage;
 
 public class MainMtStorage implements MtStorage {
 

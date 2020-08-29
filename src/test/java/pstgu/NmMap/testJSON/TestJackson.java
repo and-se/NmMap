@@ -8,9 +8,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import pstgu.NmMap.model.Human;
 import pstgu.NmMap.model.Location;
 
@@ -24,11 +22,11 @@ public class TestJackson {
     ObjectMapper mapper = new ObjectMapper();
 
     // вывод в json файл списка классов
-    /*List<Human> list = generateHumansList();
-    String jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list);
-    writeToFile(path, jsonString);
-    System.out.println(jsonString);
-    */
+    /*
+     * List<Human> list = generateHumansList(); String jsonString =
+     * mapper.writerWithDefaultPrettyPrinter().writeValueAsString(list); writeToFile(path,
+     * jsonString); System.out.println(jsonString);
+     */
 
     // зачитывание файла и
     String jsonDataString = readFile(path, Charset.forName("UTF-8"));
@@ -83,7 +81,8 @@ public class TestJackson {
   }
 
   /**
-   * Записывает в файл строку <b>text</b> 
+   * Записывает в файл строку <b>text</b>
+   * 
    * @param path - путь относительно папки проекта, напр. "resources/output/out.txt"
    * @param text - строка для записи в файл
    */
