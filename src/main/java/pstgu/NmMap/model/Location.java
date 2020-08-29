@@ -1,9 +1,13 @@
 package pstgu.NmMap.model;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonPropertyOrder({"N", "E", "description"})
+@JsonInclude(Include.NON_NULL)
 public class Location {
   private double N;
   private double E;
@@ -62,12 +66,12 @@ public class Location {
       this.human = human;
   }
 
-  public int getHumanId() {
-    return human.getId();
+  public Integer getHumanId() {
+    return human != null ? human.getId() : null;
   }
 
   public String getHumanFio() {
-    return human.getFio();
+    return human != null ? human.getFio() : null;
   }
 
 }
