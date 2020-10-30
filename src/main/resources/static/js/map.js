@@ -28,7 +28,7 @@ function drawPoints(myMap, points){
 			new ymaps.Placemark([point.N,point.E],{
 				balloonContentHeader: point.humanFio,
 	            balloonContentBody: point.description,
-	            balloonContentFooter: '<a href="/persons/'+point.humanId+'">подробнее</a>',
+	            balloonContentFooter: '<a target="_blank" href="/persons/'+point.humanId+'">подробнее</a>',
 	            hintContent: point.humanFio
 			})		
 		);
