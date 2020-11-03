@@ -1,0 +1,19 @@
+<div xmlns:th="http://www.thymeleaf.org">
+
+
+	<h3>Список по алфавиту:</h3></b>
+	
+	<UL style="list-style: none;">
+		<p>
+		<h4>
+			<big>
+				<li th:each="l : ${azbuka}" style="display: inline">
+				<a th:text="${l}" th:href="@{/persons(startletter=${l})}" style="text-decoration: none;"></a>
+				</li> <big>
+		</h4>
+		</p>
+	</UL>
+
+	<div id="map" style="width: 100%; height: 100vh"></div>
+
+</div>

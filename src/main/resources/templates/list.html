@@ -1,0 +1,41 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+
+	<h4>Persons:</h4>
+	<div th:if="${humanPage.totalPages > 0}" class="pagination"
+		th:each="pageNumber : ${pageNumbers}">
+		<a
+			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
+			th:text=${pageNumber}
+			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
+	</div>
+
+	<table class="persons">
+		<thead>
+			<tr>
+				<!-- <th th:text="#{msg.id}" />
+				<th th:text="#{msg.name}" /> -->
+				<th>ID</th>
+				<th>Name</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="human, iStat : ${humanPage.content}"
+				th:style="${iStat.odd}? 'font-weight: bold;'"
+				th:alt-title="${iStat.even}? 'even' : 'odd'">
+				<td th:text="${human.id}" />
+				<td th:text="${human.fio}" />
+				<td><a th:href="@{'/persons/' + ${human.id}}" href="human.html">Просмотреть</a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<div th:if="${humanPage.totalPages > 0}" class="pagination"
+		th:each="pageNumber : ${pageNumbers}">
+		<a
+			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
+			th:text=${pageNumber}
+			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
+	</div>
+
+</th:block>
