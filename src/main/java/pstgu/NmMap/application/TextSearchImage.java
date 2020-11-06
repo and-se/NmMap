@@ -98,6 +98,20 @@ public class TextSearchImage {
    * @return строка, в которой искомые слова заключены в угловые скобки &lt;слово&gt;
    */
   public String getTextSnippet(int maxLength) {
+    return getTextSnippet(maxLength, ".!?");
+  }
+  
+  
+  /**
+     Возвращает вырезку из текста, которая содержит все искомые слова. Сами искомые слова
+   * заключаются в < >. Если текст не удовлетворяет запросу, возвращает null
+   * 
+   * @param maxLength максимальная длина вырезки
+   * @param sentenceSeparator разделительные знаки
+   * @return строка, в которой искомые слова заключены в угловые скобки &lt;слово&gt;
+
+   */
+  public String getTextSnippet(int maxLength, String sentenceSeparator) {
     if (!isTextFitsQuery()) {
       return null;
     }
@@ -106,14 +120,14 @@ public class TextSearchImage {
     int end = index.values().stream().max(Comparator.naturalOrder()).get();
     
     for(; start > 0; start--) {
-      if(".?!".indexOf(text.charAt(start))!=-1) {
+      if(sentenceSeparator.indexOf(text.charAt(start))!=-1) {
        start ++;
        break;
       }
     }
     
     for(; end<text.length(); end++ ) {
-      if(".?!".indexOf(text.charAt(end))!=-1) {
+      if(sentenceSeparator.indexOf(text.charAt(end))!=-1) {
         break;
       }
     }
@@ -121,12 +135,10 @@ public class TextSearchImage {
     if(result.length()>maxLength) {
       result = result.substring(0,maxLength-6)+" <...>";
     }
-    // Надо как-то построить...
-    // Взять для начала текст между первым и последним совпадением. А если слишком
-    // длинный, то
-    // укорачивать....
+   
     return result;
   }
+    
 
   private void fillIndex() {
     String t1 = text.toLowerCase();
@@ -156,7 +168,7 @@ public class TextSearchImage {
     System.out.println(testText);
     System.out.printf("isTextSatisfiesQuery=%b\tRelevance=%f\n", t.isTextFitsQuery(),
         t.getRelevance());
-    System.out.println(t.getTextSnippet(100));
+    System.out.println(t.getTextSnippet(100,"\n"));
     System.out.println(t.getTextSnippet(15));
 
     // А здесь должно быть isTextSatisfiesQuery=false, так что релевантность 0 и

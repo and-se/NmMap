@@ -79,7 +79,7 @@ public class MtSimpleStorage implements MtStorage {
   @Override
   public HumanTextSearchResult[] findHumansFullText(String query, int skip, int take) {
     // Разбиваем на слова TODO поддержка латиницы
-    var words = query.split("[^А-Яа-я0-9]+");
+    var words = query.split("[^A-Za-zА-Яа-я0-9]+");
 
     /*
      * for (int i = 0; i < words.length; i++) { words[i] = words[i].replaceAll("[^А-Яа-я0-9]", "");
@@ -94,7 +94,7 @@ public class MtSimpleStorage implements MtStorage {
       
       // Если текст удовлетворяет запросу, возвращаем HumanTextSearchResult
       if (textSearch.isTextFitsQuery()) {
-        return new HumanTextSearchResult(human, textSearch.getTextSnippet(200),
+        return new HumanTextSearchResult(human, textSearch.getTextSnippet(200,"\n"),
             textSearch.getRelevance());
       }
 
