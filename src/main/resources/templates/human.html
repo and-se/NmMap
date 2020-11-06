@@ -1,8 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-<meta charset="UTF-8" />
-<title>Person page</title>
+
 <style type="text/css">
 body {
 	padding: 50px;
@@ -20,28 +16,23 @@ input:read-only {
 .row {
 	margin-top: 10px;
 }
+
+.row p {
+	font-family: Arial;
+	font-size: 14pt;
+}
 </style>
-</head>
-<body>
 
-	<h1>Person Info:</h1>
 
-	<div class="row">
-		<label>ID:&nbsp;</label> <span th:text="${human.id}">1</span>
-	</div>
+	<h1 th:text="${human.fio}">Person Info:</h1>
 
 	<div class="row">
-		<label>FIO:&nbsp;</label> <span th:text="${human.fio}">John Doe</span>
-	</div>
-
-	<div class="row">
-		<label>Article:&nbsp;</label>
-
-		<div th:each="line : ${article}">
-			<p th:text="${line}"></p>
+		
+		<div >
+		    <th:block th:each="line : ${article}">
+			    <p th:text="${line}"></p>
+			</th:block>
 		</div>
 
 	</div>
 
-</body>
-</html>

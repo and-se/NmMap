@@ -50,7 +50,7 @@ public class MainController {
     String[] article = human.getArticle().split("\n");
     model.addAttribute("article", article);
 
-    return "human";
+    return "main :: html(view=human)";
   }
 
   @GetMapping("/search")
