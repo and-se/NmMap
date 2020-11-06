@@ -27,7 +27,7 @@ function drawPoints(myMap, points){
 		clusterer.add(
 			new ymaps.Placemark([point.N,point.E],{
 				balloonContentHeader: point.humanFio,
-	            balloonContentBody: point.description,
+	            balloonContentBody: point.dating + " — " + point.description,
 	            balloonContentFooter: '<a target="_blank" href="/persons/'+point.humanId+'">подробнее</a>',
 	            hintContent: point.humanFio
 			})		

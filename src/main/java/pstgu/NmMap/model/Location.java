@@ -6,11 +6,13 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"N", "E", "description"})
+@JsonPropertyOrder({"N", "E", "dating", "description"})
 @JsonInclude(Include.NON_NULL)
 public class Location {
   private double N;
   private double E;
+
+  private String dating;
 
   private String description;
 
@@ -19,20 +21,21 @@ public class Location {
 
   public Location() {}
 
-  public Location(double n, double e, String description) {
+  public Location(double n, double e, String dating, String description) {
     N = n;
     E = e;
+    this.dating = dating;
     this.description = description;
   }
 
-  public Location(Human human, double n, double e, String description) {
-    this(n, e, description);
+  public Location(Human human, double n, double e, String dating, String description) {
+    this(n, e, dating, description);
     this.human = human;
   }
 
   @Override
   public String toString() {
-    return String.format("{N%f° E%f° - %s}", N, E, description);
+    return String.format("{N%f° E%f° - %s %s}", N, E, dating, description);
   }
 
   @JsonGetter("N")
@@ -53,6 +56,14 @@ public class Location {
     E = e;
   }
 
+  public String getDating() {
+    return dating;
+  }
+
+  public void setDating(String dating) {
+    this.dating = dating;
+  }
+  
   public String getDescription() {
     return description;
   }

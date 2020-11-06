@@ -80,7 +80,8 @@ public class Converter {
         for (JsonNode c : gps) {
           var N = c.get("Широта");
           var E = c.get("Долгота");
-          var location = new Location(N.asDouble(), E.asDouble(), text.asText());
+  
+          var location = new Location(N.asDouble(), E.asDouble(), date!=null ? date.asText() : null, text.asText());
           locationList.add(location);
         }
       }
