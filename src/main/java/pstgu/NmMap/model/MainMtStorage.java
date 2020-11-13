@@ -58,11 +58,11 @@ public class MainMtStorage implements MtStorage {
         (fioStarts == null || human.getFio().toUpperCase().startsWith(fioStarts.toUpperCase()))
             // fioContains не задано, либо ФИО содержит fioContains
             && (fioContains == null
-                || human.getFio().toUpperCase().contains(fioContains.toUpperCase())))
+                || human.getTitle().toUpperCase().contains(fioContains.toUpperCase())))
         // Объединяем парелельные потоки в один
         .sequential()
         // Сортируем по ФИО
-        .sorted(Comparator.comparing(human -> human.getFio()))
+        .sorted(Comparator.comparing(human -> human.getTitle()))
         // Пропускаем skip записей, берём не более take записей
         .skip(skip).limit(take)
         // Превращаем результат в массив Human[]
@@ -82,7 +82,7 @@ public class MainMtStorage implements MtStorage {
      */
     var result = storage.values().parallelStream().map(human -> {
       // Восстанавливаем полный текст статьи - ФИО + остальное
-      var allText = human.getFio() + "\n" + human.getArticle();
+      var allText = human.getTitle() + "\n" + human.getArticle();
 
       // Строим поисковый образ текста статьи
       var textSearch = new TextSearchImage(allText, Arrays.asList(words));
@@ -110,7 +110,7 @@ public class MainMtStorage implements MtStorage {
           // А если она совпадает - то по возрастанию ФИО
           if (r == 0)
           {
-            r = a.getHuman().getFio().compareTo(b.getHuman().getFio());
+            r = a.getHuman().getTitle().compareTo(b.getHuman().getTitle());
           }
           return r;
         })         

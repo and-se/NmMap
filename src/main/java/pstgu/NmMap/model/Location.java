@@ -82,7 +82,7 @@ public class Location {
   }
 
   public String getHumanFio() {
-    return human != null ? human.getFio() : null;
+    return human != null ? human.getTitle() : null;
   }
 
 }

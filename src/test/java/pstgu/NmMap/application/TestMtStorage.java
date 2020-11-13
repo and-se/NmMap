@@ -8,10 +8,11 @@ import pstgu.NmMap.model.MtStorage;
 
 public class TestMtStorage implements MtStorage {
 
-  Human[] data = new Human[] {new Human(1, "Иван Иванович", "из Москвы"),
-      new Human(2, "Петр Петрович", "из Петербурга"), new Human(3, "Сидор Сидорович", "из Казани"),
-      new Human(4, "Адамантов Адамант", "из Минска"),
-      new Human(5, "Ааронович Аарон", "из Вологды")};
+  Human[] data = new Human[] {new Human(1, "Иван Иванович", "из Москвы", null),
+      new Human(2, "Петр Петрович", "из Петербурга", null), 
+      new Human(3, "Сидор Сидорович", "из Казани", null),
+      new Human(4, "Адамантов Адамант", "из Минска", null),
+      new Human(5, "Ааронович Аарон", "из Вологды", null)};
 
   @Override
   public Human getHuman(int id) {

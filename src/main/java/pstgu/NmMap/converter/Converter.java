@@ -39,7 +39,8 @@ public class Converter {
 
     // @Заголовок = Канонизация.Чин_святости + ФИО + Сан_ЦеркСлужение
     // Пробуем читать все необходимые поля и собираем из них итоговый текст
-    String articleTitle = data.get("ФИО").asText();
+    String fio = data.get("ФИО").asText();
+    String articleTitle = fio;
     JsonNode san = data.get("Сан_ЦеркСлужение");
     JsonNode sainthood = data.at("/Канонизация/Чин_святости");
 
@@ -52,9 +53,9 @@ public class Converter {
     }
 
     // result.set("fio", result.textNode(article_title));
-    result.put("fio", articleTitle.strip());
+    result.put("title", articleTitle.strip());
+    result.put("fio", fio.strip());
 
-    // TODO Написать код конвертации остальных полей
 
     String biographyFacts = "";
     var locationList = new ArrayList<Location>();

@@ -24,7 +24,7 @@
 				th:style="${iStat.odd}? 'font-weight: bold;'"
 				th:alt-title="${iStat.even}? 'even' : 'odd'">
 				<td th:text="${human.id}" />
-				<td th:text="${human.fio}" />
+				<td th:text="${human.title}" />
 				<td><a th:href="@{'/persons/' + ${human.id}}" href="human.html">Просмотреть</a>
 				</td>
 			</tr>

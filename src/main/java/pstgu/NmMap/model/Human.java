@@ -2,78 +2,84 @@ package pstgu.NmMap.model;
 
 import java.util.List;
 
-
 /**
  * Модель жизнеописания.
  */
 public class Human {
-  private int id;
-  private String fio;
-  private String article;
+	private int id;
+	private String fio;
+	private String title;
+	private String article;
 
-  List<Location> coordinates;
+	List<Location> coordinates;
 
-  public Human() {}
+	public Human() {
+	}
 
-  /**
-   * Создаёт новый объект жизнеописания.
-   * 
-   * @param id ключ
-   * @param fio заголовок статьи
-   * @param article текст статьи
-   */
-  public Human(int id, String fio, String article) {
-    this.id = id;
-    this.fio = fio;
-    this.article = article;
-  }
+	/**
+	 * Создаёт новый объект жизнеописания.
+	 * 
+	 * @param id          ключ
+	 * @param title       заголовок статьи
+	 * @param article     текст статьи
+	 * @param coordinates координаты для карты
+	 */
+	public Human(int id, String title, String article, List<Location> coordinates) {
+		this.id = id;
+		this.title = title;
+		this.article = article;
 
-  public Human(int id, String fio, String article, List<Location> coordinates) {
-    this(id, fio, article);
+		for (Location location : coordinates) {
+			location.setHuman(this);
+		}
+		this.coordinates = coordinates;
+	}
 
-    for (Location location : coordinates) {
-      location.setHuman(this);
-    }
-    this.coordinates = coordinates;
-  }
+	public int getId() {
+		return id;
+	}
 
-  public int getId() {
-    return id;
-  }
+	public String getFio() {
+		return fio;
+	}
 
-  public String getFio() {
-    return fio;
-  }
+	public void setFio(String fio) {
+		this.fio = fio;
+	}
 
-  public String getArticle() {
-    return article;
-  }
+	public String getTitle() {
+		return title;
+	}
 
-  public List<Location> getCoordinates() {
-    return coordinates;
-  }
+	public String getArticle() {
+		return article;
+	}
 
-  public void setId(int id) {
-    this.id = id;
-  }
+	public List<Location> getCoordinates() {
+		return coordinates;
+	}
 
-  public void setFio(String fio) {
-    this.fio = fio;
-  }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-  public void setArticle(String article) {
-    this.article = article;
-  }
+	public void setTitle(String fio) {
+		this.title = fio;
+	}
 
-  public void setCoordinates(List<Location> coordinates) {
-    for (Location location : coordinates) {
-      location.setHuman(this);
-    }
-    this.coordinates = coordinates;
-  }
+	public void setArticle(String article) {
+		this.article = article;
+	}
 
-  @Override
-  public String toString() {
-    return String.format("id %d\n%s\n\n%s", id, fio, article);
-  }
+	public void setCoordinates(List<Location> coordinates) {
+		for (Location location : coordinates) {
+			location.setHuman(this);
+		}
+		this.coordinates = coordinates;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("id %d\n%s\n\n%s", id, title, article);
+	}
 }

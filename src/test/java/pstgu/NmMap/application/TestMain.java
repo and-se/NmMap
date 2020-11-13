@@ -24,13 +24,13 @@ public class TestMain {
     var q2 = cin.nextLine();
 
     for (var h : storage.findHumansByFio(q1, q2, 0, 10)) {
-      System.out.println(h.getFio());
+      System.out.println(h.getTitle());
     }
 
     System.out.println("Введите слова через пробел для полнотекстового поиска");
     var q3 = cin.nextLine();
     for (var h : storage.findHumansFullText(q3, 0, 10)) {
-      System.out.println(h.getHuman().getFio());
+      System.out.println(h.getHuman().getTitle());
     }
 
     cin.close();

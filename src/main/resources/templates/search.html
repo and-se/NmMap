@@ -49,7 +49,7 @@ body {
 	
 
 	<ul th:each="res, iStat : ${humanPage.content}">
-		<li><a th:text="${res.human.fio}"
+		<li><a th:text="${res.human.title}"
 			th:href="@{'/persons/' + ${res.human.id}}" href="human.html">Посмотреть</a>
 			<br>
 			<p th:text="${res.textSnippet}">
