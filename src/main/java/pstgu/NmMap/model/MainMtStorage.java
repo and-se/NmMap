@@ -72,27 +72,52 @@ public class MainMtStorage implements MtStorage {
   }
 
   @Override
-  public Human[] findHumansFullText(String query, int skip, int take) {
-    // Разбиваем на слова TODO игнорирование пунктуации
-    var words = query.split("[^А-Яа-я0-9]+");
+  public HumanTextSearchResult[] findHumansFullText(String query, int skip, int take) {
+    // Разбиваем на слова TODO поддержка латиницы
+    var words = query.split("[^A-Za-zА-Яа-я0-9]+");
 
     /*
      * for (int i = 0; i < words.length; i++) { words[i] = words[i].replaceAll("[^А-Яа-я0-9]", "");
      * }//Разбиваем на слова, потом ( как я поняла) заменяем знаки на ничто
      */
-    var result = storage.values().parallelStream().filter(human -> {
+    var result = storage.values().parallelStream().map(human -> {
       // Восстанавливаем полный текст статьи - ФИО + остальное
-      var all_text = human.getFio().toUpperCase() + "\n" + human.getArticle().toUpperCase();
-      // Нужно, чтобы все слова из запроса содержались в полном тексте
-      return Arrays.stream(words).allMatch(word -> all_text.contains(word.toUpperCase()));
-    })
+      var allText = human.getFio() + "\n" + human.getArticle();
 
-        .sequential().sorted(Comparator.comparing(human -> human.getFio())).skip(skip).limit(take)
-        .toArray(Human[]::new);
+      // Строим поисковый образ текста статьи
+      var textSearch = new TextSearchImage(allText, Arrays.asList(words));
+      
+      // Если текст удовлетворяет запросу, возвращаем HumanTextSearchResult
+      if (textSearch.isTextFitsQuery()) {
+        return new HumanTextSearchResult(human, textSearch.getTextSnippet(200,"\n"),
+            textSearch.getRelevance());
+      }
+
+      // Если нет - просто null
+      return null;
+
+      // Восстанавливаем полный текст статьи - ФИО + остальное
+      //var all_text = human.getFio().toUpperCase() + "\n" + human.getArticle().toUpperCase();
+
+      // Нужно, чтобы все слова из запроса содержались в полном тексте
+      //return Arrays.stream(words).allMatch(word -> all_text.contains(word.toUpperCase()));
+    })
+        // Отсеиваем null, чтобы остались только подходящие тексты
+        .filter(r -> r != null)
+        .sorted((a, b) -> {
+          // Сортируем по убыванию (-1) релевантности          
+          int r = -1 * Double.compare(a.getRelevance(), b.getRelevance());
+          // А если она совпадает - то по возрастанию ФИО
+          if (r == 0)
+          {
+            r = a.getHuman().getFio().compareTo(b.getHuman().getFio());
+          }
+          return r;
+        })         
+        .skip(skip).limit(take).toArray(HumanTextSearchResult[]::new);
 
     return result;
   }
-
   @Override
   public long countHumansByFio(String fioStarts, String fioContains) {
     return findHumansByFio(fioStarts, fioContains, 0, Integer.MAX_VALUE).length;

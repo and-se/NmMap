@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
 import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.HumanTextSearchResult;
 import pstgu.NmMap.model.MtStorage;
 
 /**
@@ -37,6 +38,31 @@ public class HumanPagingService {
 
     Page<Human> humanPage =
         new PageImpl<Human>(Arrays.asList(humans), PageRequest.of(pageNum, pageSize), humans_count);
+
+    return humanPage;
+  }
+  
+  
+  /**
+   * Строит страницу данных для полнотекстового поиска
+   * 
+   * @param page_info информация о странице (номер от 0, размер)
+   * @param searcher функция поиска данных - принимает skip и take, а возвращает пару
+   *  <массив результатов поиска для отображения на странице, общее количество>
+   * @return
+   */
+  public Page<HumanTextSearchResult> buildPageFts(Pageable page_info,
+      BiFunction<Integer, Integer, Pair<HumanTextSearchResult[], Integer>> searcher) {
+    int pageNum = page_info.getPageNumber();
+    int pageSize = page_info.getPageSize();
+
+    // Производим поиск, вытаскиваем список жизнеописаний и общее количество
+    var d = searcher.apply((int) page_info.getOffset(), pageSize);
+    var humans = d.getFirst();
+    var humans_count = d.getSecond();
+
+    Page<HumanTextSearchResult> humanPage =
+        new PageImpl<HumanTextSearchResult>(Arrays.asList(humans), PageRequest.of(pageNum, pageSize), humans_count);
 
     return humanPage;
   }

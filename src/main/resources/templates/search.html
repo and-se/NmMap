@@ -27,8 +27,7 @@ body {
 }
 </style>
 
-
-	<!-- <form action="/search">
+<form action="/search">
 		<p>
 			<strong>Введите запрос для полнотекстового поиска.</strong>
 		</p>
@@ -37,10 +36,7 @@ body {
 			<input type="submit" value="Поиск">
 		</p>
 	</form>
- -->
 
-
-	<h1>Persons:</h1>
 	<div th:fragment="pages" 
 	th:if="${humanPage.totalPages > 0}" class="pagination"
 		th:each="pageNumber : ${pageNumbers}">
@@ -49,28 +45,18 @@ body {
 			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
 	</div>
 	
-	<table class="persons">
-		<thead>
-			<tr>
-				<!-- <th th:text="#{msg.id}" />
-				<th th:text="#{msg.name}" /> -->
-				<th>ID</th>
-				<th>Name</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="human, iStat : ${humanPage.content}"
-				th:style="${iStat.odd}? 'font-weight: bold;'"
-				th:alt-title="${iStat.even}? 'even' : 'odd'">
-				<td th:text="${human.id}" />
-				<td th:text="${human.fio}" />
-				<td>
-					<a th:href="@{'/persons/' + ${human.id}}" href="human.html">Просмотреть</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	
+	
+
+	<ul th:each="res, iStat : ${humanPage.content}">
+		<li><a th:text="${res.human.fio}"
+			th:href="@{'/persons/' + ${res.human.id}}" href="human.html">Посмотреть</a>
+			<br>
+			<p th:text="${res.textSnippet}">
+			</p>
+		</li>
+	</ul>
+	
 	<div th:replace=":: pages"></div>
 
 	<div>

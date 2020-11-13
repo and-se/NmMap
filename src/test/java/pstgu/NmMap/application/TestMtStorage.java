@@ -2,6 +2,7 @@ package pstgu.NmMap.application;
 
 import java.util.ArrayList;
 import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.HumanTextSearchResult;
 import pstgu.NmMap.model.Location;
 import pstgu.NmMap.model.MtStorage;
 
@@ -30,7 +31,7 @@ public class TestMtStorage implements MtStorage {
   }
 
   @Override
-  public Human[] findHumansFullText(String query, int skip, int take) {
+  public HumanTextSearchResult[] findHumansFullText(String query, int skip, int take) {
     return null;
   }
 

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import pstgu.NmMap.model.Human;
+import pstgu.NmMap.model.HumanTextSearchResult;
 import pstgu.NmMap.model.Location;
 import pstgu.NmMap.model.MainMtStorage;
 import pstgu.NmMap.model.MtStorage;
@@ -61,10 +62,10 @@ public class MainController {
 
     // Строим страницу, вторым параметром передаём функцию поиска, которая
     // принимает skip и take, а возвращает
-    // пару <жизнеописания для страницы, общее количество>
+    // пару <результат поиска для страницы, общее количество>
     // Используем полнотекстовый поиск
-    var humanPage = humanService.buildPage(page_info, (skip, take) -> {
-      Human[] response = new Human[0];
+    var humanPage = humanService.buildPageFts(page_info, (skip, take) -> {
+      HumanTextSearchResult[] response = null;
       int total = 0;
       if (!query.isEmpty()) {
         response = storage.findHumansFullText(query, skip, take);
@@ -103,7 +104,7 @@ public class MainController {
     return "main :: html(view=list)";
   }
 
-  private void addPageNumbersToModel(Model model, Page<Human> humanPage) {
+  private void addPageNumbersToModel(Model model, Page humanPage) {
     int totalPages = humanPage.getTotalPages();
     if (totalPages > 0) {
       List<Integer> pageNumbers =
