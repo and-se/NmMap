@@ -1,6 +1,7 @@
 package pstgu.NmMap.model;
 
 import java.util.*;
+import pstgu.NmMap.StemmerPorterRU;
 
 /**
  * Поисковый образ текста. Знает, где в тексте находятся искомые слова и умеет выдавать вырезку из
@@ -143,8 +144,9 @@ public class TextSearchImage {
   private void fillIndex() {
     String t1 = text.toLowerCase();
     for (var word : words) {
-      word = word.toLowerCase();
-      // int index1 = str.indexOf('l'); // 2
+      // берем основу слова с помощью стеммера
+      word = StemmerPorterRU.stem(word);
+      // поиск по подстроке работает,т.к. стеммер всего лишь обрезает слово.
       if (t1.contains(word)) {
         index.put(word, t1.indexOf(word));
         // Здесь нужно для каждого слова найти его положение в тексте и положить эту

@@ -96,11 +96,6 @@ public class MainMtStorage implements MtStorage {
       // Если нет - просто null
       return null;
 
-      // Восстанавливаем полный текст статьи - ФИО + остальное
-      //var all_text = human.getFio().toUpperCase() + "\n" + human.getArticle().toUpperCase();
-
-      // Нужно, чтобы все слова из запроса содержались в полном тексте
-      //return Arrays.stream(words).allMatch(word -> all_text.contains(word.toUpperCase()));
     })
         // Отсеиваем null, чтобы остались только подходящие тексты
         .filter(r -> r != null)
