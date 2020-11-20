@@ -83,16 +83,25 @@ public class MainController {
   }
 
   @RequestMapping(value = "/persons", method = RequestMethod.GET)
-  public String listPersons(@RequestParam(name = "startletter", required = false) String letter,
+  public String listPersons(@RequestParam(name = "startletter", required = false) String letter, 
+	  @RequestParam(name = "searchtype", defaultValue ="starts-with") String searchType,
       Model model, @RequestParam("page") Optional<Integer> page,
       @RequestParam("size") Optional<Integer> size) {
     var page_info = PageRequest.of(page.orElse(1) - 1, size.orElse(10));
     // Строим страницу - в передаваемой функции поиска используем поиск по ФИО
     // А так всё то же, что в fullSearch
     var humanPage = humanService.buildPage(page_info, (skip, take) -> {
-      Human[] data;
-      var count = (int) storage.countHumansByFio(letter, "");
-      var humans = storage.findHumansByFio(letter, "", skip, take);
+      Human[] humans;
+      int count;
+      if(searchType.equals("contains")) {
+    	  count = (int) storage.countHumansByFio("", letter);
+          humans = storage.findHumansByFio("", letter, skip, take);
+      }
+      else {
+    	  count = (int) storage.countHumansByFio(letter, "");
+          humans = storage.findHumansByFio(letter, "", skip, take);
+      }
+      
       return Pair.of(humans, count);
     });
 

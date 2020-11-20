@@ -33,7 +33,12 @@
 	
 	<form action="/persons">
 		<label for="startletter"> Поиск по ФИО </label>
-		<input type="search" name="startletter" th:value="${startletter}" >
+		<input type="search" name="startletter" th:value="${startletter}">
+		<select name="searchtype" >
+			<option selected value="starts-with">с начала строки</option>
+			<option value="contains">по подстроке</option>
+		</select>
+		
 		<input type="submit" value="Поиск">
 	</form>
 	
