@@ -30,6 +30,14 @@
 			</tr>
 		</tbody>
 	</table>
+	
+	<form action="/persons">
+		<label for="startletter"> Поиск по ФИО </label>
+		<input type="search" name="startletter" th:value="${startletter}" >
+		<input type="submit" value="Поиск">
+	</form>
+	
+	
 	<div th:if="${humanPage.totalPages > 0}" class="pagination"
 		th:each="pageNumber : ${pageNumbers}">
 		<a
