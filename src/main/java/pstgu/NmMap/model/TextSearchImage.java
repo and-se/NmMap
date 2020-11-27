@@ -1,5 +1,5 @@
 package pstgu.NmMap.model;
-
+import java.util.Arrays;
 import java.util.*;
 import pstgu.NmMap.StemmerPorterRU;
 
@@ -132,12 +132,23 @@ public class TextSearchImage {
         break;
       }
     }
+
     var result = text.substring(start, end);
-    if(result.length()>maxLength) {
-      result = result.substring(0,maxLength-6)+" <...>";
+    final int start2= start;
+    ///
+    int[] index1 = index.values().stream().mapToInt(x->x-start2).sorted().toArray();
+    String result1=result.substring(0, index1[0]);
+    int i;
+    for(i=1; i<index1.length; i++) {
+      result1 +="!!!"+result.substring(index1[i-1], index1[i]);
+    }
+    result1+="!!!"+result.substring(index1[i-1]);
+    ///
+    if(result1.length()>maxLength) {
+      result1 = result1.substring(0,maxLength-6)+" <...>";
     }
    
-    return result;
+    return result1;
   }
     
 
