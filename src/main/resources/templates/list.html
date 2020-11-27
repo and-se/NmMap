@@ -4,7 +4,7 @@
 	<div th:if="${humanPage.totalPages > 0}" class="pagination"
 		th:each="pageNumber : ${pageNumbers}">
 		<a
-			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
+			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, searchtype=${searchtype}, startletter=${startletter})}"
 			th:text=${pageNumber}
 			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
 	</div>
@@ -35,8 +35,8 @@
 		<label for="startletter"> Поиск по ФИО </label>
 		<input type="search" name="startletter" th:value="${startletter}">
 		<select name="searchtype" >
-			<option selected value="starts-with">с начала строки</option>
-			<option value="contains">по подстроке</option>
+			<option value="starts-with">с начала строки</option>
+			<option th:attrappend="selected=${searchtype == 'contains'}?'selected'" value="contains">по подстроке</option>
 		</select>
 		
 		<input type="submit" value="Поиск">
@@ -46,7 +46,7 @@
 	<div th:if="${humanPage.totalPages > 0}" class="pagination"
 		th:each="pageNumber : ${pageNumbers}">
 		<a
-			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, startletter=${startletter})}"
+			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, searchtype=${searchtype}, startletter=${startletter})}"
 			th:text=${pageNumber}
 			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
 	</div>

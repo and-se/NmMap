@@ -107,6 +107,7 @@ public class MainController {
 
     model.addAttribute("humanPage", humanPage);
     model.addAttribute("startletter", letter);
+    model.addAttribute("searchtype", searchType);
 
     addPageNumbersToModel(model, humanPage);
 
