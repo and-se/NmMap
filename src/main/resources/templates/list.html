@@ -1,14 +1,29 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
 
-	<h4>Persons:</h4>
-	<div th:if="${humanPage.totalPages > 0}" class="pagination"
-		th:each="pageNumber : ${pageNumbers}">
-		<a
-			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, searchtype=${searchtype}, startletter=${startletter})}"
-			th:text=${pageNumber}
-			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
+	<div>
+		<UL style="list-style: none;">
+			<p>
+			<h4>
+				<big>
+					<li th:each="l : ${azbuka}" style="display: inline">
+					<a th:text="${l}" th:href="@{/persons(startletter=${l})}" style="text-decoration: none;"></a>
+					</li> <big>
+			</h4>
+			</p>
+		</UL>
 	</div>
-
+	
+	<form action="/persons">
+		<label for="startletter"> Поиск по ФИО </label>
+		<input type="search" name="startletter" th:value="${startletter}">
+		<select name="searchtype" >
+			<option value="starts-with">с начала строки</option>
+			<option th:attrappend="selected=${searchtype == 'contains'}?'selected'" value="contains">по подстроке</option>
+		</select>
+		
+		<input type="submit" value="Поиск">
+	</form>
+	
 	<table class="persons">
 		<thead>
 			<tr>
@@ -30,17 +45,6 @@
 			</tr>
 		</tbody>
 	</table>
-	
-	<form action="/persons">
-		<label for="startletter"> Поиск по ФИО </label>
-		<input type="search" name="startletter" th:value="${startletter}">
-		<select name="searchtype" >
-			<option value="starts-with">с начала строки</option>
-			<option th:attrappend="selected=${searchtype == 'contains'}?'selected'" value="contains">по подстроке</option>
-		</select>
-		
-		<input type="submit" value="Поиск">
-	</form>
 	
 	
 	<div th:if="${humanPage.totalPages > 0}" class="pagination"

@@ -34,8 +34,6 @@ public class MainController {
 
   @GetMapping("/")
   public String homepage(Model m) {
-    var azbuka = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ".toCharArray();
-    m.addAttribute("azbuka", azbuka);
     m.addAttribute("head", "fragments::mapScripts");
 
     // В main.html будет переменная $view = 'index'
@@ -108,6 +106,8 @@ public class MainController {
     model.addAttribute("humanPage", humanPage);
     model.addAttribute("startletter", letter);
     model.addAttribute("searchtype", searchType);
+    var azbuka = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ".toCharArray();
+    model.addAttribute("azbuka", azbuka);
 
     addPageNumbersToModel(model, humanPage);
 
