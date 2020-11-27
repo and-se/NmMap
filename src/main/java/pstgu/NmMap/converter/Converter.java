@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Optional;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -63,26 +64,37 @@ public class Converter {
     for (JsonNode event : events) {
       var date = event.get("Датировка");
       var text = event.get("Текст");
+      
 
       var eventStr =
           Optional.ofNullable(date).map(t -> t.asText() + " — ").orElse("") + text.asText() + "\n";
 
-      /*
-       * String eventStr = Optional.ofNullable(day).map(n -> month.asText()).map(n -> year.asText())
-       * .map(n -> day.asText() + "." + month.asText() + "." + year.asText() + " — ")
-       * .orElse(Optional.ofNullable(date).map(n -> n.asText() + " — ").orElse("? — ")) +
-       * Optional.ofNullable(text).map(t -> t.asText()).orElse("") + "\n";
-       */
       biographyFacts += eventStr;
 
+      LocalDate start = null, end = null;
+      int daysCount = 0;
+      var searchDates = event.withArray("Поисковые_даты");
+      
+      if(searchDates.size()>0) {        
+        var findDate = searchDates.get(0);
+        start = LocalDate.parse(findDate.get("Начало_мин").asText());
+        end = LocalDate.parse(findDate.get("Окончание_макс").asText());
+        daysCount = findDate.get("Длина_интервала").asInt();
+        }
+ 
       var geography = event.withArray("География");
       for (JsonNode g : geography) {
         var gps = g.withArray("Координаты");
         for (JsonNode c : gps) {
           var N = c.get("Широта");
-          var E = c.get("Долгота");
-  
-          var location = new Location(N.asDouble(), E.asDouble(), date!=null ? date.asText() : null, text.asText());
+          var E = c.get("Долгота");         
+          var location = new Location(N.asDouble(), E.asDouble(),
+              date!=null ? date.asText() : null, text.asText());
+          if(searchDates.size()>0) {
+            location.setStartDate(start);
+            location.setEndDate(end);
+            location.setCountDays(daysCount);
+          }          
           locationList.add(location);
         }
       }

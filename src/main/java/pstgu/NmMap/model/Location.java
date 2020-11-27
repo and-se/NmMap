@@ -1,5 +1,6 @@
 package pstgu.NmMap.model;
 
+import java.time.LocalDate;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -13,7 +14,11 @@ public class Location {
   private double E;
 
   private String dating;
-
+  
+  private LocalDate startDate;
+  private LocalDate endDate;
+  private int countDays;
+  
   private String description;
 
   // поля для описания меток на карте
@@ -66,6 +71,35 @@ public class Location {
   
   public String getDescription() {
     return description;
+  }
+
+
+    
+  
+  
+  
+  public LocalDate getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+  }
+
+  public LocalDate getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
+  }
+
+  public int getCountDays() {
+    return countDays;
+  }
+
+  public void setCountDays(int countDays) {
+    this.countDays = countDays;
   }
 
   public void setDescription(String description) {
