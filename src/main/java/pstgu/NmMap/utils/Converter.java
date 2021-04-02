@@ -1,4 +1,4 @@
-package pstgu.NmMap.converter;
+package pstgu.NmMap.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -61,18 +61,13 @@ public class Converter {
     var locationList = new ArrayList<Location>();
     JsonNode events = data.withArray("События");
     for (JsonNode event : events) {
+      var type = event.get("Тип");
       var date = event.get("Датировка");
       var text = event.get("Текст");
 
       var eventStr =
           Optional.ofNullable(date).map(t -> t.asText() + " — ").orElse("") + text.asText() + "\n";
 
-      /*
-       * String eventStr = Optional.ofNullable(day).map(n -> month.asText()).map(n -> year.asText())
-       * .map(n -> day.asText() + "." + month.asText() + "." + year.asText() + " — ")
-       * .orElse(Optional.ofNullable(date).map(n -> n.asText() + " — ").orElse("? — ")) +
-       * Optional.ofNullable(text).map(t -> t.asText()).orElse("") + "\n";
-       */
       biographyFacts += eventStr;
 
       var geography = event.withArray("География");
@@ -81,8 +76,10 @@ public class Converter {
         for (JsonNode c : gps) {
           var N = c.get("Широта");
           var E = c.get("Долгота");
-  
-          var location = new Location(N.asDouble(), E.asDouble(), date!=null ? date.asText() : null, text.asText());
+
+          var location =
+              new Location(N.asDouble(), E.asDouble(), type != null ? type.asText() : null,
+                  date != null ? date.asText() : null, text.asText());
           locationList.add(location);
         }
       }

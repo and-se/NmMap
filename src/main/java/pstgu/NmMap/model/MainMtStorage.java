@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import pstgu.NmMap.model.LocationsFilter.Type;
 
 public class MainMtStorage implements MtStorage {
 
@@ -86,10 +87,10 @@ public class MainMtStorage implements MtStorage {
 
       // Строим поисковый образ текста статьи
       var textSearch = new TextSearchImage(allText, Arrays.asList(words));
-      
+
       // Если текст удовлетворяет запросу, возвращаем HumanTextSearchResult
       if (textSearch.isTextFitsQuery()) {
-        return new HumanTextSearchResult(human, textSearch.getTextSnippet(200,"\n"),
+        return new HumanTextSearchResult(human, textSearch.getTextSnippet(200, "\n"),
             textSearch.getRelevance());
       }
 
@@ -98,21 +99,19 @@ public class MainMtStorage implements MtStorage {
 
     })
         // Отсеиваем null, чтобы остались только подходящие тексты
-        .filter(r -> r != null)
-        .sorted((a, b) -> {
-          // Сортируем по убыванию (-1) релевантности          
+        .filter(r -> r != null).sorted((a, b) -> {
+          // Сортируем по убыванию (-1) релевантности
           int r = -1 * Double.compare(a.getRelevance(), b.getRelevance());
           // А если она совпадает - то по возрастанию ФИО
-          if (r == 0)
-          {
+          if (r == 0) {
             r = a.getHuman().getTitle().compareTo(b.getHuman().getTitle());
           }
           return r;
-        })         
-        .skip(skip).limit(take).toArray(HumanTextSearchResult[]::new);
+        }).skip(skip).limit(take).toArray(HumanTextSearchResult[]::new);
 
     return result;
   }
+
   @Override
   public long countHumansByFio(String fioStarts, String fioContains) {
     return findHumansByFio(fioStarts, fioContains, 0, Integer.MAX_VALUE).length;
@@ -124,12 +123,25 @@ public class MainMtStorage implements MtStorage {
   }
 
   @Override
-  public ArrayList<Location> getLocations(Object filter) {
+  public ArrayList<Location> getLocations(LocationsFilter filter) {
     var result = new ArrayList<Location>();
-
-    for (var human : storage.values()) {
-      result.addAll(
-          human.getCoordinates() != null ? human.getCoordinates() : new ArrayList<Location>());
+    if (filter != null) {
+      switch (filter.getType()) {
+        case CLUSTER_TYPES:
+          for (var human : storage.values()) {
+            for (var location : human.getCoordinates()) {
+              if (location.getClusterType() == filter.getRequest())
+                result.add(location);
+            }
+          }
+          break;
+        case ALL_POINTS:
+        default:
+          for (var human : storage.values()) {
+            result.addAll(human.getCoordinates() != null ? human.getCoordinates()
+                : new ArrayList<Location>());
+          }
+      }
     }
     return result;
   }

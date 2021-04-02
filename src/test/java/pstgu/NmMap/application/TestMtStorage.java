@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import pstgu.NmMap.model.Human;
 import pstgu.NmMap.model.HumanTextSearchResult;
 import pstgu.NmMap.model.Location;
+import pstgu.NmMap.model.LocationsFilter;
 import pstgu.NmMap.model.MtStorage;
 
 public class TestMtStorage implements MtStorage {
@@ -49,7 +50,7 @@ public class TestMtStorage implements MtStorage {
   }
 
   @Override
-  public ArrayList<Location> getLocations(Object filter) {
+  public ArrayList<Location> getLocations(LocationsFilter filter) {
     // TODO Auto-generated method stub
     return null;
   }

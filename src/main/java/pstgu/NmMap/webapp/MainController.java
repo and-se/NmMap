@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pstgu.NmMap.model.Human;
 import pstgu.NmMap.model.HumanTextSearchResult;
 import pstgu.NmMap.model.Location;
+import pstgu.NmMap.model.LocationsFilter;
+import pstgu.NmMap.model.LocationsFilter.Type;
 import pstgu.NmMap.model.MainMtStorage;
 import pstgu.NmMap.model.MtStorage;
 
@@ -133,7 +135,7 @@ public class MainController {
   @GetMapping("/map/all_points")
   @ResponseBody
   public List<Location> getAllPoints() {
-    return storage.getLocations(null);
+    return storage.getLocations(new LocationsFilter(Type.ALL_POINTS, null));
     // return new Location [] {new Location(55.76, 37.64, "HelloWorld!"),new Location(55.86, 37.64,
     // "Hello!")};
   }
