@@ -1,41 +1,45 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:text="${title}"></title>
-<meta charset="utf8">
+<meta charset="utf8"/>
+<meta name="viewport" content="width=device-width"/>
 <link th:href="@{/styles/style.css}" rel="stylesheet"></link>
-</meta>
 
 <th:block th:if="${head!=null}">
 	<th:block th:replace="__${head}__">
 	</th:block>
 </th:block>
-
 </head>
 
 <body style="background: cornsilk" link="black">
-
-	<h1>
-		<strong> Новомученики </strong>
-	</h1>
 	<div>
 		<a href="/"><img th:src="@{/img/N1.JPG}" alt="Новомученики" width="100%"></a>
 	</div>
-	
-	<div >
-		<ul>
-			<li>
-			<a href="/persons">Персоналии </a>
-			</li>
-		</ul>
-	</div>	
-	
-	<h2 align="right">
-		<form action="/search">
-			<input name="q" placeholder="Поиск по персоналиям" th:attr="value=${q}"> <input
-				type="submit" value="Поиск">
-		</form>
-	</h2>
-	<div th:replace="__${view}__"></div>
+	<nav>
+		<div class="menu">
+			<ul>
+				<li>
+				<a href="/persons">Персоналии </a>
+				</li>
+				<li>
+					<a href="/">Карта</a>
+				</li>
+				<li>
+					<a href="/about">О проекте</a>
+				</li>
+			</ul>
+		</div>	
+		
+		<div class="search-box">
+			<form action="/search">
+				<input name="q" placeholder="Поиск по персоналиям"> <input
+					type="submit" value="Поиск">
+			</form>
+		</div>
+		<div class="clear-float"></div>
+	</nav>	
+
+	<div class="content" th:insert="__${view}__"></div>
 </body>
 <!--
 Вот так можно реализовать параметр по умолчанию - text 
