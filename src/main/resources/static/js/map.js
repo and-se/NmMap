@@ -1,43 +1,43 @@
 //'use strict';
-	
+
 ymaps.ready(init);
 
 // let response = await fetch("/map/all_points");
-let response = fetch("/map/all_points").then(result=>result.json());
+let response = fetch("/map/all_points").then(result => result.json());
 
 function init() {
-    var myMap = new ymaps.Map("map", {
-        center: [55.76, 37.64],
-        zoom: 10,
-        controls: ['zoomControl', 'searchControl', 'typeSelector',  'fullscreenControl',
-        	'routeButtonControl', 'rulerControl', 'geolocationControl', 'fullscreenControl']
-    }, {
-        searchControlProvider: 'yandex#search'
-    });
-    
-    response.then(points => drawPoints(myMap, points));
+	var myMap = new ymaps.Map("map", {
+		center: [55.76, 37.64],
+		zoom: 10,
+		controls: ['zoomControl', 'searchControl', 'typeSelector', 'fullscreenControl',
+			'routeButtonControl', 'rulerControl', 'geolocationControl', 'fullscreenControl']
+	}, {
+		searchControlProvider: 'yandex#search'
+	});
+
+	response.then(points => drawPoints(myMap, points));
 }
 
-function drawPoints(myMap, points){
+function drawPoints(myMap, points) {
 	// console.log(points);
-	
-	var clusterer = new ymaps.Clusterer({clusterDisableClickZoom: true});
-	
-	for(point of points){
-		
+
+	var clusterer = new ymaps.Clusterer({ clusterDisableClickZoom: true });
+
+	for (point of points) {
+
 		var text = point.description;
-		if(point.dating)
+		if (point.dating)
 			text = point.dating + " — " + text;
-		
+
 		clusterer.add(
-			new ymaps.Placemark([point.N,point.E],{
+			new ymaps.Placemark([point.N, point.E], {
 				balloonContentHeader: point.humanFio,
-	            balloonContentBody: text,
-	            balloonContentFooter: '<a target="_blank" href="/persons/'+point.humanId+'">подробнее</a>',
-	            hintContent: point.humanFio
-			})		
+				balloonContentBody: text,
+				balloonContentFooter: '<a target="_blank" href="/persons/' + point.humanId+ '">подробнее</a>',
+				hintContent: point.humanFio
+			})
 		);
 	}
-	
+
 	myMap.geoObjects.add(clusterer);
 }
