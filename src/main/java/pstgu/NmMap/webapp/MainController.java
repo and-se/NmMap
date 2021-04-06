@@ -83,8 +83,8 @@ public class MainController {
   }
 
   @RequestMapping(value = "/persons", method = RequestMethod.GET)
-  public String listPersons(@RequestParam(name = "startletter", required = false) String letter, 
-	  @RequestParam(name = "searchtype", defaultValue ="starts-with") String searchType,
+  public String listPersons(@RequestParam(name = "startletter", required = false) String letter,
+      @RequestParam(name = "searchtype", defaultValue = "starts-with") String searchType,
       Model model, @RequestParam("page") Optional<Integer> page,
       @RequestParam("size") Optional<Integer> size) {
     var page_info = PageRequest.of(page.orElse(1) - 1, size.orElse(10));
@@ -93,15 +93,14 @@ public class MainController {
     var humanPage = humanService.buildPage(page_info, (skip, take) -> {
       Human[] humans;
       int count;
-      if(searchType.equals("contains")) {
-    	  count = (int) storage.countHumansByFio("", letter);
-          humans = storage.findHumansByFio("", letter, skip, take);
+      if (searchType.equals("contains")) {
+        count = (int) storage.countHumansByFio("", letter);
+        humans = storage.findHumansByFio("", letter, skip, take);
+      } else {
+        count = (int) storage.countHumansByFio(letter, "");
+        humans = storage.findHumansByFio(letter, "", skip, take);
       }
-      else {
-    	  count = (int) storage.countHumansByFio(letter, "");
-          humans = storage.findHumansByFio(letter, "", skip, take);
-      }
-      
+
       return Pair.of(humans, count);
     });
 
@@ -135,7 +134,7 @@ public class MainController {
   @GetMapping("/map/all_points")
   @ResponseBody
   public List<Location> getAllPoints() {
-    return storage.getLocations(new LocationsFilter(Type.ALL_POINTS, null));
+    return storage.getLocations(null);
     // return new Location [] {new Location(55.76, 37.64, "HelloWorld!"),new Location(55.86, 37.64,
     // "Hello!")};
   }

@@ -126,23 +126,22 @@ public class MainMtStorage implements MtStorage {
   public ArrayList<Location> getLocations(LocationsFilter filter) {
     var result = new ArrayList<Location>();
     if (filter != null) {
-      switch (filter.getType()) {
-        case CLUSTER_TYPES:
-          for (var human : storage.values()) {
-            for (var location : human.getCoordinates()) {
-              if (location.getClusterType() == filter.getRequest())
-                result.add(location);
-            }
+      for (var human : storage.values()) {
+        var locations = human.getCoordinates();
+        if (locations != null) {
+          for (var location : locations) {
+            if (Arrays.asList(filter.getClusterTypes()).contains(location.getClusterType()))
+              result.add(location);
           }
-          break;
-        case ALL_POINTS:
-        default:
-          for (var human : storage.values()) {
-            result.addAll(human.getCoordinates() != null ? human.getCoordinates()
-                : new ArrayList<Location>());
-          }
+        }
+      }
+    } else {
+      for (var human : storage.values()) {
+        result.addAll(
+            human.getCoordinates() != null ? human.getCoordinates() : new ArrayList<Location>());
       }
     }
+
     return result;
   }
 }
