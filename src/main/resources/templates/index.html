@@ -1,5 +1,17 @@
-<div xmlns:th="http://www.thymeleaf.org">
+<div style="width: 100%; height: 100vh"
+	xmlns:th="http://www.thymeleaf.org">
 
-	<div id="map" style="width: 100%; height: 100vh"></div>
+	<ul class="map-point-types">
+		<li class="red"><input type="checkbox" checked id="rid"
+			name="репрессии"></input><label for="rid">Репрессии</label></li>
+		<li class="green"><input type="checkbox" checked id="gid"
+			name="служение"></input><label for="gid">Служение</label></li>
+		<li class="blue"><input type="checkbox" checked id="bid"
+			name="обстоятельства кончины"></input><label for="bid">Кончина</label></li>
+		<li class="gray"><input type="checkbox" checked id="yid"
+			name="другое"></input><label for="yid">Другое</label></li>
+	</ul>
+
+	<div id="map" style="width: 100%; height: 90vh"></div>
 
 </div>

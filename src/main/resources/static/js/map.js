@@ -19,38 +19,23 @@ function init() {
 }
 
 function addPointsControl(myMap, points) {
-	myListBox = new ymaps.control.ListBox({
-		data: {
-			content: 'Выбрать метки'
-		},
-		items: [
-			new ymaps.control.ListBoxItem('Репрессии'),
-			new ymaps.control.ListBoxItem('Служение'),
-			new ymaps.control.ListBoxItem('Обстоятельства кончины'),
-			new ymaps.control.ListBoxItem('Другое')
-		]
-	});
-	myListBox.each(item => item.select())
-
-	var collapseEvent = function() {
+	var updatePoints = function() {
 		myMap.geoObjects.removeAll();
 
 		var pointTypes = new Array();
 		// выбираем типы события для отображения 
 		// Репрессии -> репрессии ... Другое -> другое
-		myListBox.each(function(item) {
-			if (item.isSelected()) {
-				//alert(item.data.get('content').toLowerCase());
-				pointTypes.push(item.data.get('content').toLowerCase());
-			}
+		document.querySelectorAll('.map-point-types li input:checked').forEach(item => {
+			pointTypes.push(item.name);
 		});
-		//alert(pointTypes);
 		drawPoints(myMap, filteringPoints(pointTypes, points));
 	}
-	myListBox.events.add('collapse', collapseEvent);
-	collapseEvent();
 
-	myMap.controls.add(myListBox, { float: 'right' });
+	document.querySelectorAll('.map-point-types li input').forEach(item => {
+		item.addEventListener('click', updatePoints);
+	});
+
+	updatePoints();
 }
 
 // получить выборку меток по указанным типам

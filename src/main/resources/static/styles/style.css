@@ -1,6 +1,6 @@
 @font-face {
-	font-family: Gabriola; /* Гарнитура шрифта */
-	src: url(/fonts/Gabriola.ttf); /* Путь к файлу со шрифтом */
+	font-family: Gabriola; /* пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ */
+	src: url(/fonts/Gabriola.ttf); /* пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ */
 }
 
 body {
@@ -51,6 +51,36 @@ a {
 p {
 	font-size:14pt;
 }
+
+/* Map */
+ul.map-point-types {
+	list-style-type:none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.map-point-types li {
+    display: inline-block;
+    width: 160px;
+    border-width: 3px;
+    border-style: solid;
+    border-radius: 30px;
+    text-align: center;
+    font-size: 16pt;
+}
+.red {
+	border-color: red;
+}
+.green {
+	border-color: green;
+}
+.blue {
+	border-color: blue;
+}
+.gray {
+	border-color: lightgray;
+}
+
 
 /* Old styles*/
 h1, h3, h4 {
