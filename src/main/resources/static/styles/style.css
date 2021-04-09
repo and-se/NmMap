@@ -7,6 +7,11 @@ body {
 	padding: 0px;
 	background: cornsilk;
 	margin: 0px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	font-family: serif;
+    font-size: 12pt;
 }
 a {
 	color:black;
@@ -36,20 +41,55 @@ a {
     border: 1px solid rgb(197 164 77);
     text-align: center;
     font-size: 20pt;
+    background-color: #7b684b;
 }
 .menu a{
 	text-decoration:none;
+	text-shadow: #decf8f 0px 0px 6px;
+
 }
+
+.full-text-search{
+	margin: 0;
+}
+
+nav{
+	background-color: #524f3c;
+	background: linear-gradient(to right bottom ,#524f3c,#bbb7a4);
+}
+
+.menu a:hover{
+	text-shadow:#bbb7a4 0 0 5px; 
+	color: #3c3737; 
+}
+
 .clear-float{
 	clear:both;
 }
 
 .content{
 	padding:0 5px;
+	flex: 1 0 auto;
 }
 
 p {
 	font-size:14pt;
+}
+
+a:active {
+	color: #675c5c;
+}
+
+footer{
+	background-color: #e4d6ba;
+	margin: 0;
+	padding: 10px;
+	flex: 0 0 auto;
+}
+
+.page-footer__container{
+	color: #5a5130;
+	margin: 10px;
 }
 
 /* Map */
@@ -67,15 +107,16 @@ ul.map-point-types {
     border-radius: 30px;
     text-align: center;
     font-size: 16pt;
+    margin:5px 0;
 }
 .red {
-	border-color: red;
+	border-color: rgba(255,0,0,0.5);
 }
 .green {
-	border-color: green;
+	border-color: rgb(0,127,0);
 }
 .blue {
-	border-color: blue;
+	border-color: rgb(0,0,225);
 }
 .gray {
 	border-color: lightgray;

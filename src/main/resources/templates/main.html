@@ -11,7 +11,7 @@
 </th:block>
 </head>
 
-<body style="background: cornsilk" link="black">
+<body>
 	<div>
 		<a href="/"><img th:src="@{/img/N1.JPG}" alt="Новомученики" width="100%"></a>
 	</div>
@@ -31,7 +31,7 @@
 		</div>	
 		
 		<div class="search-box">
-			<form action="/search">
+			<form class="full-text-search" action="/search">
 				<input name="q" placeholder="Поиск по персоналиям"> <input
 					type="submit" value="Поиск">
 			</form>
@@ -40,6 +40,9 @@
 	</nav>	
 
 	<div class="content" th:insert="__${view}__"></div>
+	<footer>
+		<div class="page-footer__container">© 2020–2021 ПСТГУ ФИПМ</div>
+	</footer>
 </body>
 <!--
 Вот так можно реализовать параметр по умолчанию - text 
