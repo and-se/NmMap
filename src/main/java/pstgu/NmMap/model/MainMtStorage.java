@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import pstgu.NmMap.model.LocationsFilter.Type;
 
 public class MainMtStorage implements MtStorage {
 

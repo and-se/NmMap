@@ -24,7 +24,6 @@ import pstgu.NmMap.model.Human;
 import pstgu.NmMap.model.HumanTextSearchResult;
 import pstgu.NmMap.model.Location;
 import pstgu.NmMap.model.LocationsFilter;
-import pstgu.NmMap.model.LocationsFilter.Type;
 import pstgu.NmMap.model.MainMtStorage;
 import pstgu.NmMap.model.MtStorage;
 
