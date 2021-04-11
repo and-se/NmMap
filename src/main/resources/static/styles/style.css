@@ -1,6 +1,6 @@
 @font-face {
-	font-family: Gabriola; /* ��������� ������ */
-	src: url(/fonts/Gabriola.ttf); /* ���� � ����� �� ������� */
+	font-family: Gabriola;
+	src: url(/fonts/Gabriola.ttf); 
 }
 
 body {
@@ -20,7 +20,7 @@ a {
 	float: right;
 	display: inline-block;
 	margin: 0px;
-	padding: 10px;
+	padding: 12px;
 }
 
 .menu{
@@ -40,8 +40,9 @@ a {
     width: 160px;
     border: 1px solid rgb(197 164 77);
     text-align: center;
-    font-size: 20pt;
+    font-size: 27px;
     background-color: #7b684b;
+    margin: 2px 0px;
 }
 .menu a{
 	text-decoration:none;
@@ -85,11 +86,13 @@ footer{
 	margin: 0;
 	padding: 10px;
 	flex: 0 0 auto;
+	
 }
 
 .page-footer__container{
 	color: #5a5130;
 	margin: 10px;
+	font-size: 16px;
 }
 
 /* Map */
