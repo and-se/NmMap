@@ -1,7 +1,5 @@
 package pstgu.NmMap.model;
 
-import java.util.HashMap;
-import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -21,37 +19,6 @@ public class Location {
   // поля для описания меток на карте
   private Human human;
 
-  private static final String DEFAULT_CLUSTER_TYPE = "другое";
-  private static final Map<String, String> clusterTypes = new HashMap<>(25) {
-    {
-      put("арест", "репрессии");
-      put("духовно-образовательная деятельность", "служение");
-      put("заключение", "репрессии");
-      put("канонизация", "служение");
-      put("кончина", "обстоятельства кончины");
-      put("кратковременный арест", "репрессии");
-      put("награда", "служение");
-      put("образование", "другое");
-      put("осуждение", "репрессии");
-      put("погребение", "обстоятельства кончины");
-      put("постриг", "служение");
-      put("предварительное заключение", "репрессии");
-      put("приговор", "репрессии");
-      put("приговор внесудебного органа", "репрессии");
-      put("приговор судебного органа", "репрессии");
-      put("проживание", "другое");
-      put("работа в церкви", "служение");
-      put("работа в церкви/монастыре", "служение");
-      put("раскулачивание", "репрессии");
-      put("расстрел", "обстоятельства кончины");
-      put("рождение", "другое");
-      put("рукоположение", "служение");
-      put("служение", "служение");
-      put("смерть", "обстоятельства кончины");
-      put("ссылка/высылка", "репрессии");
-    }
-  };
-
   public Location() {}
 
   public Location(double n, double e, String dating, String description) {
@@ -61,14 +28,16 @@ public class Location {
     this.description = description;
   }
 
-  public Location(double n, double e, String type, String dating, String description) {
+  public Location(double n, double e, String type, String clusterType, String dating,
+      String description) {
     this(n, e, dating, description);
     this.type = type;
-    this.clusterType = clusterTypes.getOrDefault(type, DEFAULT_CLUSTER_TYPE);
+    this.clusterType = clusterType;
   }
 
-  public Location(Human human, double n, double e, String type, String dating, String description) {
-    this(n, e, type, dating, description);
+  public Location(Human human, double n, double e, String type, String clusterType, String dating,
+      String description) {
+    this(n, e, type, clusterType, dating, description);
     this.human = human;
   }
 
@@ -101,11 +70,7 @@ public class Location {
   }
 
   public void setClusterType(String clusterType) {
-    if (clusterTypes.values().contains(clusterType)) {
-      this.clusterType = clusterType;
-    } else {
-      this.clusterType = DEFAULT_CLUSTER_TYPE;
-    }
+    this.clusterType = clusterType;
   }
 
   public String getType() {

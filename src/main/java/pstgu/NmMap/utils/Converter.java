@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,6 +20,37 @@ import pstgu.NmMap.model.Location;
  * Пример конвертации предоставленных JSON-данных в формат, эквивалентный классу Human.
  */
 public class Converter {
+  private static final String DEFAULT_CLUSTER_TYPE = "другое";
+  private static final Map<String, String> clusterTypes = new HashMap<>(25) {
+    {
+      put("арест", "репрессии");
+      put("духовно-образовательная деятельность", "служение");
+      put("заключение", "репрессии");
+      put("канонизация", "служение");
+      put("кончина", "кончина");
+      put("кратковременный арест", "репрессии");
+      put("награда", "служение");
+      put("образование", "другое");
+      put("осуждение", "репрессии");
+      put("погребение", "кончина");
+      put("постриг", "служение");
+      put("предварительное заключение", "репрессии");
+      put("приговор", "репрессии");
+      put("приговор внесудебного органа", "репрессии");
+      put("приговор судебного органа", "репрессии");
+      put("проживание", "другое");
+      put("работа в церкви", "служение");
+      put("работа в церкви/монастыре", "служение");
+      put("раскулачивание", "репрессии");
+      put("расстрел", "кончина");
+      put("рождение", "другое");
+      put("рукоположение", "служение");
+      put("служение", "служение");
+      put("смерть", "кончина");
+      put("ссылка/высылка", "репрессии");
+    }
+  };
+
   /**
    * Выполняет конвертацию.
    * 
@@ -76,10 +109,11 @@ public class Converter {
         for (JsonNode c : gps) {
           var N = c.get("Широта");
           var E = c.get("Долгота");
+          var strType = type != null ? type.asText() : null;
+          var clusterType = clusterTypes.getOrDefault(strType, DEFAULT_CLUSTER_TYPE);
 
-          var location =
-              new Location(N.asDouble(), E.asDouble(), type != null ? type.asText() : null,
-                  date != null ? date.asText() : null, text.asText());
+          var location = new Location(N.asDouble(), E.asDouble(), strType, clusterType,
+              date != null ? date.asText() : null, text.asText());
           locationList.add(location);
         }
       }

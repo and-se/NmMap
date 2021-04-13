@@ -85,7 +85,7 @@ function getPointStyle(point) {
 			return 'islands#redDotIcon';
 		case 'служение':
 			return 'islands#darkGreenDotIcon';
-		case 'обстоятельства кончины':
+		case 'кончина':
 			return 'islands#blueDotIcon';
 		case 'другое':
 		default:
