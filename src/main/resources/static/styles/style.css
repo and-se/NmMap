@@ -1,6 +1,6 @@
 @font-face {
-	font-family: Gabriola;
-	src: url(/fonts/Gabriola.ttf); 
+	font-family: Times New Roman;
+	src: url(/fonts/Times New Roman.ttf);
 }
 
 body {
@@ -10,7 +10,7 @@ body {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	font-family: serif;
+	font-family: 'Times New Roman',serif;
     font-size: 12pt;
 }
 a {
@@ -96,11 +96,19 @@ footer{
 }
 
 /* Map */
+.map-container{
+	width: 100%;
+	height:100vh;
+	display:flex;
+	flex-direction:column;
+}
+
 ul.map-point-types {
 	list-style-type:none;
 	padding: 0px;
 	margin: 0px;
 	background: linear-gradient(to left,#b7b3a0 60%,#e6e2cf);
+	flex:0 0 auto;
 }
 
 .map-point-types li {
@@ -126,6 +134,11 @@ ul.map-point-types {
 	border-color: lightgray;
 }
 
+#map{
+	width: 100%;
+	height: 90vh;
+	flex:auto;
+}
 
 /* Old styles*/
 h1, h3, h4 {
