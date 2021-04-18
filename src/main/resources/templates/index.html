@@ -9,6 +9,13 @@
 			name="кончина"></input><label for="bid">Кончина</label></li>
 		<li class="gray"><input type="checkbox" checked id="yid"
 			name="другое"></input><label for="yid">Другое</label></li>
+		<li class="date-picker" style="width: 600px;">
+			<label>Год начала:</label>
+			<input type="number" class="date-input" id="start_date" min=0 max=2500 value=0></input>
+			<label>Год окончания:</label>
+			<input type="number" class="date-input" id="end_date" min=0 max=2500 value=2500></input>
+			<input type="submit" value="Обновить метки" id="updatePoints"></input>
+		</li>
 	</ul>
 
 	<div id="map"></div>

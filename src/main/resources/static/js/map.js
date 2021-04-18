@@ -28,22 +28,33 @@ function addPointsControl(myMap, points) {
 		document.querySelectorAll('.map-point-types li input:checked').forEach(item => {
 			pointTypes.push(item.name);
 		});
-		drawPoints(myMap, filteringPoints(pointTypes, points));
+		var startDate = document.querySelector('#start_date').value;
+		var endDate = document.querySelector('#end_date').value;
+
+		drawPoints(myMap, filteringPoints(pointTypes, startDate, endDate, points));
 	}
 
 	document.querySelectorAll('.map-point-types li input').forEach(item => {
-		item.addEventListener('click', updatePoints);
+		if (item.id != 'start_date' && item.id != 'end_date') {
+			item.addEventListener('click', updatePoints);
+		}
 	});
 
 	updatePoints();
 }
 
 // получить выборку меток по указанным типам
-function filteringPoints(types, points) {
+function filteringPoints(types, startDate, endDate, points) {
 	var result = new Array();
 	for (var point of points) {
-		for (type of types) {
-			if (type == point.clusterType) {
+		for (var type of types) {
+			var sD = point.startDate;
+			var eD = point.endDate;
+			var inDateInterval = true;
+			if (sD != null && eD != null) {
+				inDateInterval = startDate <= parseInt(sD.split('-')[0]) && parseInt(eD.split('-')[0]) <= endDate;
+			}
+			if (type == point.clusterType && inDateInterval) {
 				result.push(point);
 			}
 		}

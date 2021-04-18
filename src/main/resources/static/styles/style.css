@@ -121,6 +121,10 @@ ul.map-point-types {
     font-size: 16pt;
     margin:5px 0;
 }
+
+.date-input {
+	width: 5em;
+}
 .red {
 	border-color: rgba(255,0,0,0.5);
 }
@@ -132,6 +136,9 @@ ul.map-point-types {
 }
 .gray {
 	border-color: lightgray;
+}
+.date-picker {
+	border-color: black;
 }
 
 #map{
