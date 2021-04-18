@@ -95,11 +95,19 @@ public class Converter {
     JsonNode events = data.withArray("События");
     for (JsonNode event : events) {
       var type = event.get("Тип");
-      var date = event.get("Датировка");
+      var eventDate = event.get("Датировка");
+      var dates = event.withArray("Поисковые_даты");
+      String startDate = null;
+      String endDate = null;
+      if (dates.size() > 0) {
+        var date = dates.get(0);
+        startDate = date.get("Начало_мин").asText();
+        endDate = date.get("Окончание_макс").asText();
+      }
       var text = event.get("Текст");
 
-      var eventStr =
-          Optional.ofNullable(date).map(t -> t.asText() + " — ").orElse("") + text.asText() + "\n";
+      var eventStr = Optional.ofNullable(eventDate).map(t -> t.asText() + " — ").orElse("")
+          + text.asText() + "\n";
 
       biographyFacts += eventStr;
 
@@ -113,7 +121,7 @@ public class Converter {
           var clusterType = clusterTypes.getOrDefault(strType, DEFAULT_CLUSTER_TYPE);
 
           var location = new Location(N.asDouble(), E.asDouble(), strType, clusterType,
-              date != null ? date.asText() : null, text.asText());
+              eventDate != null ? eventDate.asText() : null, startDate, endDate, text.asText());
           locationList.add(location);
         }
       }
