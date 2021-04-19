@@ -7,7 +7,6 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MainMtStorage implements MtStorage {
@@ -72,10 +71,15 @@ public class MainMtStorage implements MtStorage {
   }
 
   @Override
-  public HumanTextSearchResult[] findHumansFullText(String query, int skip, int take) {
-    // Разбиваем на слова TODO поддержка латиницы
-    var words = query.split("[^A-Za-zА-Яа-я0-9]+");
-
+  public HumanTextSearchResult[] findHumansFullText(String query, int skip, int take) {   
+	var words0 = query.split("[^A-Za-zА-Яа-я0-9]+");
+	if(words0.length > 0 && (words0[0] == null || words0[0].equals(""))) {
+		words0=Arrays.copyOfRange(words0, 1, words0.length);
+	}
+	if(words0.length==0){
+		return new HumanTextSearchResult[0];
+	}
+	final var words = words0;
     /*
      * for (int i = 0; i < words.length; i++) { words[i] = words[i].replaceAll("[^А-Яа-я0-9]", "");
      * }//Разбиваем на слова, потом ( как я поняла) заменяем знаки на ничто

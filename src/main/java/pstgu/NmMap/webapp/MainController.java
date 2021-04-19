@@ -1,17 +1,13 @@
 package pstgu.NmMap.webapp;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,122 +16,115 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import pstgu.NmMap.model.Human;
 import pstgu.NmMap.model.HumanTextSearchResult;
 import pstgu.NmMap.model.Location;
-import pstgu.NmMap.model.LocationsFilter;
 import pstgu.NmMap.model.MainMtStorage;
 import pstgu.NmMap.model.MtStorage;
 
 @Controller
 public class MainController {
 
-  MtStorage storage = new MainMtStorage("resources/output");
-  private HumanPagingService humanService = new HumanPagingService();
+	MtStorage storage = new MainMtStorage("resources/output");
+	private HumanPagingService humanService = new HumanPagingService();
 
-  @GetMapping("/")
-  public String homepage(Model m) {
-    m.addAttribute("head", "fragments::mapScripts");
+	@GetMapping("/")
+	public String homepage(Model m) {
+		m.addAttribute("head", "fragments::mapScripts");
 
-    // В main.html будет переменная $view = 'index'
-    // Можно передавать и через model - model.addAttribute("view", "index")
-    return "main :: html(view=index)";
-  }
+		// В main.html будет переменная $view = 'index'
+		// Можно передавать и через model - model.addAttribute("view", "index")
+		return "main :: html(view=index)";
+	}
 
+	@GetMapping("/persons/{id}")
+	public String personPage(@PathVariable("id") int id, Model model) {
+		Human human = storage.getHuman(id);
+		model.addAttribute("human", human);
+		String[] article = human.getArticle().split("\n");
+		model.addAttribute("article", article);
 
-  @GetMapping("/persons/{id}")
-  public String personPage(@PathVariable("id") int id, Model model) {
-    Human human = storage.getHuman(id);
-    model.addAttribute("human", human);
-    String[] article = human.getArticle().split("\n");
-    model.addAttribute("article", article);
+		return "main :: html(view=human)";
+	}
 
-    return "main :: html(view=human)";
-  }
+	@GetMapping("/search")
+	public String fullSearch(@RequestParam(name = "q", required = false, defaultValue = "") String query, Model model,
+			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+		var page_info = PageRequest.of(page.orElse(1) - 1, size.orElse(10));
 
-  @GetMapping("/search")
-  public String fullSearch(
-      @RequestParam(name = "q", required = false, defaultValue = "") String query, Model model,
-      @RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
-    var page_info = PageRequest.of(page.orElse(1) - 1, size.orElse(10));
+		// Строим страницу, вторым параметром передаём функцию поиска, которая
+		// принимает skip и take, а возвращает
+		// пару <результат поиска для страницы, общее количество>
+		// Используем полнотекстовый поиск
+		var humanPage = humanService.buildPageFts(page_info, (skip, take) -> {
+			HumanTextSearchResult[] response = null;
+			int total = 0;
+			response = storage.findHumansFullText(query, skip, take);
+			total = (int) storage.countHumansFullText(query);
+			return Pair.of(response, total);
+		});
 
-    // Строим страницу, вторым параметром передаём функцию поиска, которая
-    // принимает skip и take, а возвращает
-    // пару <результат поиска для страницы, общее количество>
-    // Используем полнотекстовый поиск
-    var humanPage = humanService.buildPageFts(page_info, (skip, take) -> {
-      HumanTextSearchResult[] response = null;
-      int total = 0;
-      if (!query.isEmpty()) {
-        response = storage.findHumansFullText(query, skip, take);
-        total = (int) storage.countHumansFullText(query);
-      }
+		model.addAttribute("humanPage", humanPage);
+		model.addAttribute("q", query);
 
-      return Pair.of(response, total);
-    });
+		addPageNumbersToModel(model, humanPage);
+		return "main :: html(view=search)";
+	}
 
-    model.addAttribute("humanPage", humanPage);
-    model.addAttribute("q", query);
+	@RequestMapping(value = "/persons", method = RequestMethod.GET)
+	public String listPersons(@RequestParam(name = "startletter", required = false) String letter,
+			@RequestParam(name = "searchtype", defaultValue = "starts-with") String searchType, Model model,
+			@RequestParam("page") Optional<Integer> page, @RequestParam("size") Optional<Integer> size) {
+		var page_info = PageRequest.of(page.orElse(1) - 1, size.orElse(10));
+		// Строим страницу - в передаваемой функции поиска используем поиск по ФИО
+		// А так всё то же, что в fullSearch
+		var humanPage = humanService.buildPage(page_info, (skip, take) -> {
+			Human[] humans;
+			int count;
+			if (searchType.equals("contains")) {
+				count = (int) storage.countHumansByFio("", letter);
+				humans = storage.findHumansByFio("", letter, skip, take);
+			} else {
+				count = (int) storage.countHumansByFio(letter, "");
+				humans = storage.findHumansByFio(letter, "", skip, take);
+			}
 
-    addPageNumbersToModel(model, humanPage);
-    return "main :: html(view=search)";
-  }
+			return Pair.of(humans, count);
+		});
 
-  @RequestMapping(value = "/persons", method = RequestMethod.GET)
-  public String listPersons(@RequestParam(name = "startletter", required = false) String letter,
-      @RequestParam(name = "searchtype", defaultValue = "starts-with") String searchType,
-      Model model, @RequestParam("page") Optional<Integer> page,
-      @RequestParam("size") Optional<Integer> size) {
-    var page_info = PageRequest.of(page.orElse(1) - 1, size.orElse(10));
-    // Строим страницу - в передаваемой функции поиска используем поиск по ФИО
-    // А так всё то же, что в fullSearch
-    var humanPage = humanService.buildPage(page_info, (skip, take) -> {
-      Human[] humans;
-      int count;
-      if (searchType.equals("contains")) {
-        count = (int) storage.countHumansByFio("", letter);
-        humans = storage.findHumansByFio("", letter, skip, take);
-      } else {
-        count = (int) storage.countHumansByFio(letter, "");
-        humans = storage.findHumansByFio(letter, "", skip, take);
-      }
+		model.addAttribute("humanPage", humanPage);
+		model.addAttribute("startletter", letter);
+		model.addAttribute("searchtype", searchType);
+		var azbuka = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ".toCharArray();
+		model.addAttribute("azbuka", azbuka);
 
-      return Pair.of(humans, count);
-    });
+		addPageNumbersToModel(model, humanPage);
 
-    model.addAttribute("humanPage", humanPage);
-    model.addAttribute("startletter", letter);
-    model.addAttribute("searchtype", searchType);
-    var azbuka = "АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЭЮЯ".toCharArray();
-    model.addAttribute("azbuka", azbuka);
+		return "main :: html(view=list)";
+	}
 
-    addPageNumbersToModel(model, humanPage);
+	private void addPageNumbersToModel(Model model, Page humanPage) {
+		int totalPages = humanPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+	}
 
-    return "main :: html(view=list)";
-  }
+	@GetMapping("/about")
+	public String about(Model model) {
 
-  private void addPageNumbersToModel(Model model, Page humanPage) {
-    int totalPages = humanPage.getTotalPages();
-    if (totalPages > 0) {
-      List<Integer> pageNumbers =
-          IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-      model.addAttribute("pageNumbers", pageNumbers);
-    }
-  }
+		return "main :: html(view=about)";
+	}
 
-
-  @GetMapping("/about")
-  public String about(Model model) {
-
-    return "main :: html(view=about)";
-  }
-
-  @GetMapping("/map/all_points")
-  @ResponseBody
-  public List<Location> getAllPoints() {
-    return storage.getLocations(null);
-    // return new Location [] {new Location(55.76, 37.64, "HelloWorld!"),new Location(55.86, 37.64,
-    // "Hello!")};
-  }
+	@GetMapping("/map/all_points")
+	@ResponseBody
+	public List<Location> getAllPoints() {
+		return storage.getLocations(null);
+		// return new Location [] {new Location(55.76, 37.64, "HelloWorld!"),new
+		// Location(55.86, 37.64,
+		// "Hello!")};
+	}
 
 }
