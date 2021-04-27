@@ -9,6 +9,19 @@
 			name="кончина"></input><label for="bid">Кончина</label></li>
 		<li class="gray"><input type="checkbox" checked id="yid"
 			name="другое"></input><label for="yid">Другое</label></li>
+		<li class="date-picker">
+			<div>
+				<label>Год начала:</label>
+				<input type="number" class="date-input" id="start_date" min=0 max=2500 value=1800></input>
+			</div>
+			<div>
+				<label>Год окончания:</label>
+				<input type="number" class="date-input" id="end_date" min=0 max=2500 value=2050></input>
+			</div>
+			<div>
+				<input type="checkbox" checked id="withoutDating"></input><label for="withoutDating">Без датировки</label>
+			</div>
+		</li>
 	</ul>
 
 	<div id="map"></div>

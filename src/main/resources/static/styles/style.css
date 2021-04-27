@@ -109,29 +109,51 @@ ul.map-point-types {
 	margin: 0px;
 	background: linear-gradient(to left,#b7b3a0 60%,#e6e2cf);
 	flex:0 0 auto;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: stretch;
+	/*align-items: middle;*/
 }
 
 .map-point-types li {
     display: inline-block;
-    width: 160px;
     border-width: 3px;
     border-style: solid;
     border-radius: 30px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 16pt;
     margin:5px 0;
 }
+
+.date-input {
+	width: 5em;
+}
 .red {
+	width: 160px;
 	border-color: rgba(255,0,0,0.5);
 }
 .green {
+	width: 160px;
 	border-color: rgb(0,127,0);
 }
 .blue {
+	width: 160px;
 	border-color: rgb(0,0,225);
 }
 .gray {
+	width: 160px;
 	border-color: lightgray;
+}
+.date-picker {
+	padding-left: 20px;
+	padding-right: 20px;
+	border-color: black;
+}
+.date-picker div {
+	display: inline-block;	
 }
 
 #map{

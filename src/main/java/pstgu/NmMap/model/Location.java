@@ -5,7 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({"N", "E", "clusterType", "type", "dating", "description"})
+@JsonPropertyOrder({"N", "E", "clusterType", "type", "dating", "startDate", "endDate",
+    "description"})
 @JsonInclude(Include.NON_NULL)
 public class Location {
   private double N;
@@ -14,6 +15,8 @@ public class Location {
   private String clusterType;
   private String type;
   private String dating;
+  private String startDate;
+  private String endDate;
   private String description;
 
   // поля для описания меток на карте
@@ -29,15 +32,17 @@ public class Location {
   }
 
   public Location(double n, double e, String type, String clusterType, String dating,
-      String description) {
+      String startDate, String endDate, String description) {
     this(n, e, dating, description);
     this.type = type;
     this.clusterType = clusterType;
+    this.startDate = startDate;
+    this.endDate = endDate;
   }
 
   public Location(Human human, double n, double e, String type, String clusterType, String dating,
-      String description) {
-    this(n, e, type, clusterType, dating, description);
+      String startDate, String endDate, String description) {
+    this(n, e, type, clusterType, dating, startDate, endDate, description);
     this.human = human;
   }
 
@@ -87,6 +92,24 @@ public class Location {
 
   public void setDating(String dating) {
     this.dating = dating;
+  }
+
+  @JsonGetter("startDate")
+  public String getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(String startDate) {
+    this.startDate = startDate;
+  }
+
+  @JsonGetter("endDate")
+  public String getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(String endDate) {
+    this.endDate = endDate;
   }
 
   public String getDescription() {
