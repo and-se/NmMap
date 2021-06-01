@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"pstgu.NmMap.application"},{"l":"pstgu.NmMap.testJSON"},{"l":"pstgu.NmMap.testOptional"}]

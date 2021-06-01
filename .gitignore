@@ -44,4 +44,7 @@ local.properties
 
 
 src/files/out.json
+resources/input/*
 resources/output/*
+doc
+*~
