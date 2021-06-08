@@ -113,7 +113,32 @@ public class Converter {
 
       var geography = event.withArray("География");
       for (JsonNode g : geography) {
-        var gps = g.withArray("Координаты");
+        var gps = new ArrayList<JsonNode>();
+        for (JsonNode c : g.withArray("Координаты")) {
+          gps.add(c);
+        }
+
+        for (int i = 0; i < gps.size(); i++) {
+          var cur = gps.get(i);
+          double Ni = Math.toRadians(gps.get(i).get("Широта").asDouble());
+          double Ei = Math.toRadians(gps.get(i).get("Долгота").asDouble());
+          for (int j = i+1; j < gps.size(); j++) {
+
+            double Nj = Math.toRadians(gps.get(j).get("Широта").asDouble());
+            double Ej = Math.toRadians(gps.get(j).get("Долгота").asDouble());
+
+            var centerAngle = Math.acos(Math.sin(Ni) * Math.sin(Nj)
+                + Math.cos(Ni) * Math.cos(Nj) * Math.cos(Math.abs(Ei - Ej)));
+            var d = 6371 * centerAngle;
+
+            if (d < 1) {
+              gps.remove(j);
+              j--;
+              continue;
+            }
+          }
+        }
+
         for (JsonNode c : gps) {
           var N = c.get("Широта");
           var E = c.get("Долгота");
