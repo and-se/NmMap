@@ -46,7 +46,7 @@
 		<li><a th:text="${res.human.title}"
 			th:href="@{'/persons/' + ${res.human.id}}" href="human.html">Посмотреть</a>
 			<br>
-			<p th:text="${res.textSnippet}">
+			<p th:utext="${res.textSnippet}">
 			</p>
 		</li>
 	</ul>

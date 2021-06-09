@@ -72,7 +72,7 @@ public class MainMtStorage implements MtStorage {
 
   @Override
   public HumanTextSearchResult[] findHumansFullText(String query, int skip, int take) {   
-	var words0 = query.split("[^A-Za-zА-Яа-я0-9]+");
+	var words0 = query.split("[^A-Za-zА-ЯЁа-яё0-9]+");
 	if(words0.length > 0 && (words0[0] == null || words0[0].equals(""))) {
 		words0=Arrays.copyOfRange(words0, 1, words0.length);
 	}

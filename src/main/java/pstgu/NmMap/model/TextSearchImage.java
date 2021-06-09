@@ -1,5 +1,6 @@
 package pstgu.NmMap.model;
 import java.util.Arrays;
+import org.springframework.data.util.Pair;
 import java.util.*;
 import pstgu.NmMap.StemmerPorterRU;
 
@@ -20,7 +21,7 @@ public class TextSearchImage {
    * словарь, где каждому искомому слову сопоставлен его индекс в тексте. если искомого слова в
    * тексте нет, то и в словаре нет записи про это слово.
    */
-  Map<String, Integer> index = new HashMap<String, Integer>();
+  Map<String, Pair<Integer, Integer>> index = new HashMap<String, Pair<Integer, Integer>>();
 
   /**
    * Строит поисковый образ текста.
@@ -59,10 +60,10 @@ public class TextSearchImage {
 
     // если слово одно, оцениваем степень близости его к началу текста
     if (words.size() == 1)
-      return (double) text.length()/index.values().toArray(new Integer[0])[0];
+      return (double) text.length()/index.values().stream().map(p -> p.getFirst()).toArray(Integer[]::new)[0];
 
-    int start = index.values().stream().min(Comparator.naturalOrder()).get();
-    int end = index.values().stream().max(Comparator.naturalOrder()).get();
+    int start = index.values().stream().map(x -> x.getFirst()).min(Comparator.naturalOrder()).get();
+    int end = index.values().stream().map(x -> x.getFirst()).max(Comparator.naturalOrder()).get();
 
     // Оценивать релевантность предлагается исходя из следующей эвристики:
     // совпадение лучше, когда искомые слова находятся недалеко друг друга, а не на
@@ -105,9 +106,9 @@ public class TextSearchImage {
     if (!isTextFitsQuery()) {
       return null;
     }
-    //TODO не сделана подсветка искомых слов
-    int start = index.values().stream().min(Comparator.naturalOrder()).get();
-    int end = index.values().stream().max(Comparator.naturalOrder()).get();
+    
+    int start = index.values().stream().map(x -> x.getFirst()).min(Comparator.naturalOrder()).get();
+    int end = index.values().stream().map(x -> x.getSecond()).max(Comparator.naturalOrder()).get();
     
     for(; start > 0; start--) {
       if(sentenceSeparator.indexOf(text.charAt(start))!=-1) {
@@ -121,17 +122,25 @@ public class TextSearchImage {
         break;
       }
     }
+    
+    if (end < text.length()) {
+      end++;
+    }
 
     var result = text.substring(start, end);
     final int start2= start;
     ///
-    int[] index1 = index.values().stream().mapToInt(x->x-start2).sorted().toArray();
+    int[] index1 = index.values().stream().map(x -> x.getFirst()).mapToInt(x->x-start2).sorted().toArray();
+    int[] index2 = index.values().stream().map(x -> x.getSecond()).mapToInt(x->x-start2).sorted().toArray();
+    
     String result1=result.substring(0, index1[0]);
     int i;
-    for(i=1; i<index1.length; i++) {
-      result1 +="!!!"+result.substring(index1[i-1], index1[i]);
+    for(i=0; i<index1.length-1; i++) {
+      result1 +="<mark>"+result.substring(index1[i], index2[i]+1)+"</mark>" + 
+                result.substring(index2[i]+1, index1[i+1]);
     }
-    result1+="!!!"+result.substring(index1[i-1]);
+    result1+="<mark>"+result.substring(index1[i], index2[i]+1)+"</mark>" + 
+        result.substring(index2[i]+1);
     ///
     if(result1.length()>maxLength) {
       result1 = result1.substring(0,maxLength-6)+" <...>";
@@ -140,15 +149,28 @@ public class TextSearchImage {
     return result1;
   }
     
+  int endWord(String allText, String findWord) {
+    ///char[] strToArray = allText.toCharArray();
+    int i=allText.indexOf(findWord);
+    while(i < allText.length() && ".,!?;: \n".indexOf(allText.charAt(i)) == -1)
+      {
+      i++;
+      
+    }
+    
+   return i-1;
+  }
 
   private void fillIndex() {
-    String t1 = text.toLowerCase();
+    String t1 = text.toLowerCase().replace('ё', 'е');
     for (var word : words) {
       // берем основу слова с помощью стеммера
       word = StemmerPorterRU.stem(word);
       // поиск по подстроке работает,т.к. стеммер всего лишь обрезает слово.
       if (t1.contains(word)) {
-        index.put(word, t1.indexOf(word));
+        var p = Pair.of(t1.indexOf(word), endWord(t1,word));
+        index.put(word, p);
+        System.out.printf("%s s=%d e=%d\n", word, p.getFirst(), p.getSecond());
         // Здесь нужно для каждого слова найти его положение в тексте и положить эту
         // информацию
         // в словарь index - ключом выступает слово, а значением - индекс символа, с
@@ -158,6 +180,7 @@ public class TextSearchImage {
     }
   }
 
+  
   ///// TEST /////
   public static void main(String[] args) {
     var q1 = new String[] {"зелёный", "дуб"};
