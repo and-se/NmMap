@@ -1,11 +1,13 @@
 package pstgu.NmMap.utils;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +24,8 @@ import pstgu.NmMap.model.Location;
 public class Converter {
   private static final String DEFAULT_CLUSTER_TYPE = "другое";
   private static final Map<String, String> clusterTypes = new HashMap<>(25) {
+    private static final long serialVersionUID = 1L;
+
     {
       put("арест", "репрессии");
       put("духовно-образовательная деятельность", "служение");
@@ -50,6 +54,13 @@ public class Converter {
       put("ссылка/высылка", "репрессии");
     }
   };
+
+
+
+  public Converter() {
+    var out = new PrintStream(new BufferedOutputStream(System.out, 2048));
+    System.setOut(out);
+  }
 
   /**
    * Выполняет конвертацию.
@@ -107,13 +118,38 @@ public class Converter {
       var text = event.get("Текст");
 
       var eventStr = Optional.ofNullable(eventDate).map(t -> t.asText() + " — ").orElse("")
-          + text.asText() + "\n";
+          + Optional.ofNullable(text).map(JsonNode::asText).orElse("") + "\n";
 
       biographyFacts += eventStr;
 
       var geography = event.withArray("География");
       for (JsonNode g : geography) {
-        var gps = g.withArray("Координаты");
+        var gps = new ArrayList<JsonNode>();
+        for (JsonNode c : g.withArray("Координаты")) {
+          gps.add(c);
+        }
+
+        for (int i = 0; i < gps.size(); i++) {
+          var cur = gps.get(i);
+          double Ni = Math.toRadians(gps.get(i).get("Широта").asDouble());
+          double Ei = Math.toRadians(gps.get(i).get("Долгота").asDouble());
+          for (int j = i + 1; j < gps.size(); j++) {
+
+            double Nj = Math.toRadians(gps.get(j).get("Широта").asDouble());
+            double Ej = Math.toRadians(gps.get(j).get("Долгота").asDouble());
+
+            var centerAngle = Math.acos(Math.sin(Ni) * Math.sin(Nj)
+                + Math.cos(Ni) * Math.cos(Nj) * Math.cos(Math.abs(Ei - Ej)));
+            var d = 6371 * centerAngle;
+
+            if (d < 1) {
+              gps.remove(j);
+              j--;
+              continue;
+            }
+          }
+        }
+
         for (JsonNode c : gps) {
           var N = c.get("Широта");
           var E = c.get("Долгота");
@@ -130,14 +166,20 @@ public class Converter {
     String comment =
         Optional.ofNullable(data.get("Комментарий")).map(JsonNode::asText).orElse("") + "\n";
 
-    String bibliography = "**Библиография:\n";
+    var bibliography = new StringBuilder("**Библиография:\n");
     JsonNode list = data.withArray("Библиография");
     for (JsonNode text : list) {
       JsonNode name = text.get("Название");
       JsonNode type = text.get("Тип");
-      String document = text.get("NUM").asText() + ". \"" + name.asText() + "\" ("
-          + Optional.ofNullable(type).map(JsonNode::asText).orElse("документ") + ")\n";
-      bibliography += document;
+      var document = new StringBuilder();
+      document.append(text.get("NUM").asText());
+      document.append(". \"");
+      document.append(name.asText());
+      document.append("\" (");
+      document.append(Optional.ofNullable(type).map(JsonNode::asText).orElse("документ"));
+      document.append(")\n");
+
+      bibliography.append(document);
     }
 
     result.put("article", biographyFacts + comment + bibliography);
@@ -161,6 +203,8 @@ public class Converter {
     // конвертеру.
     // Блок try автоматически закроет файл при окончании работы
     File inputFiles = new File("resources/input");
+    System.out.println("Processing...");
+    int count = 0;
     for (File inputFile : inputFiles.listFiles()) {
       if (inputFile.isFile())
         try (FileInputStream inp = new FileInputStream(inputFile)) {
@@ -171,10 +215,13 @@ public class Converter {
 
           // Выводим результат конвертирования в файлы
           writeToFile("resources/output/" + inputFile.getName(), result.toPrettyString());
+          count++;
         }
     }
 
-    // System.out.println(result.toPrettyString());
+    System.out.println("### END ###");
+    System.out.printf("%d files has been processing\n", count);
+    System.out.flush();
   }
 
   /**
