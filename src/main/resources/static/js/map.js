@@ -3,9 +3,10 @@
 ymaps.ready(init);
 
 // let response = await fetch("/map/all_points");
-let response = fetch("/map/all_points").then(result => result.json());
 
 function init() {
+	let response = fetch("/map/all_points").then(result => result.json());
+
 	var myMap = new ymaps.Map("map", {
 		center: [55.76, 37.64],
 		zoom: 10,
@@ -13,64 +14,83 @@ function init() {
 			'routeButtonControl', 'rulerControl', 'geolocationControl', 'fullscreenControl']
 	}, {
 		searchControlProvider: 'yandex#search'
-	});
+	}),
+		objectManager = new ymaps.ObjectManager({
+			// Чтобы метки начали кластеризоваться, выставляем опцию.
+			clusterize: true,
+			// ObjectManager принимает те же опции, что и кластеризатор.
+			gridSize: 50,
+			// Отключение увеличения масштаба карты при нажатии на кластер.
+			clusterDisableClickZoom: true,
+			// Макет метки кластера pieChart.
+			clusterIconLayout: "default#pieChart"
+		});
+	myMap.geoObjects.add(objectManager);
 
-	response.then(points => addPointsControl(myMap, points));
+	response.then(points => {
+		drawPoints(objectManager, points);
+		registerFiltersState(objectManager);
+	});
 }
 
-function addPointsControl(myMap, points) {
-	var updatePoints = function() {
-		myMap.geoObjects.removeAll();
-
-		var pointTypes = new Array();
-		// выбираем типы события для отображения 
-		// Репрессии -> репрессии ... Другое -> другое
-		document.querySelectorAll('.map-point-types li input:checked').forEach(item => {
-			pointTypes.push(item.name);
-		});
-		var startDate = document.querySelector('#start_date').value;
-		var endDate = document.querySelector('#end_date').value;
-		var withoutDating = document.querySelector('#withoutDating').checked;
-		//console.log(withoutDating);
-
-		drawPoints(myMap, filteringPoints(pointTypes, startDate, endDate, withoutDating, points));
-	}
+function registerFiltersState(objectManager) {
+	var applyFilter = function() {
+		objectManager.setFilter(obj => filteringPoint(obj));
+	};
 
 	document.querySelectorAll('.map-point-types li input').forEach(item => {
 		if (item.id == 'start_date' || item.id == 'end_date') {
-			item.addEventListener('change', updatePoints);
+			item.addEventListener('change', applyFilter);
+		} else {
+			item.addEventListener('click', applyFilter);
 		}
-		item.addEventListener('click', updatePoints);
 	});
-
-	updatePoints();
 }
 
-// получить выборку меток по указанным типам
-function filteringPoints(types, startDate, endDate, withoutDating, points) {
-	var result = new Array();
-	for (var point of points) {
-		for (var type of types) {
-			var sD = point.startDate;
-			var eD = point.endDate;
-			var inDateInterval = true;
-			if (sD != null && eD != null) {
-				inDateInterval = (startDate <= parseInt(sD.split('-')[0])) && (parseInt(eD.split('-')[0]) <= endDate);
-			} else {
-				inDateInterval = withoutDating;
-			}
-			if (type == point.clusterType && inDateInterval) {
-				result.push(point);
-			}
-		}
+function filteringPoint(point) {
+	var pointProp = point.properties;
+	var eventStartYear = pointProp.startYear;
+	var eventEndYear = pointProp.endYear;
+	var pointType = pointProp.pointType;
+
+	var pointTypes = new Array();
+	// выбираем типы события для отображения 
+	// Репрессии -> репрессии ... Другое -> другое
+	document.querySelectorAll('.map-point-types li input:checked').forEach(item => {
+		pointTypes.push(item.name);
+	});
+	var startYear = document.querySelector('#start_date').value;
+	var endYear = document.querySelector('#end_date').value;
+	var withoutDating = document.querySelector('#withoutDating').checked;
+	//console.log(withoutDating);
+
+	return isDraw(pointTypes, pointType,
+		eventStartYear, startYear, eventEndYear, endYear, withoutDating);
+}
+
+function isDraw(pointTypes, pointType,
+	pointStartYear, startYear,
+	pointEndYear, endYear,
+	withoutDating) {
+
+	var inDateInterval = true;
+	if (pointStartYear != null && pointEndYear != null) {
+		inDateInterval = (startYear <= pointStartYear || !startYear)
+			&& (pointEndYear <= endYear || !endYear);
+	} else {
+		inDateInterval = withoutDating;
 	}
-	return result;
+	if (pointTypes.indexOf(pointType) > -1 && inDateInterval) {
+		return true;
+	}
+	return false;
+
 }
 
-function drawPoints(myMap, points) {
+function drawPoints(objectManager, points) {
 	// console.log(points);
 
-	var clusterer = new ymaps.Clusterer({ clusterDisableClickZoom: true });
+	console.log(points[4]);
 
 	for (point of points) {
 
@@ -80,19 +100,28 @@ function drawPoints(myMap, points) {
 		if (point.dating)
 			text = point.dating + " — " + text;
 
-		clusterer.add(
-			new ymaps.Placemark([point.N, point.E], {
+		objectManager.add({
+			type: 'Feature',
+			id: point.humanId,
+			geometry: {
+				type: 'Point',
+				coordinates: [point.N, point.E]
+			},
+			properties: {
+				hintContent: point.humanFio,
 				balloonContentHeader: point.humanFio,
 				balloonContentBody: text,
 				balloonContentFooter: '<a target="_blank" href="/persons/' + point.humanId + '">подробнее</a>',
-				hintContent: point.humanFio
-			}, {
+				startYear: point.startDate ? parseInt(point.startDate.split('-')[0]) : null,
+				endYear: point.endDate ? parseInt(point.endDate.split('-')[0]) : null,
+				pointType: point.clusterType
+			},
+			options: {
 				preset: pointStyle
-			})
-		);
+			}
+		});
 	}
 
-	myMap.geoObjects.add(clusterer);
 }
 
 function getPointStyle(point) {
