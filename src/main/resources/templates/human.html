@@ -1,16 +1,12 @@
 
 <style type="text/css">
-label {
-	display: inline-block;
-	width: 100px;
-}
-
-input:read-only {
-	background: lightgray;
-}
-
 .row {
-	margin-top: 10px;
+	padding: 10px;
+    margin: auto;
+    background: #f0ede8;
+    height: 100%;
+    max-width: 900px;
+    text-align: justify;
 }
 
 .row p {
@@ -20,9 +16,9 @@ input:read-only {
 </style>
 
 <div class="in-content">
-	<h1 th:text="${human.title}">Person Info:</h1>
 
 	<div class="row">
+		<h1 th:text="${human.title}">Person Info:</h1>
 		
 		<div >
 		    <th:block th:each="line : ${article}">

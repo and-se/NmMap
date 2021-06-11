@@ -1,6 +1,26 @@
 @font-face {
-	font-family: Nimbus-Roman-No9-L;
-	src: url(/fonts/Nimbus-Roman-No9-L.ttf);
+	font-family: OpenSans-Light;
+	src: url(/fonts/OpenSans-Light.ttf);
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Предпочтительный размер иконок */
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-smoothing: antialiased; /* Поддержка всеми WebKit браузерами */
+  text-rendering: optimizeLegibility; /* Поддержка Safari и Chrome */
+  -moz-osx-font-smoothing: grayscale;  /* Поддержка Firefox. */
+  font-feature-settings: 'liga'; /* Поддержка IE. */
 }
 
 
@@ -11,57 +31,125 @@ body {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
-	font-family: 'Nimbus-Roman-No9-L',serif;
+	font-family: 'OpenSans-Light',sans-serif;
     font-size: 12pt;
 }
+
+.img{
+	min-height:33vh;
+	background:url('/img/N1.JPG');
+	background-size:cover;
+	background-position: 36%;
+}
+.img a{
+	height:100%;
+	width:100%;
+}
+
 a {
 	color:black;
 }
 .search-box{
-	float: right;
 	display: inline-block;
-	margin: 0px;
-	padding: 12px;
+	padding: 5px;
+	flex: 1 0 250px;
 }
+.search-box form{
+	position: relative;
+	min-width: 222px;
+}
+.search-box input[name="q"]{
+	outline: none;
+	width: 100%;	
+    padding: 2px;
+    height: 33px;
+    border: none;
+    border-radius: 4px;
+}
+
+.search-box button{
+	position: absolute;
+	top: 2px;
+	right: 2px;
+	outline: none;
+	border: none;
+    background: rgb(110 107 100);
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.material-icons.md-29 {font-size: 29px;}
+
+.material-icons.white {color: white;}
 
 .menu{
 	margin: 0px;
 	padding: 5px;
-	float:left;
+	/*float:left;*/
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 10 2 70vw;
 }
 
 .menu ul{
 	list-style-type:none;
-	padding: 0px;
-	margin: 0px;
+	display: flex;
+    flex-direction: row;
+    justify-content: space-around;	
+    flex: 10 2 70vw;
 }
 
 .menu li {
     display: inline-block;
-    width: 160px;
-    border: 1px solid rgb(197 164 77);
     text-align: center;
-    font-size: 27px;
-    background-color: #7b684b;
-    margin: 2px 0px;
+    background-color: rgb(110 107 100);
+    margin: 2px;
+    flex: 1 1 31vw;
 }
+
 .menu a{
 	text-decoration:none;
-	text-shadow: #decf8f 0px 0px 6px;
-
+	color: white;
+    font-size: 27px;
 }
 
 .full-text-search{
-	margin: 0;
+	margin: 3% auto;
+    max-width: 370px;
+    position: relative;
+}
+
+.full-text-search input{
+	height: 30px;
+    padding: 3px;
+    width: 100%;
+    outline: none;
+    border: 3px solid #928d85;
+}
+
+.full-text-search button{
+	height: 30px;
+    padding: 0 6px;
+    position: absolute;
+    right: 0;
+    outline: none;
+    border: none;
+    background: #928d85;
+    font-family: 'OpenSans-Light';
+    font-size: 18;
+    cursor: pointer;
 }
 
 nav{
-	background-color: #524f3c;
-	background: linear-gradient(to right bottom ,#524f3c,#bbb7a4);
+	background-color: rgb(110 107 100);
+	display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items:center;
 }
 
 .menu a:hover{
-	text-shadow:#bbb7a4 0 0 5px; 
 	color: #3c3737; 
 }
 
@@ -84,12 +172,27 @@ a:active {
 	color: #675c5c;
 }
 
+.pages{
+	margin: auto;
+	max-width: 300px;
+	max-height: 40px;
+	overflow: auto;
+	background: white;
+	border: 2px solid #bbb7a4;
+	padding: 4px;	
+	border-radius: 4px;
+	margin: 5px;
+}
+
+.search_result{
+	padding: 3px;
+	margin:5px;
+}
+
 footer{
-	background-color: #e4d6ba;
-	margin: 0;
-	padding: 10px;
+	background-color: #b7b3a0;
 	flex: 0 0 auto;
-	
+	padding: 1px;
 }
 
 .page-footer__container{
@@ -106,54 +209,137 @@ footer{
 	flex-direction:column;
 }
 
+.material-icons.help {
+    color: rgb(110 107 100);
+    background: white;
+    border-radius: 50px;
+	margin: 10px  	
+}
+
+.map-container nav{
+	background: rgb(183 179 160);
+	font-size: 20px;
+}
+.map-container nav p{
+	font-size: 20px;
+	min-width: 95px;
+	padding-left:4px
+}
+
 ul.map-point-types {
 	list-style-type:none;
-	padding: 0px;
-	margin: 0px;
-	background: linear-gradient(to left,#b7b3a0 60%,#e6e2cf);
-	flex:0 0 auto;
+	flex:0 1 50%;
 	display: flex;
-	flex-wrap: wrap;
-	align-content: stretch;
-	/*align-items: middle;*/
+	justify-content: space-around;
+	align-items: center;
 }
 
 .map-point-types li {
     display: inline-block;
-    border-width: 3px;
-    border-style: solid;
-    border-radius: 30px;
+    border: none;
+    border-radius: 4px;
     text-align: center;
+    flex: 0 1 160px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16pt;
-    margin:5px 0;
+    margin:5px;
+    padding: 3px;
+    background: white;
 }
 
 .date-input {
-	width: 5em;
+	width: 50px;
+	border: 2px solid #6e6b64;
+    border-radius: 4px;
+    margin-bottom: 5px;
 }
-.red {
-	width: 160px;
-	border-color: rgba(255,0,0,0.5);
+
+.custom-checkbox {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
 }
-.green {
-	width: 160px;
-	border-color: rgb(0,127,0);
+
+.custom-checkbox+label {
+  user-select: none;
+  display: flex;
 }
-.blue {
-	width: 160px;
-	border-color: rgb(0,0,225);
+
+.custom-checkbox+label::after {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 19px;
+  flex-shrink: 0;
+  flex-grow: 0;
+  align-self: center;
+  border: 2px solid #6e6b64;
+  border-radius: 50px;
+  margin-left: 0.5em;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: 50% 50%;
+  background-color: transparent;
+  padding-top: 3px;
+  font-size: 15px;
 }
-.gray {
-	width: 160px;
-	border-color: lightgray;
+
+.custom-checkbox:checked+label::after {
+  content:'brightness_1';
+  font-family:'Material Icons';
+  text-align:center;
 }
+
+/* стили при наведении курсора на checkbox */
+.custom-checkbox:not(:disabled):not(:checked)+label:hover::after {
+  border-color: #c0c0c0;
+}
+/* стили для активного состояния чекбокса (при нажатии на него) */
+.custom-checkbox:not(:disabled):active+label::after {
+  background-color: #d0dbe1;
+  border-color: #d0dbe1;
+}
+/* стили для чекбокса, находящегося в фокусе */
+.custom-checkbox:focus+label::after {
+  box-shadow: 0 0 0 2px #d8d3cf;
+}
+/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+.custom-checkbox:focus:not(:checked)+label::after {
+  border-color: #504841;
+}
+/* стили для чекбокса, находящегося в состоянии disabled */
+.custom-checkbox:disabled+label::after {
+  background-color: #e9ecef;
+}
+
+.red.custom-checkbox:checked+label::after {
+	color: rgb(255,87,87);
+}
+.green.custom-checkbox:checked+label::after {
+	color: rgb(126,217,87);
+}
+.blue.custom-checkbox:checked+label::after {
+	color: rgb(118,177,255);
+}
+.gray.custom-checkbox:checked+label::after {
+	color: rgb(127,127,127);
+}
+.black.custom-checkbox:checked+label::after {
+	color: #232323;
+}
+
 .date-picker {
-	padding-left: 20px;
-	padding-right: 20px;
-	border-color: black;
+	max-width:450px;
+	min-width:290px;
+	border: none;
+	padding: 3px;
+    border-radius: 4px;
+    background: white;
+    flex: 0 1 25%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 .date-picker div {
 	display: inline-block;	
@@ -220,3 +406,155 @@ th {
 	color: white;
 	border-radius: 2px;
 }
+
+/*Modile*/
+@media screen and (max-width: 1100px){
+	.img{
+		min-height: 25vh
+	}
+}
+
+@media screen and (max-width: 1000px){
+	.map-container nav p{
+		display: none;
+	}
+	
+	.map-container nav {
+		flex-wrap: wrap;
+		align-content: center;
+		justify-content: space-between
+	}
+	
+	ul.map-point-types {
+		flex-basis:100%;
+		justify-content: space-between;
+	}
+	
+	.date-picker {
+		margin-left: 5px;
+	}
+	
+}
+
+@media screen and (max-width: 800px){
+	.img{
+		min-height: 22vh
+	}
+	
+	nav{
+		background-color: rgb(216 213 204);
+		position: relative;
+	}
+	
+	.search-box{
+		padding: 0;
+		position: absolute;
+		top: -6vh;
+		right: 2vw;
+	}
+	
+	.search-box form{
+		margin: 0 auto;
+		box-sizing:border-box;
+	}
+	.search-box input[name="q"]{
+		box-sizing:border-box;
+		width: 0;
+	    padding: 0 42px 0 15px;
+	    border-bottom: 2px solid transparent;
+	    background: transparent;
+	    transition: .4s cubic-bezier(0.42, 0.0, 1.0, 1.0);
+	    position: absolute;
+	    top:0;
+	    right:0;
+	    z-index: 2;
+	    color: white;
+	}
+	
+	.search-box input[name="q"]:focus {
+		width: 222px;
+	    z-index: 1;
+	    border-bottom: 2px solid black;
+	    margin-right:29px;
+	}
+	
+	.search-box input::-webkit-input-placeholder {
+	  color: #d8d5cc;
+	}
+	.search-box input:-moz-placeholder {
+	  color: #d8d5cc; 
+	}
+	.search-box input:-ms-input-placeholder {
+	  color: #d8d5cc; 
+	}
+	
+	.search-box button{
+		box-sizing:border-box;
+	    background: transparent;
+	    z-index: 1;
+	}
+}
+@media screen and (max-width: 555px){
+	.menu a{
+		font-size: 4vw;
+	}
+	
+	.map-container nav{
+		font-size: 3vw;
+	}
+	
+	.custom-checkbox+label::after {
+		width: 14px;
+	    height: 13px;
+	    padding-top: 1px;
+	    font-size: 11px;
+	}
+}
+
+@media screen and (max-width: 450px){
+	.custom-checkbox+label::after {
+		width: 12px;
+	    height: 12px;
+	    padding-top: 0;
+	    font-size: 11px;
+	}
+	
+	.date-picker {
+		min-width: 70%;
+	}
+	
+	.date-input{
+		margin-bottom: 3px;
+		border: 1px solid #6e6b64;
+		font-size: 12px;
+		
+	}
+}
+
+@media screen and (max-width: 350px){
+	.date-picker {
+		margin-left: 1px;
+		min-width: 80%;
+	}
+	
+	.custom-checkbox+label::after {
+		width: 10px;
+	    height: 10px;
+	    font-size: 9px;
+	}
+	
+	.map-point-types li {
+		margin: 5px 1px;
+	}
+	.material-icons.help{
+		font-size: 20px;
+	}
+	.date-input{
+		width: 40px;
+		margin-bottom: 0;
+		font-size: 10px;
+	}
+	
+}
+
+	

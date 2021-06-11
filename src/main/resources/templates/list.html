@@ -1,4 +1,29 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
+
+<style type="text/css">
+.persons, .persons td {
+	border: 1px solid lightgray;
+	padding: 5px;
+}
+
+.pagination {
+	display: inline-block;
+}
+
+.pagination a {
+	color: black;
+	float: left;
+	padding: 5px 5px;
+	text-decoration: none;
+}
+
+.pagination a.active {
+	background-color: blue;
+	color: white;
+	border-radius: 2px;
+}
+</style>
+
  <div class="in-content">
 	<div>
 		<UL style="list-style: none;">
@@ -46,13 +71,14 @@
 		</tbody>
 	</table>
 	
-	
-	<div th:if="${humanPage.totalPages > 0}" class="pagination"
-		th:each="pageNumber : ${pageNumbers}">
-		<a
-			th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, searchtype=${searchtype}, startletter=${startletter})}"
-			th:text=${pageNumber}
-			th:class="${pageNumber==humanPage.number + 1} ? active"></a>
+	<div class="pages">
+		<div th:if="${humanPage.totalPages > 0}" class="pagination"
+			th:each="pageNumber : ${pageNumbers}">
+			<a
+				th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, searchtype=${searchtype}, startletter=${startletter})}"
+				th:text=${pageNumber}
+				th:class="${pageNumber==humanPage.number + 1} ? active"></a>
+		</div>
 	</div>
  </div>	
 
