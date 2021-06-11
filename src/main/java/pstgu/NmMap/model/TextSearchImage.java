@@ -1,5 +1,8 @@
 package pstgu.NmMap.model;
 import java.util.Arrays;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.springframework.data.util.Pair;
 import java.util.*;
 import pstgu.NmMap.StemmerPorterRU;
@@ -149,16 +152,14 @@ public class TextSearchImage {
     return result1;
   }
     
-  int endWord(String allText, String findWord) {
-    ///char[] strToArray = allText.toCharArray();
-    int i=allText.indexOf(findWord);
-    while(i < allText.length() && ".,!?;: \n".indexOf(allText.charAt(i)) == -1)
+  int endWord(String allText, int start) {
+    while(start < allText.length() && ".,!?;: \n".indexOf(allText.charAt(start)) == -1)
       {
-      i++;
+    	start++;
       
     }
     
-   return i-1;
+   return start-1;
   }
 
   private void fillIndex() {
@@ -166,11 +167,18 @@ public class TextSearchImage {
     for (var word : words) {
       // берем основу слова с помощью стеммера
       word = StemmerPorterRU.stem(word);
-      // поиск по подстроке работает,т.к. стеммер всего лишь обрезает слово.
-      if (t1.contains(word)) {
-        var p = Pair.of(t1.indexOf(word), endWord(t1,word));
-        index.put(word, p);
-        System.out.printf("%s s=%d e=%d\n", word, p.getFirst(), p.getSecond());
+      
+      
+     Pattern pattern = Pattern.compile("\\b" + word);
+      Matcher matcher = pattern.matcher(t1);
+      
+      if(matcher.find()) {
+    	  int k=matcher.start();
+    	  var p = Pair.of(matcher.start(),  endWord(t1,k));
+          index.put(word, p);
+          System.out.printf("%s s=%d e=%d\n", word, p.getFirst(), p.getSecond());
+          
+    
         // Здесь нужно для каждого слова найти его положение в тексте и положить эту
         // информацию
         // в словарь index - ключом выступает слово, а значением - индекс символа, с
