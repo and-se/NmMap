@@ -167,8 +167,9 @@ public class TextSearchImage {
     for (var word : words) {
       // берем основу слова с помощью стеммера
     	if(word.length()>=3 ) {
-		     if(StemmerPorterRU.stem(word).length()>3) {
-		    	 word = StemmerPorterRU.stem(word);
+    		 var stemmed = StemmerPorterRU.stem(word); 
+		     if(stemmed.length()>3) {
+		    	 word = stemmed;
 		     }
 		     else {
 		    	 word =  word.substring(0,3);
