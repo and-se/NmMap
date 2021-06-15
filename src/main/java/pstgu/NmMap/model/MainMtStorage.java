@@ -57,11 +57,11 @@ public class MainMtStorage implements MtStorage {
         (fioStarts == null || human.getFio().toUpperCase().startsWith(fioStarts.toUpperCase()))
             // fioContains не задано, либо ФИО содержит fioContains
             && (fioContains == null
-                || human.getTitle().toUpperCase().contains(fioContains.toUpperCase())))
+                || human.getFio().toUpperCase().contains(fioContains.toUpperCase())))
         // Объединяем парелельные потоки в один
         .sequential()
         // Сортируем по ФИО
-        .sorted(Comparator.comparing(human -> human.getTitle()))
+        .sorted(Comparator.comparing(human -> human.getFio()))
         // Пропускаем skip записей, берём не более take записей
         .skip(skip).limit(take)
         // Превращаем результат в массив Human[]
@@ -107,7 +107,7 @@ public class MainMtStorage implements MtStorage {
           int r = -1 * Double.compare(a.getRelevance(), b.getRelevance());
           // А если она совпадает - то по возрастанию ФИО
           if (r == 0) {
-            r = a.getHuman().getTitle().compareTo(b.getHuman().getTitle());
+            r = a.getHuman().getFio().compareTo(b.getHuman().getFio());
           }
           return r;
         }).skip(skip).limit(take).toArray(HumanTextSearchResult[]::new);
