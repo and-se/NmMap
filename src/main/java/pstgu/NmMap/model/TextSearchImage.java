@@ -131,21 +131,21 @@ public class TextSearchImage {
     }
 
     var result = text.substring(start, end);
-    final int start2= start;
+    final int start2 = start;
     ///
-    int[] index1 = index.values().stream().map(x -> x.getFirst()).mapToInt(x->x-start2).sorted().toArray();
-    int[] index2 = index.values().stream().map(x -> x.getSecond()).mapToInt(x->x-start2).sorted().toArray();
+    int[] index1 = index.values().stream().map(x -> x.getFirst()).mapToInt(x->x-start2).distinct().sorted().toArray();
+    int[] index2 = index.values().stream().map(x -> x.getSecond()).mapToInt(x->x-start2).distinct().sorted().toArray();
     
-    String result1=result.substring(0, index1[0]);
+    String result1 = result.substring(0, index1[0]);
     int i;
-    for(i=0; i<index1.length-1; i++) {
+    for(i = 0; i < index1.length-1; i++) {
       result1 +="<mark>"+result.substring(index1[i], index2[i]+1)+"</mark>" + 
-                result.substring(index2[i]+1, index1[i+1]);
+                result.substring( index2[i]+1,  index1[i+1]);
     }
     result1+="<mark>"+result.substring(index1[i], index2[i]+1)+"</mark>" + 
         result.substring(index2[i]+1);
     ///
-    if(result1.length()>maxLength) {
+    if(result1.length() > maxLength) {
       result1 = result1.substring(0,maxLength-6)+" <...>";
     }
    
@@ -166,7 +166,15 @@ public class TextSearchImage {
     String t1 = text.toLowerCase().replace('ё', 'е');
     for (var word : words) {
       // берем основу слова с помощью стеммера
-      word = StemmerPorterRU.stem(word);
+    	if(word.length()>=3 ) {
+    		 var stemmed = StemmerPorterRU.stem(word); 
+		     if(stemmed.length()>3) {
+		    	 word = stemmed;
+		     }
+		     else {
+		    	 word =  word.substring(0,3);
+		     }
+    	}
       
       
      Pattern pattern = Pattern.compile("\\b" + word);
