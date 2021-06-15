@@ -3,7 +3,9 @@
 <title th:text="${title}"></title>
 <meta charset="utf8"/>
 <meta name="viewport" content="width=device-width"/>
+<link th:href="@{/styles/reset.css}" rel="stylesheet"></link>
 <link th:href="@{/styles/style.css}" rel="stylesheet"></link>
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <th:block th:if="${head!=null}">
 	<th:block th:replace="__${head}__">
@@ -12,9 +14,9 @@
 </head>
 
 <body>
-	<div>
-		<a href="/"><img th:src="@{/img/N1.JPG}" alt="Новомученики" width="100%"></a>
-	</div>
+	<a href="/"><div class="img"></div></a>
+	<!--было: <a href="/"><img th:src="@{/img/N1.JPG}" alt="Новомученики" width="100%" ></a> -->
+	
 	<nav>
 		<div class="menu">
 			<ul>
@@ -31,11 +33,12 @@
 		</div>	
 		
 		<div class="search-box">
-			<form class="full-text-search" action="/search">
-				<input name="q" placeholder="Поиск по персоналиям"> <input
-					type="submit" value="Поиск">
+			<form action="/search">
+				<input name="q" placeholder="Поиск по персоналиям"> 
+				<button type="submit"><span class="material-icons md-29 white">search</span></button>
 			</form>
 		</div>
+		
 		<div class="clear-float"></div>
 	</nav>	
 

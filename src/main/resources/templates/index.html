@@ -1,28 +1,36 @@
 <div class="map-container"	xmlns:th="http://www.thymeleaf.org">
-
-	<ul class="map-point-types">
-		<li class="red"><input type="checkbox" checked id="rid"
-			name="репрессии"></input><label for="rid">Репрессии</label></li>
-		<li class="green"><input type="checkbox" checked id="gid"
-			name="служение"></input><label for="gid">Служение</label></li>
-		<li class="blue"><input type="checkbox" checked id="bid"
-			name="кончина"></input><label for="bid">Кончина</label></li>
-		<li class="gray"><input type="checkbox" checked id="yid"
-			name="другое"></input><label for="yid">Другое</label></li>
-		<li class="date-picker">
-			<div>
-				<label>Год начала:</label>
-				<input type="number" class="date-input" id="start_date" min=0 max=2500 value=1800></input>
+	<nav>
+		<p>Поиск по:</p>
+		<ul class="map-point-types">
+			<li ><input type="checkbox" checked  class="custom-checkbox red" id="rid"
+				name="репрессии"></input><label for="rid">Репрессии</label></li>
+			<li ><input type="checkbox" checked class="custom-checkbox green" id="gid"
+				name="служение"></input><label for="gid">Служение</label></li>
+			<li ><input type="checkbox" checked class="custom-checkbox blue" id="bid"
+				name="кончина"></input><label for="bid">Кончина</label></li>
+			<li ><input type="checkbox" checked class="custom-checkbox gray" id="yid"
+				name="другое"></input><label for="yid">Другое</label></li>
+		</ul>
+			<div class="date-picker">
+				<div>
+					<div>
+						<label>Годы:</label>
+						<input type="number" class="date-input" id="start_date" min=0 max=2500 value=1800></input>
+					</div>
+					<div>
+						<label> - </label>
+						<input type="number" class="date-input" id="end_date" min=0 max=2500 value=2050></input>
+					</div>
+				</div>
+				<div>
+					<input type="checkbox" checked class="custom-checkbox black" id="withoutDating"></input>
+					<label for="withoutDating">Без даты</label>
+				</div>
 			</div>
-			<div>
-				<label>Год окончания:</label>
-				<input type="number" class="date-input" id="end_date" min=0 max=2500 value=2050></input>
-			</div>
-			<div>
-				<input type="checkbox" checked id="withoutDating"></input><label for="withoutDating">Без датировки</label>
-			</div>
-		</li>
-	</ul>
+			
+			<span class="material-icons md-29 help">help</span>
+		
+	</nav>
 
 	<div id="map"></div>
 

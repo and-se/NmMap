@@ -183,7 +183,7 @@ public class TextSearchImage {
     	  int k=matcher.start();
     	  var p = Pair.of(matcher.start(),  endWord(t1,k));
           index.put(word, p);
-          System.out.printf("%s s=%d e=%d\n", word, p.getFirst(), p.getSecond());
+          //System.out.printf("%s s=%d e=%d\n", word, p.getFirst(), p.getSecond());
           
     
         // Здесь нужно для каждого слова найти его положение в тексте и положить эту

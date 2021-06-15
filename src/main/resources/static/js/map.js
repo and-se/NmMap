@@ -38,12 +38,13 @@ function registerFiltersState(objectManager) {
 		objectManager.setFilter(obj => filteringPoint(obj));
 	};
 
-	document.querySelectorAll('.map-point-types li input').forEach(item => {
-		if (item.id == 'start_date' || item.id == 'end_date') {
-			item.addEventListener('change', applyFilter);
-		} else {
-			item.addEventListener('click', applyFilter);
-		}
+	document.querySelectorAll('.map-point-types li input, .date-picker input')
+		.forEach(item => {
+			if (item.id == 'start_date' || item.id == 'end_date') {
+				item.addEventListener('change', applyFilter);
+			} else {
+				item.addEventListener('click', applyFilter);
+			}
 	});
 }
 
