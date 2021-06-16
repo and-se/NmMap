@@ -7,6 +7,8 @@ ymaps.ready(init);
 function init() {
 	let response = fetch("/map/all_points").then(result => result.json());
 
+	console.log("Создение ObjectManager и карты");
+
 	var myMap = new ymaps.Map("map", {
 		center: [55.76, 37.64],
 		zoom: 10,
@@ -26,17 +28,26 @@ function init() {
 			clusterIconLayout: "default#pieChart"
 		});
 	myMap.geoObjects.add(objectManager);
+	
+	console.log("ObjectManager и карта созданы");
+	console.log("Ожидание ответа с сервера");
 
 	response.then(points => {
+		console.log("Ответ с сервера получен");
+		console.log("Вызов drawPoints(...)");
 		drawPoints(objectManager, points);
+		console.log("Вызов registerFiltersState(...)");
 		registerFiltersState(objectManager);
 	});
 }
 
 function registerFiltersState(objectManager) {
 	var applyFilter = function() {
+		console.log("Регистрация фильтра в objectManager: applyFilter()");
 		objectManager.setFilter(obj => filteringPoint(obj));
 	};
+
+	console.log("Привязка событий флажков к установке фильтра: registerFiltersState(...)");
 
 	document.querySelectorAll('.map-point-types li input, .date-picker input')
 		.forEach(item => {
@@ -45,7 +56,7 @@ function registerFiltersState(objectManager) {
 			} else {
 				item.addEventListener('click', applyFilter);
 			}
-	});
+		});
 }
 
 function filteringPoint(point) {
@@ -91,17 +102,19 @@ function isDraw(pointTypes, pointType,
 function drawPoints(objectManager, points) {
 	// console.log(points);
 
-	console.log(points[4]);
+	console.log("Создание и добавление точек в список: drawPoints(...)");
+
+	//console.log(points[4]);
+
+	var objects = [];
 
 	for (point of points) {
-
 		var pointStyle = getPointStyle(point);
-
 		var text = point.description;
 		if (point.dating)
 			text = point.dating + " — " + text;
 
-		objectManager.add({
+		objects.push({
 			type: 'Feature',
 			id: point.humanId,
 			geometry: {
@@ -122,7 +135,10 @@ function drawPoints(objectManager, points) {
 			}
 		});
 	}
-
+	console.log("Завершилось добавление точек в список: drawPoints(...)");
+	console.log("Добавление точек в objectManager: drawPoints(...)");
+	objectManager.add(objects);
+	console.log("Завершилось добавление точек в objectManager: drawPoints(...)");
 }
 
 function getPointStyle(point) {
