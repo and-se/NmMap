@@ -164,22 +164,24 @@ public class Converter {
     }
 
     String comment =
-        Optional.ofNullable(data.get("Комментарий")).map(JsonNode::asText).orElse("") + "\n";
+        Optional.ofNullable(data.get("Комментарий")).map(JsonNode::asText).orElse("");
 
-    var bibliography = new StringBuilder("**Библиография:\n");
+    var bibliography = new StringBuilder();
     JsonNode list = data.withArray("Библиография");
+      int i=1;
     for (JsonNode text : list) {
       JsonNode name = text.get("Название");
       JsonNode type = text.get("Тип");
       var document = new StringBuilder();
-      document.append(text.get("NUM").asText());
-      document.append(". \"");
+      document.append("\n");
+      
+      document.append(i);
+      document.append(". ");
       document.append(name.asText());
-      document.append("\" (");
-      document.append(Optional.ofNullable(type).map(JsonNode::asText).orElse("документ"));
-      document.append(")\n");
-
+      
+      
       bibliography.append(document);
+      i++;
     }
 
     result.put("article", biographyFacts + comment + bibliography);
