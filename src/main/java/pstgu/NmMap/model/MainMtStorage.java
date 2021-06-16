@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import pstgu.NmMap.model.fts.TextSearchImage;
+
 public class MainMtStorage implements MtStorage {
 
   /**

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.HtmlUtils;
 
 import pstgu.NmMap.model.Human;
 import pstgu.NmMap.model.HumanTextSearchResult;
@@ -39,10 +40,25 @@ public class MainController {
 	}
 
 	@GetMapping("/persons/{id}")
-	public String personPage(@PathVariable("id") int id, Model model) {
+	public String personPage(@PathVariable("id") int id,
+			@RequestParam(name="highlight", required=false, defaultValue="")
+			String query,
+			Model model) {
 		Human human = storage.getHuman(id);
 		model.addAttribute("human", human);
-		String[] article = human.getArticle().split("\n");
+		
+		String text;
+		//if (query.isEmpty())   TODO
+		//{
+			text = HtmlUtils.htmlEscape(human.getArticle());
+		//}
+		/*else
+		{
+			var textBuilder = new TextHighlighter();
+			text = textBuilder.highlight(query, human.getArticle());
+		}*/		
+		
+		String[] article = text.split("\n");
 		model.addAttribute("article", article);
 
 		return "main :: html(view=human)";

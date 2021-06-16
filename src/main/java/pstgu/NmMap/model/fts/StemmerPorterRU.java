@@ -1,4 +1,4 @@
-package pstgu.NmMap;
+package pstgu.NmMap.model.fts;
 
 import java.util.regex.Pattern;
 import java.util.Scanner;

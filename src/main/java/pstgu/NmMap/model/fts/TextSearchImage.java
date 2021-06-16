@@ -1,11 +1,12 @@
-package pstgu.NmMap.model;
+package pstgu.NmMap.model.fts;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.springframework.data.util.Pair;
+import org.springframework.web.util.HtmlUtils;
+
 import java.util.*;
-import pstgu.NmMap.StemmerPorterRU;
 
 /**
  * Поисковый образ текста. Знает, где в тексте находятся искомые слова и умеет выдавать вырезку из
@@ -138,16 +139,25 @@ public class TextSearchImage {
     
     String result1 = result.substring(0, index1[0]);
     int i;
+    
+    final var START = "!!!START_MARK!!!";
+    final var END = "!!!END_MARK!!!";
+    
     for(i = 0; i < index1.length-1; i++) {
-      result1 +="<mark>"+result.substring(index1[i], index2[i]+1)+"</mark>" + 
+      result1 +=START+result.substring(index1[i], index2[i]+1)+END + 
                 result.substring( index2[i]+1,  index1[i+1]);
     }
-    result1+="<mark>"+result.substring(index1[i], index2[i]+1)+"</mark>" + 
+    result1+=START+result.substring(index1[i], index2[i]+1)+END + 
         result.substring(index2[i]+1);
-    ///
+    
+    result1 = HtmlUtils.htmlEscape(result1)
+    		.replace(START, "<mark>").replace(END, "</mark>");
+    
+    
     if(result1.length() > maxLength) {
       result1 = result1.substring(0,maxLength-6)+" <...>";
     }
+    
    
     return result1;
   }
@@ -184,14 +194,7 @@ public class TextSearchImage {
     	  int k=matcher.start();
     	  var p = Pair.of(matcher.start(),  endWord(t1,k));
           index.put(word, p);
-          //System.out.printf("%s s=%d e=%d\n", word, p.getFirst(), p.getSecond());
-          
-    
-        // Здесь нужно для каждого слова найти его положение в тексте и положить эту
-        // информацию
-        // в словарь index - ключом выступает слово, а значением - индекс символа, с
-        // которого оно
-        // начинается.
+        
       }
     }
   }

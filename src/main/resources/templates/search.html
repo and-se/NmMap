@@ -22,7 +22,7 @@
 
 	<ul th:each="res, iStat : ${humanPage.content}">
 		<li class="search_result"><a th:text="${res.human.title}"
-			th:href="@{'/persons/' + ${res.human.id}}" href="human.html">Посмотреть</a>
+			th:href="@{'/persons/' + ${res.human.id}(highlight=${q})}" href="human.html">Посмотреть</a>
 			<br>
 			<p th:utext="${res.textSnippet}">
 			</p>
