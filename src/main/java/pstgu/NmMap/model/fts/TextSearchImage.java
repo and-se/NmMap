@@ -143,12 +143,19 @@ public class TextSearchImage {
     final var START = "!!!START_MARK!!!";
     final var END = "!!!END_MARK!!!";
     
-    for(i = 0; i < index1.length-1; i++) {
+    try {
+    	    for(i = 0; i < index1.length-1; i++) {
       result1 +=START+result.substring(index1[i], index2[i]+1)+END + 
                 result.substring( index2[i]+1,  index1[i+1]);
     }
     result1+=START+result.substring(index1[i], index2[i]+1)+END + 
         result.substring(index2[i]+1);
+    }
+    catch (Exception e) {
+		
+    	System.out.println("Buga bum");
+	}
+
     
     result1 = HtmlUtils.htmlEscape(result1)
     		.replace(START, "<mark>").replace(END, "</mark>");
@@ -163,7 +170,11 @@ public class TextSearchImage {
   }
     
   int endWord(String allText, int start) {
-    while(start < allText.length() && ".,!?;: \n".indexOf(allText.charAt(start)) == -1)
+	  
+    while(start < allText.length() &&  (
+    		Character.isAlphabetic(allText.charAt(start))
+            || Character.isDigit(allText.charAt(start))
+    		))
       {
     	start++;
       
@@ -231,6 +242,8 @@ public class TextSearchImage {
     System.out.printf("isTextSatisfiesQuery=%b\tRelevance=%f\n", t.isTextFitsQuery(),
         t.getRelevance());
     System.out.println(t.getTextSnippet(100));
+    
+  
 
   }
 }
