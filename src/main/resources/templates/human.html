@@ -1,15 +1,10 @@
 
 <div class="in-content">
-
-	<div class="middle-content">
-		<h1 th:text="${human.title}">Person Info:</h1>
-		
-		<div >
+		<h1 th:text="${human.title}">Person Info:</h1>		
+		<div>
 		    <th:block th:each="line : ${article}">
 			    <p th:utext="${line}"></p>
 			</th:block>
 		</div>
-
-	</div>
 </div>	
 

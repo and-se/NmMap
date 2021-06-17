@@ -160,8 +160,17 @@ nav{
 .content{
 	flex: 1 0 auto;
 }
+
 .in-content{
-	padding: 0 5px;
+	/*padding: 0 5px;*/
+	
+	padding: 10px;
+    margin: auto;
+    background: #f0ede8;
+    height: 100%;
+    max-width: 900px;
+    text-align: justify;
+	
 }
 
 p {
@@ -354,23 +363,16 @@ ul.map-point-types {
 
 
 /* person page */
-.middle-content {
-	padding: 10px;
-    margin: auto;
-    background: #f0ede8;
-    height: 100%;
-    max-width: 900px;
-    text-align: justify;
-}
 
-.middle-content p {
+
+.in-content p {
 	font-family: Arial;
 	font-size: 14pt;
 	margin-top:7px;
 	margin-bottom:11px;
 }
 
-.middle-content h1 {
+.in-content h1 {
 	padding-bottom: 20px;
 }
 
