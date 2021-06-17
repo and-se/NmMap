@@ -7,7 +7,7 @@
   font-family: 'Material Icons';
   font-weight: normal;
   font-style: normal;
-  font-size: 24px;  /* Предпочтительный размер иконок */
+  font-size: 24px;  /* РџСЂРµРґРїРѕС‡С‚РёС‚РµР»СЊРЅС‹Р№ СЂР°Р·РјРµСЂ РёРєРѕРЅРѕРє */
   display: inline-block;
   width: 1em;
   height: 1em;
@@ -17,10 +17,10 @@
   word-wrap: normal;
   white-space: nowrap;
   direction: ltr;
-  -webkit-font-smoothing: antialiased; /* Поддержка всеми WebKit браузерами */
-  text-rendering: optimizeLegibility; /* Поддержка Safari и Chrome */
-  -moz-osx-font-smoothing: grayscale;  /* Поддержка Firefox. */
-  font-feature-settings: 'liga'; /* Поддержка IE. */
+  -webkit-font-smoothing: antialiased; /* РџРѕРґРґРµСЂР¶РєР° РІСЃРµРјРё WebKit Р±СЂР°СѓР·РµСЂР°РјРё */
+  text-rendering: optimizeLegibility; /* РџРѕРґРґРµСЂР¶РєР° Safari Рё Chrome */
+  -moz-osx-font-smoothing: grayscale;  /* РџРѕРґРґРµСЂР¶РєР° Firefox. */
+  font-feature-settings: 'liga'; /* РџРѕРґРґРµСЂР¶РєР° IE. */
 }
 
 
@@ -114,32 +114,6 @@ a {
     font-size: 27px;
 }
 
-.full-text-search{
-	margin: 3% auto;
-    max-width: 370px;
-    position: relative;
-}
-
-.full-text-search input{
-	height: 30px;
-    padding: 3px;
-    width: 100%;
-    outline: none;
-    border: 3px solid #928d85;
-}
-
-.full-text-search button{
-	height: 30px;
-    padding: 0 6px;
-    position: absolute;
-    right: 0;
-    outline: none;
-    border: none;
-    background: #928d85;
-    font-family: 'OpenSans-Light';
-    font-size: 18;
-    cursor: pointer;
-}
 
 nav{
 	background-color: rgb(110 107 100);
@@ -160,8 +134,17 @@ nav{
 .content{
 	flex: 1 0 auto;
 }
+
 .in-content{
-	padding: 0 5px;
+	/*padding: 0 5px;*/
+	
+	padding: 10px;
+    margin: auto;
+    background: #f0ede8;
+    height: 100%;
+    max-width: 900px;
+    text-align: justify;
+	
 }
 
 p {
@@ -184,10 +167,6 @@ a:active {
 	margin: 5px;
 }
 
-.search_result{
-	padding: 3px;
-	margin:5px;
-}
 
 footer{
 	background-color: #b7b3a0;
@@ -291,24 +270,24 @@ ul.map-point-types {
   text-align:center;
 }
 
-/* стили при наведении курсора на checkbox */
+/* СЃС‚РёР»Рё РїСЂРё РЅР°РІРµРґРµРЅРёРё РєСѓСЂСЃРѕСЂР° РЅР° checkbox */
 .custom-checkbox:not(:disabled):not(:checked)+label:hover::after {
   border-color: #c0c0c0;
 }
-/* стили для активного состояния чекбокса (при нажатии на него) */
+/* СЃС‚РёР»Рё РґР»СЏ Р°РєС‚РёРІРЅРѕРіРѕ СЃРѕСЃС‚РѕСЏРЅРёСЏ С‡РµРєР±РѕРєСЃР° (РїСЂРё РЅР°Р¶Р°С‚РёРё РЅР° РЅРµРіРѕ) */
 .custom-checkbox:not(:disabled):active+label::after {
   background-color: #d0dbe1;
   border-color: #d0dbe1;
 }
-/* стили для чекбокса, находящегося в фокусе */
+/* СЃС‚РёР»Рё РґР»СЏ С‡РµРєР±РѕРєСЃР°, РЅР°С…РѕРґСЏС‰РµРіРѕСЃСЏ РІ С„РѕРєСѓСЃРµ */
 .custom-checkbox:focus+label::after {
   box-shadow: 0 0 0 2px #d8d3cf;
 }
-/* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+/* СЃС‚РёР»Рё РґР»СЏ С‡РµРєР±РѕРєСЃР°, РЅР°С…РѕРґСЏС‰РµРіРѕСЃСЏ РІ С„РѕРєСѓСЃРµ Рё РЅРµ РЅР°С…РѕРґСЏС‰РµРіРѕСЃСЏ РІ СЃРѕСЃС‚РѕСЏРЅРёРё checked */
 .custom-checkbox:focus:not(:checked)+label::after {
   border-color: #504841;
 }
-/* стили для чекбокса, находящегося в состоянии disabled */
+/* СЃС‚РёР»Рё РґР»СЏ С‡РµРєР±РѕРєСЃР°, РЅР°С…РѕРґСЏС‰РµРіРѕСЃСЏ РІ СЃРѕСЃС‚РѕСЏРЅРёРё disabled */
 .custom-checkbox:disabled+label::after {
   background-color: #e9ecef;
 }
@@ -350,6 +329,80 @@ ul.map-point-types {
 	/*height: 90vh; //resizing in map.js:resizeMap()*/
 	flex:auto;
 	padding: 0 5px;
+}
+
+
+/* person page */
+.person-content p {
+	font-family: Arial;
+	font-size: 14pt;
+	margin-top:7px;
+	margin-bottom:11px;
+}
+
+.in-content h1 {
+	padding-bottom: 20px;
+}
+
+/* fts search page */
+ul.fts-results {
+	list-style-type: none;
+}
+
+li.search_result {
+	padding: 3px;
+	margin:15px;
+}
+
+.result-header {
+	font-weight: bold;
+	font-size: 13pt;
+}
+
+.fts-snippet {
+	font-size: 12pt;
+	margin-top: 6px;
+	font-style: italic;
+}
+
+.full-text-search {
+	margin: 3% auto;
+    max-width: 900px;
+    text-align: center;
+    /*position: relative;*/
+}
+
+.full-text-search input{
+	height: 30px;
+    padding: 0px;
+    width: 70%;
+    outline: none;
+    border: 3px solid #928d85;
+    border-radius: 4px;
+}
+
+.full-text-search button{
+	height: 30px;
+    padding: 0 6px;
+    /*position: absolute;
+    right: 0;*/
+    outline: none;
+    border: none;
+    background: #928d85;
+    font-family: 'OpenSans-Light';
+    /*font-size: 18;*/
+    cursor: pointer;
+}
+
+/* about */
+.about p, .about ul {
+	font-size: 14pt;
+	margin-bottom: 10px;
+}
+
+.about ul {
+	padding: 0 20px;
+	list-style-type: disc;	
 }
 
 /* Old styles*/
@@ -407,7 +460,7 @@ th {
 	border-radius: 2px;
 }
 
-/*Modile*/
+/*Mobile*/
 @media screen and (max-width: 1100px){
 	.img{
 		min-height: 25vh;
@@ -509,7 +562,11 @@ th {
 	    padding-top: 1px;
 	    font-size: 11px;
 	}
-}
+	
+	.result-header {
+		font-size: 12pt;
+	}
+	
 
 @media screen and (max-width: 450px){
 	.custom-checkbox+label::after {

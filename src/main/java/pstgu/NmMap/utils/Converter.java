@@ -207,13 +207,17 @@ public class Converter {
     File inputFiles = new File("resources/input");
     System.out.println("Processing...");
     int count = 0;
-    for (File inputFile : inputFiles.listFiles()) {
+    
+    var files = inputFiles.listFiles();
+    int i=1;
+    
+    for (File inputFile : files) {
       if (inputFile.isFile())
         try (FileInputStream inp = new FileInputStream(inputFile)) {
           result = converter.convert(inp);
 
-          // Выводим на экран получившийся в результате конвертации JSON
-          System.out.println(result);
+          System.out.printf("File %d of %d\n", i, files.length);
+          i += 1;
 
           // Выводим результат конвертирования в файлы
           writeToFile("resources/output/" + inputFile.getName(), result.toPrettyString());
@@ -222,7 +226,7 @@ public class Converter {
     }
 
     System.out.println("### END ###");
-    System.out.printf("%d files has been processing\n", count);
+    System.out.printf("%d files has been processed\n", count);
     System.out.flush();
   }
 

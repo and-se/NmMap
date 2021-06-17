@@ -1,38 +1,9 @@
-
-<style type="text/css">
-.row {
-	padding: 10px;
-    margin: auto;
-    background: #f0ede8;
-    height: 100%;
-    max-width: 900px;
-    text-align: justify;
-}
-
-.row p {
-	font-family: Arial;
-	font-size: 14pt;
-}
-p{
-	margin-top:7px;
-	margin-bottom:11px;
-}
-h1{
-	padding-bottom: 20px;
-}
-</style>
-
-<div class="in-content">
-
-	<div class="row">
-		<h1 th:utext="${title}">Person Info:</h1>
-		
-		<div >
+<div class="in-content person-content">
+		<h1 th:utext="${title}">Person Info:</h1>		
+		<div>
 		    <th:block th:each="line : ${article}">
 			    <p th:utext="${line}"></p>
 			</th:block>
 		</div>
-
-	</div>
 </div>	
 
