@@ -107,6 +107,7 @@ function drawPoints(objectManager, points) {
 	//console.log(points[4]);
 
 	var objects = [];
+	var i = 0;
 
 	for (point of points) {
 		var pointStyle = getPointStyle(point);
@@ -116,7 +117,7 @@ function drawPoints(objectManager, points) {
 
 		objects.push({
 			type: 'Feature',
-			id: point.humanId,
+			id: i++,
 			geometry: {
 				type: 'Point',
 				coordinates: [point.N, point.E]
