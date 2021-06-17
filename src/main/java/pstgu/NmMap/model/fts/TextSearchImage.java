@@ -180,26 +180,14 @@ public class TextSearchImage {
   private void fillIndex() {
     String t1 = text.toLowerCase().replace('ё', 'е');
     for (var word : words) {
-      // берем основу слова с помощью стеммера
-    	if(word.length()>=3 ) {
-    		 var stemmed = StemmerPorterRU.stem(word); 
-		     if(stemmed.length()>3) {
-		    	 word = stemmed;
-		     }
-		     else {
-		    	 word =  word.substring(0,3);
-		     }
-    	}
-      
-      
-     Pattern pattern = Pattern.compile("\\b" + word);
-      Matcher matcher = pattern.matcher(t1);
-      
-      if(matcher.find()) {
-    	  int k=matcher.start();
-    	  var p = Pair.of(matcher.start(),  endWord(t1,k));
-          index.put(word, p);
-        
+    	 word = MainStemmer.stem_word(word);
+	     Pattern pattern = Pattern.compile("\\b" + word);
+	      Matcher matcher = pattern.matcher(t1);
+	      
+	      if(matcher.find()) {
+	    	  int k=matcher.start();
+	    	  var p = Pair.of(matcher.start(),  endWord(t1,k));
+	          index.put(word, p);	        
       }
     }
   }
