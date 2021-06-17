@@ -1,0 +1,69 @@
+<!--Поставить метку на карту, при этом нажатие на нее должно выводить текст. -->
+<!DOCTYPE html>
+<html>
+<head>
+<title>It is NOT Quick Start :((()))</title>	
+
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" type ="image/x-icon" href = "docs/image/favicon.ico" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+
+ <!-- Make sure you put this AFTER Leaflet's CSS -->
+
+
+  <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+
+
+</head>
+<body>
+	<div id="mapid" style="width: : 1000px; height: 100vh;"></div>
+	<script>
+	var mymap = L.map('mapid').setView([55.7522, 37.6156], 10);
+
+
+	L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, ' +
+			'Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+		id: 'mapbox/streets-v11',
+		tileSize: 512,
+		zoomOffset: -1
+	}).addTo(mymap);
+	
+	fetch("/map/all_points").then(result => result.json())
+		.then(points => {
+			var markers = L.markerClusterGroup();
+			console.log("start add points");
+			for (point of points) {
+				//var pointStyle = getPointStyle(point);
+				var text = point.description;
+				if (point.dating)
+					text = point.dating + " — " + text;
+
+				var mrk  =L.marker([point.N, point.E])
+				.bindPopup(`<b>${point.humanFio}</b><br>${text}<a target="_blank" href="/persons/${point.humanId}/">подробнее</a>`);
+				markers.addLayer(mrk);
+			}
+				
+			mymap.addLayer(markers); 
+			
+			console.log("end add points");
+
+		});
+		
+		
+    
+	</script>
+</body>
+</html>
+
+
