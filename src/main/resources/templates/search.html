@@ -1,12 +1,23 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
 
-<div class="in-content">
 	<form class="full-text-search" action="/search">
-			<input name="q" size="40" placeholder="Поиск" th:attr="value=${q}">
-			<!--  <input type="submit" value="Поиск"> -->
+			<input name="q" placeholder="Поиск" th:attr="value=${q}">
 			<button type="submit">Поиск</button>
 	</form>
 
+
+<div class="in-content">
+
+	<ul class="fts-results" th:each="res, iStat : ${humanPage.content}">
+		<li class="search_result">
+			<a class="result-header" th:text="${res.human.title}"
+			th:href="@{'/persons/' + ${res.human.id}(highlight=${q})}" href="human.html">Посмотреть</a>
+			<br>
+			<p class="fts-snippet" th:utext="${res.textSnippet}">
+			</p>
+		</li>
+	</ul>
+	
 	<div class="pages">
 		<div th:fragment="pages" 
 		th:if="${humanPage.totalPages > 0}" class="pagination"
@@ -17,26 +28,6 @@
 		</div>
 	</div>
 	
-	
-	
-
-	<ul th:each="res, iStat : ${humanPage.content}">
-		<li class="search_result"><a th:text="${res.human.title}"
-			th:href="@{'/persons/' + ${res.human.id}(highlight=${q})}" href="human.html">Посмотреть</a>
-			<br>
-			<p th:utext="${res.textSnippet}">
-			</p>
-		</li>
-	</ul>
-	<div class="pages">	
-		<div th:replace=":: pages"></div>
-	</div>
-	
-	<div>
-		<p>
-			<a th:href="@{/}" th:text="home"></a>
-		</p>
-	</div>
 </div>	
 </th:block>
 
