@@ -394,6 +394,16 @@ li.search_result {
     cursor: pointer;
 }
 
+/* about */
+.about p, .about ul {
+	font-size: 14pt;
+	margin-bottom: 10px;
+}
+
+.about ul {
+	padding: 0 20px;
+	list-style-type: disc;	
+}
 
 /* Old styles*/
 h1, h3, h4 {
