@@ -23,6 +23,7 @@ import pstgu.NmMap.model.HumanTextSearchResult;
 import pstgu.NmMap.model.Location;
 import pstgu.NmMap.model.MainMtStorage;
 import pstgu.NmMap.model.MtStorage;
+import pstgu.NmMap.model.fts.TextHighlighter;
 
 @Controller
 public class MainController {
@@ -47,18 +48,21 @@ public class MainController {
 		Human human = storage.getHuman(id);
 		model.addAttribute("human", human);
 		
-		String text;
-		//if (query.isEmpty())   TODO
-		//{
+		String text, title;
+		if (query.isEmpty())
+		{
 			text = HtmlUtils.htmlEscape(human.getArticle());
-		//}
-		/*else
+			title = HtmlUtils.htmlEscape(human.getTitle());
+		}
+		else
 		{
 			var textBuilder = new TextHighlighter();
 			text = textBuilder.highlight(query, human.getArticle());
-		}*/		
+			title = textBuilder.highlight(query, human.getTitle());
+		}		
 		
 		String[] article = text.split("\n");
+		model.addAttribute("title", title);
 		model.addAttribute("article", article);
 
 		return "main :: html(view=human)";
