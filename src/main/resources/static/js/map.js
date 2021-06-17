@@ -28,7 +28,7 @@ function init() {
 			clusterIconLayout: "default#pieChart"
 		});
 	myMap.geoObjects.add(objectManager);
-	
+
 	console.log("ObjectManager и карта созданы");
 	console.log("Ожидание ответа с сервера");
 
@@ -39,6 +39,20 @@ function init() {
 		console.log("Вызов registerFiltersState(...)");
 		registerFiltersState(objectManager);
 	});
+
+	resizeMap(myMap);
+	window.onresize = () => resizeMap(myMap);
+}
+
+function resizeMap(myMap) {
+	var pageHeight = window.innerHeight;
+	var blocksInVisiblePage = document.querySelectorAll('.site-navigation, .map-filters, .page-footer__container');
+	var newMapHeight = pageHeight
+		- Array.from(blocksInVisiblePage).map(div => div.offsetHeight).reduce((sum, current) => sum + current, 0)
+		- 20;
+	document.getElementById('map').style.height = newMapHeight + 'px';
+
+	myMap.container.fitToViewport();
 }
 
 function registerFiltersState(objectManager) {
