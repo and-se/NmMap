@@ -26,7 +26,9 @@ function init() {
 			clusterDisableClickZoom: true,
 			clusterOpenBalloonOnClick: true,
 			// Макет метки кластера pieChart.
-			clusterIconLayout: "default#pieChart"
+			clusterIconLayout: "default#pieChart",
+			// Устанавливаем стандартный макет балуна кластера "Карусель".
+			clusterBalloonContentLayout: 'cluster#balloonCarousel',
 		});
 	myMap.geoObjects.add(objectManager);
 
