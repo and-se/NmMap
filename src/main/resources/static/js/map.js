@@ -24,6 +24,7 @@ function init() {
 			gridSize: 50,
 			// Отключение увеличения масштаба карты при нажатии на кластер.
 			clusterDisableClickZoom: true,
+			clusterOpenBalloonOnClick: true,
 			// Макет метки кластера pieChart.
 			clusterIconLayout: "default#pieChart"
 		});
@@ -41,7 +42,24 @@ function init() {
 	});
 
 	resizeMap(myMap);
-	window.onresize = () => resizeMap(myMap);
+	resizeBalloons(objectManager);
+	window.onresize = () => {
+		resizeMap(myMap);
+		resizeBalloons(objectManager);
+	};
+}
+
+function resizeBalloons(objectManager) {
+	var pageWidth = window.innerWidth;
+	var newBalloonWidth = pageWidth < 500 ? pageWidth - 100 : 400;
+	var newClusterBalloonWidth = newBalloonWidth - 50;
+
+	objectManager.options.set({
+		clusterBalloonContentLayoutWidth: newClusterBalloonWidth
+	});
+	objectManager.objects.options.set({
+		balloonMaxWidth: newBalloonWidth
+	});
 }
 
 function resizeMap(myMap) {
