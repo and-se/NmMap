@@ -1,41 +1,14 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
 
-<style type="text/css">
-.persons, .persons td {
-	border: 1px solid lightgray;
-	padding: 5px;
-}
-
-.pagination {
-	display: inline-block;
-}
-
-.pagination a {
-	color: black;
-	float: left;
-	padding: 5px 5px;
-	text-decoration: none;
-}
-
-.pagination a.active {
-	background-color: blue;
-	color: white;
-	border-radius: 2px;
-}
-</style>
-
  <div class="in-content">
-	<div>
-		<UL style="list-style: none;">
-			<p>
-			<h4>
-				<big>
+	<div class="azbyka">
+		<ul>
+			
+			
 					<li th:each="l : ${azbuka}" style="display: inline">
 					<a th:text="${l}" th:href="@{/persons(startletter=${l})}" style="text-decoration: none;"></a>
-					</li> <big>
-			</h4>
-			</p>
-		</UL>
+		</li>
+		</ul>
 	</div>
 	
 	<form action="/persons">
@@ -49,37 +22,24 @@
 		<input type="submit" value="Поиск">
 	</form>
 	
-	<table class="persons">
-		<thead>
-			<tr>
-				<!-- <th th:text="#{msg.id}" />
-				<th th:text="#{msg.name}" /> -->
-				<th>ID</th>
-				<th>Name</th>
-				<th>Action</th>
-			</tr>
-		</thead>
-		<tbody>
-			<tr th:each="human, iStat : ${humanPage.content}"
-				th:style="${iStat.odd}? 'font-weight: bold;'"
-				th:alt-title="${iStat.even}? 'even' : 'odd'">
-				<td th:text="${human.id}" />
-				<td th:text="${human.title}" />
-				<td><a th:href="@{'/persons/' + ${human.id}}" href="human.html">Просмотреть</a>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+	<ul class="fio-results" th:each="res, iStat : ${humanPage.content}">
+		<li class="search_result">
+			<a class="result-header" th:text="${res.title}"
+			th:href="@{'/persons/' + ${res.id}}" href="human.html">Посмотреть</a>			
+		</li>
+	</ul>
 	
 	<div class="pages">
-		<div th:if="${humanPage.totalPages > 0}" class="pagination"
+		<div 
+		th:if="${humanPage.totalPages > 0}" class="pagination"
 			th:each="pageNumber : ${pageNumbers}">
-			<a
-				th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, searchtype=${searchtype}, startletter=${startletter})}"
+			<a th:href="@{/persons(size=${humanPage.size}, page=${pageNumber}, searchtype=${searchtype}, startletter=${startletter})}"
 				th:text=${pageNumber}
 				th:class="${pageNumber==humanPage.number + 1} ? active"></a>
 		</div>
 	</div>
+	
+	
  </div>	
 
 </th:block>

@@ -344,6 +344,22 @@ ul.map-point-types {
 	padding-bottom: 20px;
 }
 
+/* search by fio */
+ul.fio-results {
+	list-style-type: none;
+}
+
+.azbyka {
+	font-size: 23pt;
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.azbyka ul {
+	list-style: none;
+}
+
+
 /* fts search page */
 ul.fts-results {
 	list-style-type: none;
@@ -565,6 +581,10 @@ th {
 	
 	.result-header {
 		font-size: 12pt;
+	}
+	
+	.azbyka {
+		font-size: 13pt;
 	}
 	
 
