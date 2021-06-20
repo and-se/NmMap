@@ -27,8 +27,6 @@ function init() {
 			clusterOpenBalloonOnClick: true,
 			// Макет метки кластера pieChart.
 			clusterIconLayout: "default#pieChart",
-			// Устанавливаем стандартный макет балуна кластера "Карусель".
-			clusterBalloonContentLayout: 'cluster#balloonCarousel',
 		});
 	myMap.geoObjects.add(objectManager);
 
@@ -57,7 +55,11 @@ function resizeBalloons(objectManager) {
 	var newClusterBalloonWidth = newBalloonWidth - 50;
 
 	objectManager.options.set({
-		clusterBalloonContentLayoutWidth: newClusterBalloonWidth
+		clusterBalloonContentLayoutWidth: newClusterBalloonWidth,
+		// На ПК в две колонки - информативный,
+		// на вертиакальн. мобильниках "карусель" - помещается на экране
+		clusterBalloonContentLayout: pageWidth < 500 ? 'cluster#balloonCarousel'
+				: 'cluster#balloonTwoColumns',
 	});
 	objectManager.objects.options.set({
 		balloonMaxWidth: newBalloonWidth
