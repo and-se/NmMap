@@ -29,8 +29,8 @@ body {
 	background: cornsilk;
 	margin: 0px;
 	height: 100%;
-	display: flex;
-	flex-direction: column;
+	/*display: flex; // не работает нормально в старых браузерах
+	flex-direction: column;*/
 	font-family: 'OpenSans-Light',sans-serif;
     font-size: 12pt;
 }
@@ -40,10 +40,6 @@ body {
 	background:url('/img/N1.JPG');
 	background-size:cover;
 	background-position: 36%;
-}
-.img a{
-	height:100%;
-	width:100%;
 }
 
 a {
