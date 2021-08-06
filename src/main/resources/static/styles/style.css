@@ -132,15 +132,11 @@ nav{
 }
 
 .in-content{
-	/*padding: 0 5px;*/
-	
 	padding: 10px;
     margin: auto;
     background: #f0ede8;
-    height: 100%;
     max-width: 900px;
     text-align: justify;
-	
 }
 
 p {
