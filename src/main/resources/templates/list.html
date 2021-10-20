@@ -12,8 +12,8 @@
 	</div>
 	
 	<form action="/persons">
-		<label for="startletter"> Поиск по ФИО </label>
-		<input type="search" name="startletter" th:value="${startletter}">
+		<label for="FIOsearch"> Поиск по ФИО </label>
+		<input type="search" name="startletter" id="FIOsearch" th:value="${startletter}">
 		<select name="searchtype" >
 			<option value="starts-with">с начала строки</option>
 			<option th:attrappend="selected=${searchtype == 'contains'}?'selected'" value="contains">по подстроке</option>
