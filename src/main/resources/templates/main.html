@@ -1,10 +1,13 @@
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <title th:text="${title}"></title>
-<meta charset="utf8"/>
+<meta name="description" th:content="${description}" />
+<meta charset="utf-8"/>
+<meta name="robots" content="index, follow">
 <meta name="viewport" content="width=device-width"/>
-<link th:href="@{/styles/reset.css}" rel="stylesheet"></link>
-<link th:href="@{/styles/style.css}" rel="stylesheet"></link>
+<link th:href="@{/styles/reset.css}" rel="stylesheet">
+<link th:href="@{/styles/style.css}" rel="stylesheet">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
 <th:block th:if="${head!=null}">

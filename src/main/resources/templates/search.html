@@ -1,12 +1,12 @@
 <th:block xmlns:th="http://www.thymeleaf.org">
 
+<div class="in-content">
+
 	<form class="full-text-search" action="/search">
 			<input name="q" placeholder="Поиск" th:attr="value=${q}">
 			<button type="submit">Поиск</button>
 	</form>
 
-
-<div class="in-content">
 
 	<ul class="fts-results" th:each="res, iStat : ${humanPage.content}">
 		<li class="search_result">

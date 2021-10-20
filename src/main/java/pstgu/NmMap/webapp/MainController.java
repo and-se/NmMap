@@ -1,9 +1,13 @@
 package pstgu.NmMap.webapp;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,7 +38,10 @@ public class MainController {
 	@GetMapping("/")
 	public String homepage(Model m) {
 		m.addAttribute("head", "fragments::mapScripts");
-
+		m.addAttribute("title", "Новомученики-интерактивная карта");
+		m.addAttribute("description","Карта Новомученики позволяет просмотреть места,"
+				+ " связанные с жизненным путём новомучеников. На карте отмечены места репресcий,"
+				+ " служения, кончины и прочие.");
 		// В main.html будет переменная $view = 'index'
 		// Можно передавать и через model - model.addAttribute("view", "index")
 		return "main :: html(view=index)";
@@ -48,22 +55,27 @@ public class MainController {
 		Human human = storage.getHuman(id);
 		model.addAttribute("human", human);
 		
-		String text, title;
+		String text, title,heading;
+		
+		title = HtmlUtils.htmlEscape(human.getTitle());
+		
 		if (query.isEmpty())
 		{
 			text = HtmlUtils.htmlEscape(human.getArticle());
-			title = HtmlUtils.htmlEscape(human.getTitle());
+			heading = HtmlUtils.htmlEscape(human.getTitle());
 		}
 		else
 		{
 			var textBuilder = new TextHighlighter();
 			text = textBuilder.highlight(query, human.getArticle());
-			title = textBuilder.highlight(query, human.getTitle());
+			heading = textBuilder.highlight(query, human.getTitle());
 		}		
 		
 		String[] article = text.split("\n");
 		model.addAttribute("title", title);
+		model.addAttribute("description",title);
 		model.addAttribute("article", article);
+		model.addAttribute("heading", heading);
 
 		return "main :: html(view=human)";
 	}
@@ -84,7 +96,10 @@ public class MainController {
 			total = (int) storage.countHumansFullText(query);
 			return Pair.of(response, total);
 		});
-
+		
+		model.addAttribute("title", "Новомученики-Поиск");
+		model.addAttribute("description","Поиск биографий новомучеников и исповедников, "
+				+ "пострадавших в годы гонений на Русскую Православную Церковь в XXв.");
 		model.addAttribute("humanPage", humanPage);
 		model.addAttribute("q", query);
 
@@ -112,7 +127,9 @@ public class MainController {
 
 			return Pair.of(humans, count);
 		});
-
+		model.addAttribute("title", "Новомученики-Персоналии");
+		model.addAttribute("description","Биографии новомучеников и исповедников, "
+				+ "пострадавших в годы гонений на Русскую Православную Церковь в XXв.");
 		model.addAttribute("humanPage", humanPage);
 		model.addAttribute("startletter", letter);
 		model.addAttribute("searchtype", searchType);
@@ -134,7 +151,9 @@ public class MainController {
 
 	@GetMapping("/about")
 	public String about(Model model) {
-
+		model.addAttribute("description","Проект Новомученики позволяет просмотреть на карте места, связанные с жизненным путём новомучеников."
+				+ " Доступны фильтры по типам событий, а также годам.");
+		model.addAttribute("title", "О проекте");
 		return "main :: html(view=about)";
 	}
 
@@ -145,6 +164,21 @@ public class MainController {
 		// return new Location [] {new Location(55.76, 37.64, "HelloWorld!"),new
 		// Location(55.86, 37.64,
 		// "Hello!")};
+	}
+	
+		
+	@GetMapping("/robots.txt")
+	public void robots(HttpServletResponse response ) 
+		 throws IOException {
+		response.setContentType("text/plain");
+	    
+	       ServletOutputStream out = response.getOutputStream();
+	       out.println("User-agent: *\n" + 
+	       		"Disallow: /search\n" + 
+	       		"\n" + 
+	       		"Host: map.nmbook.ru");
+	       out.flush();
+	       out.close();
 	}
 
 }
