@@ -29,8 +29,8 @@ body {
 	background: cornsilk;
 	margin: 0px;
 	height: 100%;
-	/*display: flex; // не работает нормально в старых браузерах
-	flex-direction: column;*/
+	display: flex; 
+	flex-direction: column;
 	font-family: 'OpenSans-Light',sans-serif;
     font-size: 12pt;
 }
@@ -128,7 +128,7 @@ nav{
 }
 
 .content{
-	flex: 1 0 auto;
+	flex: 1 1 100%;
 }
 
 .in-content{
@@ -137,6 +137,7 @@ nav{
     background: #f0ede8;
     max-width: 900px;
     text-align: justify;
+    min-height:100%
 }
 
 p {
