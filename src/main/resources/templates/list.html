@@ -11,7 +11,7 @@
 		</ul>
 	</div>
 	
-	<form action="/persons">
+	<form class="person-search" action="/persons">
 		<label for="FIOsearch"> Поиск по ФИО </label>
 		<input type="search" name="startletter" id="FIOsearch" th:value="${startletter}">
 		<select name="searchtype" >
@@ -19,7 +19,10 @@
 			<option th:attrappend="selected=${searchtype == 'contains'}?'selected'" value="contains">по подстроке</option>
 		</select>
 		
-		<input type="submit" value="Поиск">
+	<!--	<input type="submit" value="Поиск"> -->
+		<button type="submit">
+			<span class="material-icons md-29 white">search</span>
+		</button>
 	</form>
 	
 	<ul class="fio-results" th:each="res, iStat : ${humanPage.content}">

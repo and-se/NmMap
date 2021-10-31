@@ -43,7 +43,7 @@ body {
 }
 
 a {
-	color:black;
+	color:#6e6b64;
 }
 .search-box{
 	display: inline-block;
@@ -137,7 +137,8 @@ nav{
     background: #f0ede8;
     max-width: 900px;
     text-align: justify;
-    min-height:100%
+    min-height:100%;
+    
 }
 
 p {
@@ -149,15 +150,16 @@ a:active {
 }
 
 .pages{
-	margin: auto;
 	max-width: 300px;
-	max-height: 40px;
-	overflow: auto;
+	max-height: 47px;
 	background: white;
-	border: 2px solid #bbb7a4;
+	border: 4px solid #928d85;
 	padding: 4px;	
 	border-radius: 4px;
 	margin: 5px;
+	overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
 }
 
 
@@ -346,12 +348,53 @@ ul.fio-results {
 	font-size: 23pt;
 	text-align: center;
 	margin-bottom: 10px;
+	font-weight:600;
 }
 
 .azbyka ul {
 	list-style: none;
 }
 
+.person-search {
+	display: flex;
+    flex-direction: row;
+    justify-content: center;
+    max-width: 600px;
+    background: #d8d5cc;
+    border-radius: 4px;
+    min-height: 30px;
+    padding: 5px;
+}
+
+.person-search label{
+    flex: 0 0 119px;
+    padding:3px 5px 0 4px;
+    background: #6e6b64;
+    border-radius: 4px 0 0 4px;
+    color: #b7b3a0;
+    text-align: center;
+}
+
+.person-search input{
+	flex: 0 1 300px;
+	border:2px solid #6e6b64;
+	border-radius:0;
+	outline: none;
+}
+
+.person-search select{
+	background: #6e6b64;
+	border-radius:0;	
+	outline: none;
+	color: #b7b3a0;
+}
+
+.person-search button{
+	background: #6e6b64;
+	border: none;
+	cursor: pointer;
+	border-radius: 0 4px 4px 0; 
+}
 
 /* fts search page */
 ul.fts-results {
@@ -368,23 +411,33 @@ li.search_result {
 	font-size: 13pt;
 }
 
+a.result-header{
+	color:#6e6b64;
+}
+
 .fts-snippet {
-	font-size: 12pt;
+	font-size: 11pt;
 	margin-top: 6px;
 	font-style: italic;
 }
 
+mark{
+	background-color:#b7b3a0;
+	border-radius: 4px;
+}
+
 .full-text-search {
-	margin: 3% auto;
-    max-width: 900px;
+	margin: 3%;
+    max-width: 800px;
+    min-width: 200px;
     text-align: center;
-    /*position: relative;*/
+    position: relative;
 }
 
 .full-text-search input{
 	height: 30px;
     padding: 0px;
-    width: 70%;
+    width: 100%;
     outline: none;
     border: 3px solid #928d85;
     border-radius: 4px;
@@ -393,14 +446,16 @@ li.search_result {
 .full-text-search button{
 	height: 30px;
     padding: 0 6px;
-    /*position: absolute;
-    right: 0;*/
+    position: absolute;
+    right: 0;
     outline: none;
     border: none;
     background: #928d85;
     font-family: 'OpenSans-Light';
-    /*font-size: 18;*/
+    font-size: 18;
     cursor: pointer;
+    border-radius: 4px;
+    color: #d8d5cc;
 }
 
 /* about */
@@ -464,7 +519,7 @@ th {
 }
 
 .pagination a.active {
-	background-color: blue;
+	background-color: #b7b3a0;
 	color: white;
 	border-radius: 2px;
 }
@@ -580,6 +635,32 @@ th {
 		font-size: 13pt;
 	}
 	
+	.person-search {
+		flex-wrap: wrap;
+		max-width: 350px;
+	}
+	
+	.person-search label{
+		order:0;
+		border-bottom-left-radius: 0px;
+	}
+	
+	.person-search input{
+		order:2;
+		border-bottom-left-radius: 4px;
+	}
+	
+	.person-search select{
+		flex: 0 1 201px;
+		order:1;
+		border-top-right-radius: 4px;
+		
+	}
+	
+	.person-search button{
+		order:3;
+		border-top-right-radius: 0px;
+	}
 
 @media screen and (max-width: 450px){
 	.custom-checkbox+label::after {
@@ -597,7 +678,24 @@ th {
 		margin-bottom: 3px;
 		border: 1px solid #6e6b64;
 		font-size: 12px;
-		
+	}
+	
+	.person-search {
+		max-width: 250px;
+	}
+	
+	.person-search label{
+		flex-basis:126px;
+		padding-right:0;
+		padding-left:0;
+	}
+	
+	.person-search input{
+		flex-basis:220px;
+	}
+	
+	.person-search select{
+		flex-basis:123px;
 	}
 }
 
