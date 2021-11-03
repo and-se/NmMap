@@ -380,6 +380,7 @@ ul.fio-results {
 	border:2px solid #6e6b64;
 	border-radius:0;
 	outline: none;
+	padding: 2px;
 }
 
 .person-search select{
@@ -387,6 +388,7 @@ ul.fio-results {
 	border-radius:0;	
 	outline: none;
 	color: #b7b3a0;
+	border: solid #6e6b64;
 }
 
 .person-search button{
@@ -422,7 +424,7 @@ a.result-header{
 }
 
 mark{
-	background-color:#b7b3a0;
+	background-color:rgb(234 214 116);
 	border-radius: 4px;
 }
 
@@ -436,7 +438,7 @@ mark{
 
 .full-text-search input{
 	height: 30px;
-    padding: 0px;
+    padding: 2px;
     width: 100%;
     outline: none;
     border: 3px solid #928d85;
