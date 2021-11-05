@@ -69,7 +69,7 @@ a {
 	right: 2px;
 	outline: none;
 	border: none;
-    background: rgb(110 107 100);
+    background: rgb(110, 107, 100);
     border-radius: 4px;
     cursor: pointer;
 }
@@ -99,7 +99,7 @@ a {
 .menu li {
     display: inline-block;
     text-align: center;
-    background-color: rgb(110 107 100);
+    background-color: rgb(110, 107, 100);
     margin: 2px;
     flex: 1 1 31vw;
 }
@@ -112,7 +112,7 @@ a {
 
 
 nav{
-	background-color: rgb(110 107 100);
+	background-color: rgb(110, 107, 100);
 	display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -184,14 +184,14 @@ footer{
 }
 
 .material-icons.help {
-    color: rgb(110 107 100);
+    color: rgb(110, 107, 100);
     background: white;
     border-radius: 50px;
 	margin: 10px  	
 }
 
 .map-container nav{
-	background: rgb(183 179 160);
+	background: rgb(183, 179, 160);
 	font-size: 20px;
 }
 .map-container nav p{
@@ -424,7 +424,7 @@ a.result-header{
 }
 
 mark{
-	background-color:rgb(234 214 116);
+	background-color:rgb(234, 214, 116);
 	border-radius: 4px;
 }
 
@@ -561,7 +561,7 @@ th {
 	}
 	
 	nav{
-		background-color: rgb(216 213 204);
+		background-color: rgb(216, 213, 204);
 		position: relative;
 	}
 	
