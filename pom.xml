@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>pstgu</groupId>
 	<artifactId>NmMap</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.3</version>
 	<name>NpMap</name>
 	<!-- FIXME change it to the project's website -->
 	<url>http://www.example.com</url>
