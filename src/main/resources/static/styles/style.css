@@ -640,6 +640,7 @@ th {
 	.person-search {
 		flex-wrap: wrap;
 		max-width: 350px;
+		margin: auto;
 	}
 	
 	.person-search label{
@@ -687,7 +688,7 @@ th {
 	}
 	
 	.person-search label{
-		flex-basis:126px;
+		flex-basis:120px;
 		padding-right:0;
 		padding-left:0;
 	}
@@ -697,7 +698,7 @@ th {
 	}
 	
 	.person-search select{
-		flex-basis:123px;
+		flex-basis:129px;
 	}
 }
 
