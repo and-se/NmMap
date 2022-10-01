@@ -21,7 +21,7 @@ function init() {
 			// Чтобы метки начали кластеризоваться, выставляем опцию.
 			clusterize: true,
 			// ObjectManager принимает те же опции, что и кластеризатор.
-			gridSize: 50,
+			gridSize: 98,
 			// Отключение увеличения масштаба карты при нажатии на кластер.
 			clusterDisableClickZoom: true,
 			clusterOpenBalloonOnClick: true,
