@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Build-Jdk-Spec: 13
+Implementation-Title: NpMap
+Implementation-Version: 1.0.4
+Implementation-Vendor: PSTGU
+Created-By: Maven Integration for Eclipse
+

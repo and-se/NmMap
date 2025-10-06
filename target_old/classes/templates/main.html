@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:text="${title}"></title>
+<meta name="description" th:content="${description}" />
+<meta charset="utf-8"/>
+<meta name="robots" content="index, follow">
+<meta name="viewport" content="width=device-width"/>
+<link th:href="@{/styles/reset.css}" rel="stylesheet">
+<link th:href="@{/styles/style.css}" rel="stylesheet">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<th:block th:if="${head!=null}">
+	<th:block th:replace="__${head}__">
+	</th:block>
+</th:block>
+</head>
+
+<body>
+	<a href="/"><div class="img"></div></a>
+	<!--было: <a href="/"><img th:src="@{/img/N1.JPG}" alt="Новомученики" width="100%" ></a> -->
+	
+	<nav class="site-navigation">
+		<div class="menu">
+			<ul>
+				<li>
+				<a href="/persons">Персоналии </a>
+				</li>
+				<li>
+					<a href="/">Карта</a>
+				</li>
+				<li>
+					<a href="/about">О проекте</a>
+				</li>
+			</ul>
+		</div>	
+		
+		<div class="search-box">
+			<form action="/search">
+				<input name="q" placeholder="Поиск по персоналиям"> 
+				<button type="submit"><span class="material-icons md-29 white">search</span></button>
+			</form>
+		</div>
+		
+		<div class="clear-float"></div>
+	</nav>	
+
+	<div class="content" th:insert="__${view}__"></div>
+	<footer>
+		<div class="page-footer__container">© 2020–2021 ПСТГУ ФИПМ</div>
+	</footer>
+</body>
+<!--
+Вот так можно реализовать параметр по умолчанию - text 
+<span th:text="${text}" th:with="text=${name}"/>
+-->
+
+</html>

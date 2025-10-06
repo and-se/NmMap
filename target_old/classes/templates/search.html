@@ -1,0 +1,35 @@
+<th:block xmlns:th="http://www.thymeleaf.org">
+
+<div class="in-content">
+
+	<form class="full-text-search" action="/search">
+			<input name="q" placeholder="Поиск" th:attr="value=${q}">
+			<button type="submit">Поиск</button>
+	</form>
+
+
+	<ul class="fts-results" th:each="res, iStat : ${humanPage.content}">
+		<li class="search_result">
+			<a class="result-header" th:text="${res.human.title}"
+			th:href="@{'/persons/' + ${res.human.id}(highlight=${q})}" href="human.html">Посмотреть</a>
+			<br>
+			<p class="fts-snippet" th:utext="${res.textSnippet}">
+			</p>
+		</li>
+	</ul>
+	
+	<div class="pages">
+		<div th:fragment="pages" 
+		th:if="${humanPage.totalPages > 0}" class="pagination"
+			th:each="pageNumber : ${pageNumbers}">
+			<a th:href="@{/search(size=${humanPage.size}, page=${pageNumber}, q=${q})}"
+				th:text=${pageNumber}
+				th:class="${pageNumber==humanPage.number + 1} ? active"></a>
+		</div>
+	</div>
+	
+</div>	
+</th:block>
+
+
+
