@@ -18,7 +18,9 @@ public class TextHighlighter extends BreakDownByWords{
 		
 		for (var word: query.split("[^A-Za-zА-ЯЁа-яё0-9]+"))
 		{
-			this.search_words.add(MainStemmer.stem_word(word));
+			if (!word.isEmpty()) {
+				this.search_words.add(MainStemmer.stem_word(word));
+			}			
 		}		
 		
 		this.procces(article);
