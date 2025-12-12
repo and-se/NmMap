@@ -47,7 +47,10 @@
 
 	<div class="content" th:insert="__${view}__"></div>
 	<footer>
-		<div class="page-footer__container">© 2020–2021 ПСТГУ ФИПМ</div>
+		<div class="page-footer__container"
+			th:text="'© 2020–' + ${#dates.format(#dates.createNow(), 'yyyy')} + ' ПСТГУ ФИПМ'">
+		© 2020–2021 ПСТГУ ФИПМ
+		</div>
 	</footer>
 </body>
 <!--
