@@ -339,6 +339,11 @@ ul.map-point-types {
 	padding-bottom: 20px;
 }
 
+.person-content .bibliography {
+	font-style: italic;
+	line-height: 1;
+}
+
 /* search by fio */
 ul.fio-results {
 	list-style-type: none;

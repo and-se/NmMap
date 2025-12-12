@@ -55,26 +55,31 @@ public class MainController {
 		Human human = storage.getHuman(id);
 		model.addAttribute("human", human);
 		
-		String text, title,heading;
+		String text, title,heading, bibliography;
 		
 		title = HtmlUtils.htmlEscape(human.getTitle());
 		
 		if (query.isEmpty())
 		{
-			text = HtmlUtils.htmlEscape(human.getArticle());
+			//text = HtmlUtils.htmlEscape(human.getArticle());//
+			bibliography = HtmlUtils.htmlEscape(human.getBibliography());
+			text = HtmlUtils.htmlEscape(human.getText());//			
 			heading = HtmlUtils.htmlEscape(human.getTitle());
 		}
 		else
 		{
 			var textBuilder = new TextHighlighter();
-			text = textBuilder.highlight(query, human.getArticle());
+			//text = textBuilder.highlight(query, human.getArticle());
+			bibliography = textBuilder.highlight(query, human.getBibliography());
+			text = textBuilder.highlight(query, human.getText());//
 			heading = textBuilder.highlight(query, human.getTitle());
 		}		
 		
-		String[] article = text.split("\n");
+		String[] article_text = text.split("\n");
 		model.addAttribute("title", title);
 		model.addAttribute("description",title);
-		model.addAttribute("article", article);
+		model.addAttribute("article", article_text);
+		model.addAttribute("bibliography", bibliography.split("\n"));//
 		model.addAttribute("heading", heading);
 
 		return "main :: html(view=human)";

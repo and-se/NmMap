@@ -173,19 +173,19 @@ public class Converter {
       JsonNode name = text.get("Название");
       JsonNode type = text.get("Тип");
       var document = new StringBuilder();
-      document.append("\n");
       
       document.append(i);
       document.append(". ");
       document.append(name.asText());
+      document.append("\n");
       
       
       bibliography.append(document);
       i++;
     }
 
-    result.put("article", biographyFacts + comment + bibliography);
-    // System.out.println(biographyFacts+comment+bibliography);
+    result.put("text", biographyFacts + comment);
+    result.put("bibliography", bibliography.toString().strip());
 
     // Преобразуем список объектов Location в подходящий формат и записываем его в ObjectNode result
     ArrayNode coordinates = wrtr.valueToTree(locationList);

@@ -9,7 +9,8 @@ public class Human {
 	private int id;
 	private String fio;
 	private String title;
-	private String article;
+	private String text;
+	private String bibliography;
 
 	List<Location> coordinates;
 
@@ -24,10 +25,11 @@ public class Human {
 	 * @param article     текст статьи
 	 * @param coordinates координаты для карты
 	 */
-	public Human(int id, String title, String article, List<Location> coordinates) {
+	public Human(int id, String title, String text, String bibliography, List<Location> coordinates) {
 		this.id = id;
 		this.title = title;
-		this.article = article;
+		this.text = text;
+		this.bibliography = bibliography;
 
 		for (Location location : coordinates) {
 			location.setHuman(this);
@@ -50,9 +52,13 @@ public class Human {
 	public String getTitle() {
 		return title;
 	}
-
-	public String getArticle() {
-		return article;
+	
+	public String getText() {
+		return text;
+	}
+	
+	public String getBibliography() {
+		return bibliography;
 	}
 
 	public List<Location> getCoordinates() {
@@ -66,11 +72,16 @@ public class Human {
 	public void setTitle(String fio) {
 		this.title = fio;
 	}
-
-	public void setArticle(String article) {
-		this.article = article;
+	
+	public void setText(String text) {
+		this.text = text;
+	}
+	
+	public void setBibliography(String bibliography) {
+		this.bibliography = bibliography;
 	}
 
+	
 	public void setCoordinates(List<Location> coordinates) {
 		for (Location location : coordinates) {
 			location.setHuman(this);
@@ -80,6 +91,6 @@ public class Human {
 
 	@Override
 	public String toString() {
-		return String.format("id %d\n%s\n\n%s", id, title, article);
+		return String.format("id %d\n%s\n\n%s", id, title, text + "\n**" + bibliography);
 	}
 }

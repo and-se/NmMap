@@ -88,7 +88,7 @@ public class MainMtStorage implements MtStorage {
      */
     var result = storage.values().parallelStream().map(human -> {
       // Восстанавливаем полный текст статьи - ФИО + остальное
-      var allText = human.getTitle() + "\n" + human.getArticle();
+      var allText = human.getTitle() + "\n" + human.getText() + "\n\n" + human.getBibliography(); //+ human.getArticle();
 
       // Строим поисковый образ текста статьи
       var textSearch = new TextSearchImage(allText, Arrays.asList(words));

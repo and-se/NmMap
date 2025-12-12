@@ -1,9 +1,18 @@
 <div class="in-content person-content">
 		<h1 th:utext="${heading}">Person Info:</h1>		
-		<div>
+		<div class="text">
 		    <th:block th:each="line : ${article}">
 			    <p th:utext="${line}"></p>
 			</th:block>
 		</div>
+		<!-- Пустая строка -->
+    	<br>
+		<!-- Библиография курсивом -->
+	    <div class="bibliography">
+	        <th:block th:each="bibLine : ${bibliography}">
+	        	<p th:utext="${bibLine}">
+            	</p>
+        	</th:block>
+	    </div>
 </div>	
 
